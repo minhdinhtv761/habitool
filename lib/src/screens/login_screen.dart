@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
 
-class LogInScreen extends StatefulWidget{
+class LogInScreen extends StatefulWidget {
   @override
   _LogInScreenState createState() => _LogInScreenState();
 }
 
-class _LogInScreenState extends State<LogInScreen>{
+class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
   final _emailController = TextEditingController();
