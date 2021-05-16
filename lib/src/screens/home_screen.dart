@@ -5,7 +5,6 @@ import 'package:habitool/src/screens/achievement_screen.dart';
 import 'package:habitool/src/screens/dashboard_screen.dart';
 import 'package:habitool/src/screens/settings_screen.dart';
 import 'package:habitool/src/screens/statistic_screen.dart';
-// import 'package:habitool/src/widgets/datetimpicker_widget.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -43,6 +42,7 @@ class _HomeScreenState extends State<HomeScreen> {
     );
   }
 
+// Hàm bulil FAB
   FloatingActionButton buildFloatingActionButton() {
     return FloatingActionButton(
       backgroundColor: CustomColors.pink, 
@@ -55,6 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
       );
   }
 
+// Hàm build BottomAppBar
   BottomAppBar buildBottomAppBar(Size size) {
     return BottomAppBar(
       color: Colors.transparent,
