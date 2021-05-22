@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
-import 'package:habitool/src/screens/achievement_screen.dart';
-import 'package:habitool/src/screens/dashboard_screen.dart';
-import 'package:habitool/src/screens/settings_screen.dart';
-import 'package:habitool/src/screens/statistic_screen.dart';
+import 'package:habitool/src/views/screens/achievement_screen.dart';
+import 'package:habitool/src/views/screens/dashboard_screen.dart';
+import 'package:habitool/src/views/screens/settings_screen.dart';
+import 'package:habitool/src/views/screens/statistic_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override

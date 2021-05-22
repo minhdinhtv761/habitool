@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:habitool/src/screens/home_screen.dart';
 
-// import 'package:habitool/src/screens/login_screen.dart';
-// import 'package:habitool/src/screens/sign_up_screen.dart';
-import 'package:habitool/src/screens/home_screen.dart';
-// import 'package:habitool/src/widgets/date_time_picker.dart';
+// import 'package:habitool/src/views/screens/intro/login_screen.dart';
+// import 'package:habitool/src/views/screens/intro/signup_screen.dart';
+import 'package:habitool/src/views/screens/home_screen.dart';
+// import 'package:habitool/src/views/widgets/date_time_picker.dart';
 
 void main() {
   runApp(
