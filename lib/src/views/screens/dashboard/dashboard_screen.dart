@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
+import 'package:habitool/src/views/widgets/habit_tile.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -11,6 +12,21 @@ class DashBoardScreen extends StatefulWidget {
 class _DashBoardScreenState extends State<DashBoardScreen> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
+
+  List<Widget> _habitList = [
+    HabitTile(),
+    SizedBox(height: 10.0),
+    HabitTile(),
+    SizedBox(height: 10.0),
+    HabitTile(),
+    SizedBox(height: 10.0),
+    HabitTile(),
+    SizedBox(height: 10.0),
+    HabitTile(),
+    SizedBox(height: 10.0),
+    HabitTile(),
+    SizedBox(height: 10.0),
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -23,23 +39,24 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         slivers: <Widget>[
           buildSliverAppBar(size),
 
-          // Những SliverToBoxAdapter dưới đây được thêm vào để test scroll màn hình
-          SliverToBoxAdapter(
-            child: Container(height: 50.0, color: Colors.red)
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildListDelegate.fixed(_habitList)
+            ),
           ),
-          SliverToBoxAdapter(
-            child: Container(height: 50.0, color: Colors.pink)
-          ),
-          SliverToBoxAdapter(
-            child: Container(height: 100.0, color: Colors.black)
-          ),
-          SliverToBoxAdapter(
-            child: Container(height: 500.0, color: Colors.green)
-          ),
+
+          // SliverToBoxAdapter(
+          //   child: Container(
+          //     height: 80.0,
+          //     width: size.width * 0.85,
+          //     child: HabitTile(),
+          //   ),
+          // ),
           
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar
           SliverToBoxAdapter(
-            child: Container(height: 100.0, color: Colors.transparent)
+            child: Container(height: 90.0, color: Colors.transparent)
           ),
         ],
       ),
@@ -103,7 +120,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               alignment: AlignmentDirectional.topCenter,
               children: <Widget>[
                 Container(
-                  height: 130.0,
+                  height: 140.0,
                   decoration: BoxDecoration(
                     color: CustomColors.light,
                   ),
@@ -115,17 +132,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0)),
                   ),
                 ),
-                // Container(
-                //   margin: EdgeInsets.only(top: 20.0),
-                //   width: size.width * 0.8,
-                //   height: 100.0,
-                //   decoration: BoxDecoration(
-                //     color: Colors.white,
-                //     borderRadius: BorderRadius.circular(30.0),
-                //   ),
-                // ),
                 Container(
-                  margin: EdgeInsets.only(top: 20.0),
+                  margin: EdgeInsets.only(top: 20.0, bottom: 10),
                   width: size.width * 0.85,
                   decoration: BoxDecoration(
                     color: Colors.white,
@@ -135,7 +143,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ),
               ],
             ),
-            preferredSize: Size.fromHeight(130.0),
+            preferredSize: Size.fromHeight(140.0),
           ),
           
         );
