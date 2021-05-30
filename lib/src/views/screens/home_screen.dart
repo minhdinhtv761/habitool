@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
 import 'package:habitool/src/views/screens/achievement_screen.dart';
-import 'package:habitool/src/views/screens/dashboard_screen.dart';
-import 'package:habitool/src/views/screens/settings_screen.dart';
-import 'package:habitool/src/views/screens/statistic_screen.dart';
+import 'package:habitool/src/views/screens/dashboard/dashboard_screen.dart';
+import 'package:habitool/src/views/screens/user/user_screen.dart';
+import 'package:habitool/src/views/screens/statistic/statistic_screen.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -45,14 +45,14 @@ class _HomeScreenState extends State<HomeScreen> {
 // Hàm bulil FAB
   FloatingActionButton buildFloatingActionButton() {
     return FloatingActionButton(
-      backgroundColor: CustomColors.pink, 
+      backgroundColor: CustomColors.pink,
       child: Icon(
         Icons.add,
         size: 45.0,
         color: Colors.white,
-        ),
+      ),
       onPressed: () {},
-      );
+    );
   }
 
 // Hàm build BottomAppBar
@@ -61,8 +61,7 @@ class _HomeScreenState extends State<HomeScreen> {
       color: Colors.transparent,
       clipBehavior: Clip.antiAlias,
       notchMargin: 7.0,
-      shape: CircularNotchedRectangle(
-      ),
+      shape: CircularNotchedRectangle(),
       child: Container(
         height: 60.0,
         decoration: BoxDecoration(
@@ -75,7 +74,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.home_outlined),
               iconSize: 30.0,
-              color: currentTab == 0 ? CustomColors.blue : CustomColors.darkgrey,
+              color:
+                  currentTab == 0 ? CustomColors.blue : CustomColors.darkgrey,
               onPressed: () => setState(() {
                 this.currentTab = 0;
               }),
@@ -83,7 +83,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.insert_chart_outlined_rounded),
               iconSize: 30.0,
-              color: currentTab == 1 ? CustomColors.blue : CustomColors.darkgrey,
+              color:
+                  currentTab == 1 ? CustomColors.blue : CustomColors.darkgrey,
               onPressed: () => setState(() {
                 this.currentTab = 1;
               }),
@@ -92,7 +93,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.star_border_rounded),
               iconSize: 30.0,
-              color: currentTab == 2 ? CustomColors.blue : CustomColors.darkgrey,
+              color:
+                  currentTab == 2 ? CustomColors.blue : CustomColors.darkgrey,
               onPressed: () => setState(() {
                 this.currentTab = 2;
               }),
@@ -100,7 +102,8 @@ class _HomeScreenState extends State<HomeScreen> {
             IconButton(
               icon: Icon(Icons.person_outline_rounded),
               iconSize: 30.0,
-              color: currentTab == 3 ? CustomColors.blue : CustomColors.darkgrey,
+              color:
+                  currentTab == 3 ? CustomColors.blue : CustomColors.darkgrey,
               onPressed: () => setState(() {
                 this.currentTab = 3;
               }),
