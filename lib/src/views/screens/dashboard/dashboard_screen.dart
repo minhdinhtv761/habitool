@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
+import 'package:habitool/src/custom_values/custom_type.dart';
+import 'package:habitool/src/views/widgets/habit_slidable.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:habitool/src/views/widgets/habit_tile.dart';
+// import 'package:habitool/src/views/widgets/habit_tile.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -13,19 +15,104 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  List<Widget> _habitList = [
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
+  List<String> _listDropdownItems = <String>['Hôm nay', 'Tất cả'];
+  String _listDropdownValue = 'Hôm nay';
+
+  List<String> _typeDropdownItems = <String>[
+    'Tất cả',
+    'Đang thực hiện',
+    'Đã hoàn thành',
+    'Đã hủy'
+  ];
+  String _typeDropdownValue = 'Tất cả';
+
+  List<Widget> _doingHabitList = [
+    Center(
+      child: Text(
+        'Đang thực hiện',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.doing,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.doing,
+      isImportant: false,
+    ),
+  ];
+  List<Widget> _doneHabitList = [
+    Center(
+      child: Text(
+        'Đã hoàn thành',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.done,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.done,
+      isImportant: false,
+    ),
+  ];
+
+  List<Widget> _canceledHabitList = [
+    Center(
+      child: Text(
+        'Đã hủy',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.canceled,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.canceled,
+      isImportant: false,
+    ),
   ];
 
   @override
@@ -41,23 +128,135 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: SliverList(
-              delegate: SliverChildListDelegate.fixed(_habitList)
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  DropdownButton<String>(
+                    value: this._listDropdownValue,
+                    icon: Icon(Icons.keyboard_arrow_down_rounded),
+                    iconSize: 16.0,
+                    style: const TextStyle(
+                      color: CustomColors.pink,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    onChanged: (String newValue) {
+                      setState(() {
+                        this._listDropdownValue = newValue;
+                      });
+                    },
+                    items: this
+                        ._listDropdownItems
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                  Spacer(),
+                  DropdownButton<String>(
+                    isDense: true,
+                    value: this._typeDropdownValue,
+                    icon: Icon(Icons.keyboard_arrow_down_rounded),
+                    iconSize: 16.0,
+                    style: const TextStyle(
+                      color: CustomColors.pink,
+                      fontSize: 16.0,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    underline: Container(
+                      color: Colors.transparent,
+                    ),
+                    dropdownColor: Colors.white,
+                    onChanged: (String newValue) {
+                      setState(() {
+                        this._typeDropdownValue = newValue;
+                      });
+                    },
+                    items: this
+                        ._typeDropdownItems
+                        .map<DropdownMenuItem<String>>((String value) {
+                      return DropdownMenuItem<String>(
+                        value: value,
+                        child: Text(value),
+                      );
+                    }).toList(),
+                  ),
+                ],
+              ),
             ),
           ),
-
-          // SliverToBoxAdapter(
-          //   child: Container(
-          //     height: 80.0,
-          //     width: size.width * 0.85,
-          //     child: HabitTile(),
-          //   ),
-          // ),
-          
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_doingHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._doingHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._doingHabitList.length * 2,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 10.0),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_doneHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._doneHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._doneHabitList.length * 2,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 10.0),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_canceledHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._canceledHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._canceledHabitList.length * 2,
+              ),
+            ),
+          ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar
           SliverToBoxAdapter(
-            child: Container(height: 90.0, color: Colors.transparent)
-          ),
+              child: Container(height: 100.0, color: Colors.transparent)),
         ],
       ),
     );
@@ -66,176 +265,181 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 // Hàm build AppBar cho DashBoardScreen
   SliverAppBar buildSliverAppBar(Size size) {
     return SliverAppBar(
-          pinned: true,
-          floating: true,
-          snap: false,
-          toolbarHeight: 100.0,
-          backgroundColor: CustomColors.blue,
-          shadowColor: Colors.transparent,
-          title: Row(
-            children: <Widget>[
-              Container(
-                width: 70.0,
-                height: 70.0,
-                decoration: BoxDecoration(
-                  color: CustomColors.grey,
-                  shape: BoxShape.circle,
-                ),
-              ),
-              SizedBox(width: 20.0,),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    'Xin chào,',
-                    style: TextStyle(
-                      color: CustomColors.light,
-                      fontSize: 14,
-                    ),
-                  ),
-                  SizedBox(height: 5.0,),
-                  Text(
-                    'Your name',
-                    style: TextStyle(
-                      color: CustomColors.light,
-                      fontSize: 18,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-            ]
+      pinned: true,
+      floating: true,
+      snap: false,
+      toolbarHeight: 100.0,
+      backgroundColor: CustomColors.blue,
+      shadowColor: Colors.transparent,
+      title: Row(children: <Widget>[
+        Container(
+          width: 70.0,
+          height: 70.0,
+          decoration: BoxDecoration(
+            color: CustomColors.grey,
+            shape: BoxShape.circle,
           ),
-          flexibleSpace: FlexibleSpaceBar(
-            collapseMode: CollapseMode.pin,
-            background: Container(
-              height: 100,
+        ),
+        SizedBox(
+          width: 20.0,
+        ),
+        Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: <Widget>[
+            Text(
+              'Xin chào,',
+              style: TextStyle(
+                color: CustomColors.light,
+                fontSize: 14,
+              ),
+            ),
+            SizedBox(
+              height: 5.0,
+            ),
+            Text(
+              'Your name',
+              style: TextStyle(
+                color: CustomColors.light,
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+          ],
+        ),
+      ]),
+      flexibleSpace: FlexibleSpaceBar(
+        collapseMode: CollapseMode.pin,
+        background: Container(
+          height: 100,
+          decoration: BoxDecoration(
+            color: CustomColors.blue,
+          ),
+        ),
+      ),
+      bottom: PreferredSize(
+        child: Stack(
+          alignment: AlignmentDirectional.topCenter,
+          children: <Widget>[
+            Container(
+              height: 140.0,
+              decoration: BoxDecoration(
+                color: CustomColors.light,
+              ),
+            ),
+            Container(
+              height: 60.0,
               decoration: BoxDecoration(
                 color: CustomColors.blue,
+                borderRadius:
+                    BorderRadius.vertical(bottom: Radius.circular(30.0)),
               ),
             ),
-          ),
-          bottom: PreferredSize(
-            child: Stack(
-              alignment: AlignmentDirectional.topCenter,
-              children: <Widget>[
-                Container(
-                  height: 140.0,
-                  decoration: BoxDecoration(
-                    color: CustomColors.light,
-                  ),
-                ),
-                Container(
-                  height: 60.0,
-                  decoration: BoxDecoration(
-                    color: CustomColors.blue,
-                    borderRadius: BorderRadius.vertical(bottom: Radius.circular(30.0)),
-                  ),
-                ),
-                Container(
-                  margin: EdgeInsets.only(top: 20.0, bottom: 10),
-                  width: size.width * 0.85,
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(30.0),
-                  ),
-                  child: buildTableCalendar(),
-                ),
-              ],
+            Container(
+              margin: EdgeInsets.only(top: 20.0, bottom: 10),
+              width: size.width * 0.85,
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(30.0),
+              ),
+              child: buildTableCalendar(),
             ),
-            preferredSize: Size.fromHeight(140.0),
-          ),
-          
-        );
+          ],
+        ),
+        preferredSize: Size.fromHeight(140.0),
+      ),
+    );
   }
 
   TableCalendar buildTableCalendar() {
     return TableCalendar(
-                  firstDay: DateTime.utc(1900, 1, 1),
-                  lastDay: DateTime.utc(2200, 12, 31),
-                  focusedDay: this._focusedDay,
-                  startingDayOfWeek: StartingDayOfWeek.monday,
-                  calendarFormat: CalendarFormat.week,
-                  weekendDays: [],
-                  headerStyle: HeaderStyle(
-                    formatButtonVisible: false,
-                    titleCentered: true,
-                    headerPadding: EdgeInsets.symmetric(vertical: 0.0),
-                    titleTextStyle: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
-                      color: CustomColors.black,
-                    ),
-                    leftChevronIcon: const Icon(
-                      Icons.chevron_left_rounded,
-                      size: 25.0,
-                    ),
-                    rightChevronIcon: const Icon(
-                      Icons.chevron_right_rounded,
-                      size: 25.0,
-                    )
-                  ),
-                  daysOfWeekHeight: 20.0,
-                  daysOfWeekStyle: DaysOfWeekStyle(
-                    weekdayStyle: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
-                      color: CustomColors.black,
-                    ),
-                    weekendStyle: TextStyle(
-                      fontFamily: 'Roboto',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 12.0,
-                      color: CustomColors.black,
-                    ),
-                  ),
-                  rowHeight: 40.0,
-                  calendarStyle: CalendarStyle(
-                    outsideTextStyle: TextStyle(
-                      color: CustomColors.grey,
-                      fontFamily: 'Roboto',
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    defaultTextStyle: TextStyle(
-                      color: CustomColors.black,
-                      fontFamily: 'Roboto',
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    selectedTextStyle: TextStyle(
-                      color: Colors.white,
-                      fontFamily: 'Roboto',
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    selectedDecoration: BoxDecoration(
-                      color: CustomColors.pink,
-                      shape: BoxShape.circle,
-                    ),
-                    todayTextStyle: TextStyle(
-                      color: this._selectedDay == DateTime.now() ? Colors.white : CustomColors.black,
-                      fontFamily: 'Roboto',
-                      fontSize: 12.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    todayDecoration: BoxDecoration(
-                      color: this._selectedDay == DateTime.now() ? Colors.pink : Colors.white,
-                      shape: BoxShape.circle,
-                      border: Border.fromBorderSide(BorderSide(color: CustomColors.pink, width: 2.0))
-                    ),
-                  ),
-                  selectedDayPredicate: (day) {
-                    return isSameDay(this._selectedDay, day);
-                  },
-                  onDaySelected: (selectedDay, focusedDay) {
-                    setState(() {
-                      this._selectedDay = selectedDay;
-                      this._focusedDay = focusedDay;
-                    });
-                  },
-                );
+      firstDay: DateTime.utc(1900, 1, 1),
+      lastDay: DateTime.utc(2200, 12, 31),
+      focusedDay: this._focusedDay,
+      startingDayOfWeek: StartingDayOfWeek.monday,
+      calendarFormat: CalendarFormat.week,
+      weekendDays: [],
+      headerStyle: HeaderStyle(
+          formatButtonVisible: false,
+          titleCentered: true,
+          headerPadding: EdgeInsets.symmetric(vertical: 0.0),
+          titleTextStyle: TextStyle(
+            fontFamily: 'Roboto',
+            fontWeight: FontWeight.bold,
+            fontSize: 12.0,
+            color: CustomColors.black,
+          ),
+          leftChevronIcon: const Icon(
+            Icons.chevron_left_rounded,
+            size: 25.0,
+          ),
+          rightChevronIcon: const Icon(
+            Icons.chevron_right_rounded,
+            size: 25.0,
+          )),
+      daysOfWeekHeight: 20.0,
+      daysOfWeekStyle: DaysOfWeekStyle(
+        weekdayStyle: TextStyle(
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
+          fontSize: 12.0,
+          color: CustomColors.black,
+        ),
+        weekendStyle: TextStyle(
+          fontFamily: 'Roboto',
+          fontWeight: FontWeight.bold,
+          fontSize: 12.0,
+          color: CustomColors.black,
+        ),
+      ),
+      rowHeight: 40.0,
+      calendarStyle: CalendarStyle(
+        outsideTextStyle: TextStyle(
+          color: CustomColors.grey,
+          fontFamily: 'Roboto',
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+        defaultTextStyle: TextStyle(
+          color: CustomColors.black,
+          fontFamily: 'Roboto',
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+        selectedTextStyle: TextStyle(
+          color: Colors.white,
+          fontFamily: 'Roboto',
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+        selectedDecoration: BoxDecoration(
+          color: CustomColors.pink,
+          shape: BoxShape.circle,
+        ),
+        todayTextStyle: TextStyle(
+          color: this._selectedDay == DateTime.now()
+              ? Colors.white
+              : CustomColors.black,
+          fontFamily: 'Roboto',
+          fontSize: 12.0,
+          fontWeight: FontWeight.bold,
+        ),
+        todayDecoration: BoxDecoration(
+            color: this._selectedDay == DateTime.now()
+                ? Colors.pink
+                : Colors.white,
+            shape: BoxShape.circle,
+            border: Border.fromBorderSide(
+                BorderSide(color: CustomColors.pink, width: 2.0))),
+      ),
+      selectedDayPredicate: (day) {
+        return isSameDay(this._selectedDay, day);
+      },
+      onDaySelected: (selectedDay, focusedDay) {
+        setState(() {
+          this._selectedDay = selectedDay;
+          this._focusedDay = focusedDay;
+        });
+      },
+    );
   }
 }

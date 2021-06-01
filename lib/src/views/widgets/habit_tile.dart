@@ -1,22 +1,34 @@
 import 'package:flutter/material.dart';
 
 import 'package:habitool/src/custom_values/custom_colors.dart';
+import 'package:habitool/src/custom_values/custom_type.dart';
+import 'package:percent_indicator/circular_percent_indicator.dart';
 
 class HabitTile extends StatefulWidget {
+  String habitName;
+  DateTime habitTime;
+  String goalUnit;
+  int goal;
+  int goalCompleted;
+  bool isImportant;
+  HabitStatus habitStatus;
+
+  HabitTile({
+    Key key,
+    @required this.habitName,
+    @required this.habitTime,
+    @required this.goalUnit,
+    @required this.goal,
+    @required this.goalCompleted,
+    @required this.isImportant,
+    @required this.habitStatus,
+  }) : super(key: key);
+
   @override
   _HabitTileState createState() => _HabitTileState();
 }
 
 class _HabitTileState extends State<HabitTile> {
-  String _habitName = "Habit's name";
-  DateTime _habitTime = DateTime.now();
-  String _goalUnit;
-  int _goal;
-  int _goalCompleted;
-  bool _isImportant = false;
-  bool _isCanceled;
-  bool _isCompleted;
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -34,109 +46,152 @@ class _HabitTileState extends State<HabitTile> {
           crossAxisAlignment: CrossAxisAlignment.center,
           // mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            Container(
-              width: 60.0,
-              height: 60.0,
-              decoration: BoxDecoration(
-                color: Colors.transparent,
-                shape: BoxShape.circle,
-                border: Border.fromBorderSide(BorderSide(color: CustomColors.grey, width: 2.0))
-              )
-            ),
-            SizedBox(width: 5.0),
-            Expanded(
-              child: Stack(
-                children: <Widget>[
-                  IconButton(
-                    padding: EdgeInsets.all(0.0),
-                    icon: Icon(!this._isImportant ? Icons.star_border_rounded : Icons.star_rounded),
-                    color: !this._isImportant ? CustomColors.grey : Colors.amber,
-                    iconSize: 18.0,
-                    onPressed: () {
-                      setState(() {
-                        this._isImportant = !this._isImportant;
-                      });
-                    },
+            Stack(children: <Widget>[
+              Container(
+                width: 60.0,
+                height: 60.0,
+                child: CircularPercentIndicator(
+                  radius: 60.0,
+                  lineWidth: 3.0,
+                  percent: this.widget.habitStatus == HabitStatus.doing
+                      ? this.widget.goalCompleted / this.widget.goal
+                      : (this.widget.habitStatus == HabitStatus.done
+                          ? 1.0
+                          : 0.0),
+                  center: Icon(
+                    Icons.android_rounded,
+                    color: CustomColors.blue,
                   ),
-                  Positioned(
-                    top: 5.0,
-                    left: 35.0,
-                    child: Text(
-                      this._habitName,
+                  animation: false,
+                  circularStrokeCap: CircularStrokeCap.round,
+                  progressColor: this.widget.habitStatus == HabitStatus.doing
+                      ? CustomColors.pink
+                      : CustomColors.blue,
+                  backgroundColor: CustomColors.grey,
+                ),
+              ),
+              Positioned(
+                top: 0.0,
+                right: 0.0,
+                child: Container(
+                  decoration: BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: this.widget.habitStatus == HabitStatus.doing
+                        ? Colors.transparent
+                        : Colors.white,
+                  ),
+                  child: Icon(
+                    this.widget.habitStatus == HabitStatus.done
+                        ? Icons.check_circle_rounded
+                        : (this.widget.habitStatus == HabitStatus.canceled
+                            ? Icons.cancel_rounded
+                            : null),
+                    color: this.widget.habitStatus == HabitStatus.done
+                        ? CustomColors.blue
+                        : CustomColors.pink,
+                    size: 18.0,
+                  ),
+                ),
+              ),
+            ]),
+            SizedBox(width: 10.0),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    InkWell(
+                      child: Icon(
+                        !this.widget.isImportant
+                            ? Icons.star_border_rounded
+                            : Icons.star_rounded,
+                        size: 18.0,
+                        color: !this.widget.isImportant
+                            ? CustomColors.grey
+                            : Colors.amber,
+                      ),
+                      onTap: () {
+                        setState(() {
+                          this.widget.isImportant = !this.widget.isImportant;
+                        });
+                      },
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(
+                      this.widget.habitName,
                       style: TextStyle(
-                        color: CustomColors.black,
+                        color: this.widget.habitStatus == HabitStatus.doing
+                            ? CustomColors.black
+                            : (this.widget.habitStatus == HabitStatus.done
+                                ? CustomColors.blue
+                                : CustomColors.grey),
                         fontSize: 13.0,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                  ),
-                  Icon(
-                    Icons.alarm_rounded,
-                    size: 16.0,
-                    color: CustomColors.grey,
+                  ],
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(
+                      Icons.alarm_rounded,
+                      size: 16.0,
+                      color: CustomColors.grey,
+                    ),
+                    SizedBox(width: 5.0),
+                    Text(
+                      this.widget.habitTime.hour.toString() +
+                          ':' +
+                          this.widget.habitTime.minute.toString(),
+                      style: TextStyle(
+                        color: CustomColors.grey,
+                        fontSize: 11.0,
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+            Spacer(),
+            InkWell(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  Text(
+                    this.widget.goalCompleted.toString() +
+                        '/' +
+                        this.widget.goal.toString(),
+                    style: TextStyle(
+                        color: this.widget.habitStatus == HabitStatus.doing
+                            ? CustomColors.pink
+                            : (this.widget.habitStatus == HabitStatus.done
+                                ? CustomColors.blue
+                                : CustomColors.grey),
+                        fontSize: 16,
+                        fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    this._habitTime.hour.toString() + ':' + this._habitTime.minute.toString(),
+                    this.widget.goalUnit.toString(),
                     style: TextStyle(
-                      color: CustomColors.grey,
-                      fontSize: 11.0,
+                      color: this.widget.habitStatus == HabitStatus.doing
+                          ? CustomColors.pink
+                          : (this.widget.habitStatus == HabitStatus.done
+                              ? CustomColors.blue
+                              : CustomColors.grey),
+                      fontSize: 12,
                     ),
                   ),
                 ],
               ),
-            )
-            // Container(
-              // margin: EdgeInsets.fromLTRB(15.0, 0.0, 0.0, 0.0),
-              // child: Column(
-              //   crossAxisAlignment: CrossAxisAlignment.start,
-              //   mainAxisAlignment: MainAxisAlignment.center,
-              //   children: <Widget>[
-              //     Row(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: <Widget>[
-              //         IconButton(
-              //           padding: EdgeInsets.all(8.0),
-              //           icon: Icon(!this._isImportant ? Icons.star_border_rounded : Icons.star_rounded),
-              //           color: !this._isImportant ? CustomColors.grey : Colors.amber,
-              //           iconSize: 18.0,
-              //           onPressed: () {
-              //             setState(() {
-              //               this._isImportant = !this._isImportant;
-              //             });
-              //           },
-              //         ),
-              //         Text(
-              //           this._habitName,
-              //           style: TextStyle(
-              //             color: CustomColors.black,
-              //             fontSize: 13.0,
-              //             fontWeight: FontWeight.bold,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //     Row(
-              //       crossAxisAlignment: CrossAxisAlignment.center,
-              //       children: <Widget>[
-              //         // Icon(
-              //         //   Icons.alarm_rounded,
-              //         //   size: 16.0,
-              //         //   color: CustomColors.grey,
-              //         // ),
-              //         Text(
-              //           this._habitTime.hour.toString() + ':' + this._habitTime.minute.toString(),
-              //           style: TextStyle(
-              //             color: CustomColors.grey,
-              //             fontSize: 11.0,
-              //           ),
-              //         ),
-              //       ],
-              //     ),
-              //   ],
-              // )
-            // )
+              onTap: () {},
+              onLongPress: () {},
+            ),
           ],
-        )
+        ),
       ),
     );
   }
