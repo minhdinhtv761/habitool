@@ -1,9 +1,9 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
-import 'package:habitool/view/screen/new_habit/recommend_iteam.dart';
+import 'package:habitool/view/screen/new_habit/recommend_item.dart';
 
-class RecommendIteams extends StatelessWidget {
+class RecommendItems extends StatelessWidget {
   final List<Color> colorBoxs = [
     CustomColors.pink,
     CustomColors.blue,
@@ -33,7 +33,7 @@ class RecommendIteams extends StatelessWidget {
         itemCount: 4,
         scrollDirection: Axis.horizontal,
         itemBuilder: (context, index) {
-          return RecommendIteam(
+          return RecommendItem(
             size: size,
             height: _height,
             colorBox: colorBoxs[index],
@@ -64,7 +64,7 @@ class RecommendNewHabit extends StatelessWidget {
             fontWeight: FontWeight.bold,
           ),
         ),
-        RecommendIteams(),
+        RecommendItems(),
       ],
     );
   }

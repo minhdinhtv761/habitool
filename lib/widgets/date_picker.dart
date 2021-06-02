@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
-import '../../../custom_values/custom_colors.dart';
+import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
   DatePicker({Key key, this.height, this.width}) : super(key: key);

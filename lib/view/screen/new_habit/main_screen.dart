@@ -20,6 +20,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
         backgroundColor: CustomColors.light,
         appBar: AppBar(
             backgroundColor: CustomColors.light,
+            shadowColor: Colors.transparent,
             leading: IconButton(
               icon: Icon(Icons.arrow_back, color: CustomColors.black),
               onPressed: () {},

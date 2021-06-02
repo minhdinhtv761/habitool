@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../../custom_values/custom_colors.dart';
 
-class RecommendIteam extends StatelessWidget {
-  const RecommendIteam({
+class RecommendItem extends StatelessWidget {
+  const RecommendItem({
     Key key,
     @required this.size,
     @required this.height,
