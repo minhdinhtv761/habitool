@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-
-import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:table_calendar/table_calendar.dart';
-import 'package:habitool/widgets/habit_tile.dart';
+
+import '../../../custom_values/custom_colors.dart';
+import '../../../custom_values/custom_type.dart';
+import '../../../widgets/habit_slidable.dart';
+import '../../../widgets/custom_dropdown_button.dart';
+// import 'package:habitool/src/views/widgets/habit_tile.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -13,19 +16,104 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   DateTime _selectedDay = DateTime.now();
   DateTime _focusedDay = DateTime.now();
 
-  List<Widget> _habitList = [
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
-    HabitTile(),
-    SizedBox(height: 10.0),
+  List<String> _listShowDropdownItems = <String>['Hôm nay', 'Tất cả'];
+  String _showDropdownValue = 'Hôm nay';
+
+  List<String> _listTypeDropdownItems = <String>[
+    'Tất cả',
+    'Đang thực hiện',
+    'Đã hoàn thành',
+    'Đã hủy'
+  ];
+  String _typeDropdownValue = 'Tất cả';
+
+  List<Widget> _doingHabitList = [
+    Center(
+      child: Text(
+        'Đang thực hiện',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.doing,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.doing,
+      isImportant: false,
+    ),
+  ];
+  List<Widget> _doneHabitList = [
+    Center(
+      child: Text(
+        'Đã hoàn thành',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.done,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.done,
+      isImportant: false,
+    ),
+  ];
+
+  List<Widget> _canceledHabitList = [
+    Center(
+      child: Text(
+        'Đã hủy',
+        style: TextStyle(
+          color: CustomColors.darkgrey,
+          fontSize: 13.0,
+        ),
+      ),
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.canceled,
+      isImportant: false,
+    ),
+    HabitSlidable(
+      habitName: "Habit's name",
+      habitTime: DateTime.now(),
+      goal: 5,
+      goalCompleted: 3,
+      goalUnit: 'ly',
+      habitStatus: HabitStatus.canceled,
+      isImportant: false,
+    ),
   ];
 
   @override
@@ -41,21 +129,89 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver:
-                SliverList(delegate: SliverChildListDelegate.fixed(_habitList)),
+            sliver: SliverToBoxAdapter(
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: <Widget>[
+                  CustomDropdownButton(
+                    listDropdownItems: this._listShowDropdownItems,
+                    dropdownValue: this._showDropdownValue,
+                  ),
+                  Spacer(),
+                  CustomDropdownButton(
+                    listDropdownItems: this._listTypeDropdownItems,
+                    dropdownValue: this._typeDropdownValue,
+                  ),
+                ],
+              ),
+            ),
           ),
-
-          // SliverToBoxAdapter(
-          //   child: Container(
-          //     height: 80.0,
-          //     width: size.width * 0.85,
-          //     child: HabitTile(),
-          //   ),
-          // ),
-
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_doingHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._doingHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._doingHabitList.length * 2,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 10.0),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_doneHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._doneHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._doneHabitList.length * 2,
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: SizedBox(height: 10.0),
+          ),
+          SliverPadding(
+            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  if (_canceledHabitList.length == 1) {
+                    return null;
+                  } else {
+                    if (index.isOdd) {
+                      return this._canceledHabitList[index ~/ 2];
+                    } else {
+                      return SizedBox(height: 10.0);
+                    }
+                  }
+                },
+                childCount: this._canceledHabitList.length * 2,
+              ),
+            ),
+          ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar
           SliverToBoxAdapter(
-              child: Container(height: 90.0, color: Colors.transparent)),
+              child: Container(height: 100.0, color: Colors.transparent)),
         ],
       ),
     );
