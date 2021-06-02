@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "136374855501",
+    "project_id": "habitool",
+    "storage_bucket": "habitool.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:136374855501:android:05a34520eb108b33f7b904",
+        "android_client_info": {
+          "package_name": "com.example.habitool"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "136374855501-svo3bm9lgnq0mpsbidsaf3v1o3lo5v2u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.habitool",
+            "certificate_hash": "015a94921b1c528fb6edc91e5a020800a790628c"
+          }
+        },
+        {
+          "client_id": "136374855501-frv20q5kck6vfpbajq4tjnm9gjagk73q.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDEOnTvDI3Xe-B9meGynyvAzuUisJzMnVw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "136374855501-frv20q5kck6vfpbajq4tjnm9gjagk73q.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "136374855501-fveu2boipp3ii56g24rc2ud3sn34lbs2.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.habitool"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
