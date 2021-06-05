@@ -5,23 +5,29 @@ import '../custom_values/custom_colors.dart';
 import '../custom_values/custom_type.dart';
 
 class HabitTile extends StatefulWidget {
+  HabitTileType habitTileType;
   String habitName;
   DateTime habitTime;
   String goalUnit;
   int goal;
   int goalCompleted;
   bool isImportant;
-  HabitStatus habitStatus;
+  DateTime startDate;
+  DateTime endDate;
+  HabitStatus habitStatus = HabitStatus.doing;
 
   HabitTile({
     Key key,
+    @required this.habitTileType,
     @required this.habitName,
     @required this.habitTime,
     @required this.goalUnit,
     @required this.goal,
     @required this.goalCompleted,
     @required this.isImportant,
-    @required this.habitStatus,
+    @required this.startDate,
+    this.endDate,
+    this.habitStatus,
   }) : super(key: key);
 
   @override
@@ -54,11 +60,13 @@ class _HabitTileState extends State<HabitTile> {
                   child: CircularPercentIndicator(
                     radius: 60.0,
                     lineWidth: 3.0,
-                    percent: this.widget.habitStatus == HabitStatus.doing
-                        ? this.widget.goalCompleted / this.widget.goal
-                        : (this.widget.habitStatus == HabitStatus.done
-                            ? 1.0
-                            : 0.0),
+                    percent: this.widget.habitTileType == HabitTileType.general
+                        ? 0.0
+                        : (this.widget.habitStatus == HabitStatus.doing
+                            ? this.widget.goalCompleted / this.widget.goal
+                            : (this.widget.habitStatus == HabitStatus.done
+                                ? 1.0
+                                : 0.0)),
                     center: Icon(
                       Icons.android_rounded,
                       color: CustomColors.blue,
@@ -77,19 +85,37 @@ class _HabitTileState extends State<HabitTile> {
                   child: Container(
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: this.widget.habitStatus == HabitStatus.doing
-                          ? Colors.transparent
-                          : Colors.white,
+                      color: this.widget.habitTileType == HabitTileType.general
+                          ? (DateTime.now().isAfter(this.widget.startDate) &&
+                                  (DateTime.now()
+                                          .isBefore(this.widget.endDate) ||
+                                      this.widget.endDate == null)
+                              ? Colors.transparent
+                              : Colors.white)
+                          : (this.widget.habitStatus == HabitStatus.doing
+                              ? Colors.transparent
+                              : Colors.white),
                     ),
                     child: Icon(
-                      this.widget.habitStatus == HabitStatus.done
-                          ? Icons.check_circle_rounded
-                          : (this.widget.habitStatus == HabitStatus.canceled
-                              ? Icons.cancel_rounded
-                              : null),
-                      color: this.widget.habitStatus == HabitStatus.done
-                          ? CustomColors.blue
-                          : CustomColors.pink,
+                      this.widget.habitTileType == HabitTileType.general
+                          ? (this.widget.endDate != null &&
+                                  DateTime.now().isBefore(this.widget.startDate)
+                              ? Icons.watch_later_outlined
+                              : (DateTime.now().isAfter(this.widget.endDate)
+                                  ? Icons.cancel_rounded
+                                  : null))
+                          : (this.widget.habitStatus == HabitStatus.done
+                              ? Icons.check_circle_rounded
+                              : (this.widget.habitStatus == HabitStatus.canceled
+                                  ? Icons.cancel_rounded
+                                  : null)),
+                      color: this.widget.habitTileType == HabitTileType.general
+                          ? (DateTime.now().isBefore(this.widget.startDate)
+                              ? CustomColors.blue
+                              : CustomColors.pink)
+                          : (this.widget.habitStatus == HabitStatus.done
+                              ? CustomColors.blue
+                              : CustomColors.pink),
                       size: 18.0,
                     ),
                   ),
@@ -123,11 +149,20 @@ class _HabitTileState extends State<HabitTile> {
                       Text(
                         this.widget.habitName,
                         style: TextStyle(
-                          color: this.widget.habitStatus == HabitStatus.doing
-                              ? CustomColors.black
-                              : (this.widget.habitStatus == HabitStatus.done
-                                  ? CustomColors.blue
-                                  : CustomColors.grey),
+                          color: this.widget.habitTileType ==
+                                  HabitTileType.general
+                              ? (DateTime.now()
+                                          .isAfter(this.widget.startDate) &&
+                                      (DateTime.now()
+                                              .isBefore(this.widget.endDate) ||
+                                          this.widget.endDate == null)
+                                  ? CustomColors.black
+                                  : CustomColors.grey)
+                              : (this.widget.habitStatus == HabitStatus.doing
+                                  ? CustomColors.black
+                                  : (this.widget.habitStatus == HabitStatus.done
+                                      ? CustomColors.blue
+                                      : CustomColors.grey)),
                           fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                         ),
@@ -162,26 +197,43 @@ class _HabitTileState extends State<HabitTile> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: <Widget>[
                   Text(
-                    this.widget.goalCompleted.toString() +
-                        '/' +
-                        this.widget.goal.toString(),
+                    this.widget.habitTileType == HabitTileType.general
+                        ? this.widget.goal.toString()
+                        : this.widget.goalCompleted.toString() +
+                            '/' +
+                            this.widget.goal.toString(),
                     style: TextStyle(
-                        color: this.widget.habitStatus == HabitStatus.doing
-                            ? CustomColors.pink
-                            : (this.widget.habitStatus == HabitStatus.done
-                                ? CustomColors.blue
-                                : CustomColors.grey),
+                        color: this.widget.habitTileType ==
+                                HabitTileType.general
+                            ? (DateTime.now().isAfter(this.widget.startDate) &&
+                                    (DateTime.now()
+                                            .isBefore(this.widget.endDate) ||
+                                        this.widget.endDate == null)
+                                ? CustomColors.pink
+                                : CustomColors.grey)
+                            : (this.widget.habitStatus == HabitStatus.doing
+                                ? CustomColors.pink
+                                : (this.widget.habitStatus == HabitStatus.done
+                                    ? CustomColors.blue
+                                    : CustomColors.grey)),
                         fontSize: 16,
                         fontWeight: FontWeight.bold),
                   ),
                   Text(
                     this.widget.goalUnit.toString(),
                     style: TextStyle(
-                      color: this.widget.habitStatus == HabitStatus.doing
-                          ? CustomColors.pink
-                          : (this.widget.habitStatus == HabitStatus.done
-                              ? CustomColors.blue
-                              : CustomColors.grey),
+                      color: this.widget.habitTileType == HabitTileType.general
+                          ? (DateTime.now().isAfter(this.widget.startDate) &&
+                                  (DateTime.now()
+                                          .isBefore(this.widget.endDate) ||
+                                      this.widget.endDate == null)
+                              ? CustomColors.pink
+                              : CustomColors.grey)
+                          : (this.widget.habitStatus == HabitStatus.doing
+                              ? CustomColors.pink
+                              : (this.widget.habitStatus == HabitStatus.done
+                                  ? CustomColors.blue
+                                  : CustomColors.grey)),
                       fontSize: 12,
                     ),
                   ),

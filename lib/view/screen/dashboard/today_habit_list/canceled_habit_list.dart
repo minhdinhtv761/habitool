@@ -22,6 +22,7 @@ class _CanceledHabitState extends State<CanceledHabit> {
       ),
     ),
     HabitSlidable(
+      habitTileType: HabitTileType.dailyProgress,
       habitName: "Habit's name",
       habitTime: DateTime.now(),
       goal: 5,
@@ -29,8 +30,11 @@ class _CanceledHabitState extends State<CanceledHabit> {
       goalUnit: 'ly',
       habitStatus: HabitStatus.canceled,
       isImportant: false,
+      startDate: DateTime(2021, 6, 1),
+      endDate: DateTime(2021, 7, 1),
     ),
     HabitSlidable(
+      habitTileType: HabitTileType.dailyProgress,
       habitName: "Habit's name",
       habitTime: DateTime.now(),
       goal: 5,
@@ -38,6 +42,8 @@ class _CanceledHabitState extends State<CanceledHabit> {
       goalUnit: 'ly',
       habitStatus: HabitStatus.canceled,
       isImportant: false,
+      startDate: DateTime(2021, 6, 1),
+      endDate: DateTime(2021, 7, 1),
     ),
   ];
 

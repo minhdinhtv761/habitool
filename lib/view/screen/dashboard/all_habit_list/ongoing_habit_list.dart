@@ -22,6 +22,7 @@ class _OnGoingHabitState extends State<OnGoingHabit> {
       ),
     ),
     HabitSlidable(
+      habitTileType: HabitTileType.general,
       habitName: "Habit's name",
       habitTime: DateTime.now(),
       goal: 5,
@@ -29,8 +30,11 @@ class _OnGoingHabitState extends State<OnGoingHabit> {
       goalUnit: 'ly',
       habitStatus: HabitStatus.doing,
       isImportant: false,
+      startDate: DateTime(2021, 6, 1),
+      endDate: DateTime(2021, 7, 1),
     ),
     HabitSlidable(
+      habitTileType: HabitTileType.general,
       habitName: "Habit's name",
       habitTime: DateTime.now(),
       goal: 5,
@@ -38,6 +42,8 @@ class _OnGoingHabitState extends State<OnGoingHabit> {
       goalUnit: 'ly',
       habitStatus: HabitStatus.doing,
       isImportant: false,
+      startDate: DateTime(2021, 6, 1),
+      endDate: DateTime(2021, 7, 1),
     ),
   ];
 
