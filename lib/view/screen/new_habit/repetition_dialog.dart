@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habitool/view/screen/new_habit/widgets/dialog_datepicker.dart';
+import 'package:habitool/widgets/custom_datepicker_button.dart';
 import 'package:habitool/widgets/custom_dialog.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../custom_values/custom_type.dart';
 import '../../../custom_values/custom_type.dart';
 import '../../../custom_values/custom_type.dart';
+import 'widgets/dialog_menu.dart';
 
 class RepetitionDialog extends StatefulWidget {
   RepetitionDialog({
@@ -24,88 +27,44 @@ class _RepetitionDialogState extends State<RepetitionDialog> {
     'Hàng ngày',
     'Hàng tuần',
     'Hàng tháng',
-    'Hàng năm',
+    'Hàng năm'
   ];
-
   String _dropdownValue = 'Không';
-  bool _isNull = true;
-  String _unit;
+  List<String> _listUnit = ['', 'ngày/lần', 'tuần/lần', 'tháng/lần', 'năm/lần'];
+  bool _isWeekly = false;
 
-  void getDropdownItem() {
-    this._isNull = false;
-    switch (_dropdownValue) {
-      case 'Không':
-        this._isNull = true;
-        break;
-      case 'Hàng ngày':
-        this._unit = 'ngày';
-        break;
-      case 'Hàng tháng':
-        this._unit = 'tháng';
-        break;
-      case 'Hàng năm':
-        this._unit = 'năm';
-        break;
-      default:
-        this._unit = 'phút';
-        break;
-    }
+  void showWeekly() {
+    if (this._dropdownValue == 'Hàng tuần')
+      this._isWeekly = true;
+    else
+      _isWeekly = false;
   }
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       title: 'Lặp lại',
-      listDropdownItems: _listDropdownItems,
-      dropdownValue: _dropdownValue,
-      callback: (value) => setState(() {
-        this._dropdownValue = value;
-        this.getDropdownItem();
-        this.widget.callback(!_isNull);
-      }),
-      value: Visibility(
-        visible: !_isNull,
-        child: Row(
+      content: Container(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Spacer(
-              flex: 1,
+            DialogMenu(
+              listDropdownItems: _listDropdownItems,
+              dropdownValue: _dropdownValue,
+              listUnit: _listUnit,
+              callback: (value) => setState(() {
+                this._dropdownValue = value;
+                showWeekly();
+              }),
             ),
-            Text(
-              'Mỗi',
-              style: TextStyle(
-                fontSize: 16,
-                color: CustomColors.black,
-              ),
+            SizedBox(
+              height: 10,
             ),
-            Expanded(
-              child: TextFormField(
-                textAlign: TextAlign.center,
-                keyboardType: TextInputType.number,
-                initialValue: '0',
-                style: TextStyle(
-                  color: CustomColors.pink,
-                  fontSize: 16,
-                ),
-                decoration: InputDecoration(
-                  enabledBorder: UnderlineInputBorder(
-                    borderSide: BorderSide(
-                      color: CustomColors.pink,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            Text(
-              '$_unit',
-              style: TextStyle(
-                fontSize: 16,
-                color: CustomColors.black,
-              ),
-            )
+            Visibility(visible: _isWeekly, child: DialogDatePicker()),
           ],
         ),
       ),
-      // showWeek: false,
     );
   }
 }

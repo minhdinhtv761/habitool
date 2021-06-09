@@ -4,14 +4,14 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
 
 import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
-import 'package:habitool/widgets/habit_notebox.dart';
+import 'package:habitool/view/screen/new_habit/widgets/habit_notebox.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/body_menu.dart';
 import '../../../widgets/body_menu.dart';
 import '../../../widgets/body_menu.dart';
 import '../../../widgets/body_menu.dart';
-import '../../../widgets/habit_namebox.dart';
+import 'widgets/habit_namebox.dart';
 import '../../../widgets/body_menu.dart';
 import '../../../widgets/date_picker.dart';
 
@@ -56,11 +56,7 @@ class _NewHabitInfo extends State<NewHabitInfo> {
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => RepetitionDialog(
-            callback: (value) => setState(() {
-              showEndDate = value;
-            }),
-          ),
+          pageBuilder: (_, __, ___) => RepetitionDialog(),
         );
       },
     );
