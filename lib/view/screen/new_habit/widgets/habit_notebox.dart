@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:habitool/widgets/custom_card.dart';
 
 import '../../../../custom_values/custom_colors.dart';
 
@@ -12,13 +13,7 @@ class NoteBox extends StatefulWidget {
 class _NoteBoxState extends State<NoteBox> {
   @override
   Widget build(BuildContext context) {
-    return Card(
-      color: Colors.white,
-      elevation: 0,
-      margin: EdgeInsets.only(top: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return CustomCard(
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(

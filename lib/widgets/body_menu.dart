@@ -21,7 +21,7 @@ class BodyMenu extends StatelessWidget {
     return MaterialButton(
       onPressed: press,
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 6.0),
+        padding: const EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 7.0),
         child: Row(
           children: [
             Visibility(

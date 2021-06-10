@@ -5,6 +5,7 @@ import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
 
 import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
 import 'package:habitool/view/screen/new_habit/widgets/habit_notebox.dart';
+import 'package:habitool/widgets/custom_card.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/body_menu.dart';
@@ -70,12 +71,13 @@ class _NewHabitInfo extends State<NewHabitInfo> {
         );
       },
     );
+
     BodyMenu time = BodyMenu(
       icon: FontAwesomeIcons.clock,
       title: 'Thời gian thực hiện',
       content: '${selectedDate.hour}:${selectedDate.minute}',
     );
-    List<BodyMenu> listBasicInfo = [startDate, goal, repetition];
+    List<BodyMenu> listBasicInfo = [startDate, goal, repetition, endDate];
 
     List<Widget> getMenuBasicInfo() {
       List<Widget> list = List();
@@ -97,24 +99,12 @@ class _NewHabitInfo extends State<NewHabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(),
-          Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.only(top: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+          CustomCard(
             child: Column(
               children: getMenuBasicInfo(),
             ),
           ),
-          Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.only(top: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+          CustomCard(
             child: time,
           ),
           NoteBox(),

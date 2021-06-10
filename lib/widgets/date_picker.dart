@@ -69,6 +69,8 @@ class _DatePickerState extends State<DatePicker> {
             showActionButtons: true,
             cancelText: 'CANCEl',
             confirmText: 'OK',
+            onSubmit: (context) {},
+            onCancel: () => Navigator.pop(context, 'Cancel'),
             controller: _datePickerController,
             navigationDirection: DateRangePickerNavigationDirection.horizontal,
             showNavigationArrow: true,

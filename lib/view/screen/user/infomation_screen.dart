@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/view/screen/user/user_info.dart';
 import 'package:habitool/view/screen/user/widgets/user_avatar.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 
@@ -18,11 +19,12 @@ class _InfomationUserScreenState extends State<InfomationUserScreen> {
       backgroundColor: CustomColors.light,
       appBar: CustomAppBar(
         title: 'Thông tin cá nhân',
-        action: 'Sửa',
+        action: 'Lưu',
       ),
       body: ListView(
         children: [
           UserAvatar(),
+          UserInfo(),
         ],
       ),
     );

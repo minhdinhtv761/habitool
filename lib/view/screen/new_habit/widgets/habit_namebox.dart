@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/widgets/custom_card.dart';
 
-import '../custom_values/custom_colors.dart';
+import '../../../../custom_values/custom_colors.dart';
 
 class NameBox extends StatefulWidget {
   @override
@@ -13,13 +14,7 @@ class _NameBoxState extends State<NameBox> {
     //Size size = MediaQuery.of(context).size;
     bool _isObscure = false;
 
-    return Card(
-      color: Colors.white,
-      elevation: 0,
-      margin: EdgeInsets.only(top: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return CustomCard(
       child: TextField(
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(

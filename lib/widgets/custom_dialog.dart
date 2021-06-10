@@ -9,20 +9,11 @@ class CustomDialog extends StatefulWidget {
   CustomDialog({
     Key key,
     @required this.title,
-    @required this.listDropdownItems,
-    @required this.dropdownValue,
-    @required this.value,
-    this.week,
-    this.callback,
+    @required this.content,
   }) : super(key: key);
 
-  String title;
-  List<String> listDropdownItems;
-  String dropdownValue;
-  Widget value;
-  Widget week;
-
-  StringCallback callback;
+  final String title;
+  Widget content;
 
   @override
   _CustomDialogState createState() => _CustomDialogState();
@@ -45,18 +36,8 @@ class _CustomDialogState extends State<CustomDialog> {
         ),
       ),
       content: Container(
-        width: size.width * 0.5,
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            CustomDropdownButton(
-              listDropdownItems: this.widget.listDropdownItems,
-              dropdownValue: this.widget.dropdownValue,
-              callback: this.widget.callback,
-            ),
-            Expanded(child: this.widget.value),
-          ],
-        ),
+        width: size.width * 0.68,
+        child: this.widget.content,
       ),
       actions: <Widget>[
         TextButton(
