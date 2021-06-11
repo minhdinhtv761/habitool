@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../../custom_values/custom_colors.dart';
+import '../../../../custom_values/custom_colors.dart';
 
 class RecommendItem extends StatelessWidget {
   const RecommendItem({

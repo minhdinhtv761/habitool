@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
-import 'package:habitool/view/screen/new_habit/recommend_item.dart';
+import 'package:habitool/view/screen/new_habit/widgets/recommend_item.dart';
 
 class RecommendItems extends StatelessWidget {
   final List<Color> colorBoxs = [
