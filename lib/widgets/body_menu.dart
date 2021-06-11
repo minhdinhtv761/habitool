@@ -19,41 +19,43 @@ class BodyMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialButton(
-      padding: EdgeInsets.only(top: 5, bottom: 5),
       onPressed: press,
-      child: Row(
-        children: [
-          Visibility(
-            visible: icon != null,
-            child: Icon(
-              icon,
-              color: CustomColors.grey,
-            ),
-          ),
-          SizedBox(
-            width: 10,
-          ),
-          Expanded(
-            child: Text(
-              '$title',
-              style: TextStyle(
-                fontSize: 16,
-                color: CustomColors.black,
-                fontWeight: FontWeight.bold,
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(5.0, 10.0, 10.0, 7.0),
+        child: Row(
+          children: [
+            Visibility(
+              visible: icon != null,
+              child: Icon(
+                icon,
+                color: CustomColors.grey,
               ),
             ),
-          ),
-          Text(
-            '$content',
-            style: TextStyle(
-              color: CustomColors.pink,
+            SizedBox(
+              width: 10,
             ),
-          ),
-          Icon(
-            Icons.arrow_forward_ios,
-            color: CustomColors.pink,
-          )
-        ],
+            Expanded(
+              child: Text(
+                '$title',
+                style: TextStyle(
+                  fontSize: 16,
+                  color: CustomColors.black,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+            ),
+            Text(
+              '$content',
+              style: TextStyle(
+                color: CustomColors.pink,
+              ),
+            ),
+            Icon(
+              Icons.arrow_forward_ios,
+              color: CustomColors.pink,
+            )
+          ],
+        ),
       ),
     );
   }

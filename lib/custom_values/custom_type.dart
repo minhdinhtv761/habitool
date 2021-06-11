@@ -1,13 +1,5 @@
-enum HabitStatus {
-  doing,
-  done,
-  canceled
-}
-
-enum HabitTileType {
-  dailyProgress,
-  general
-}
+enum HabitStatus { doing, done, canceled }
+enum HabitTileType { dailyProgress, general }
 
 typedef void DateTimeCallback(DateTime value);
 
