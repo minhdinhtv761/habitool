@@ -1,9 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
+
+import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
+import 'package:habitool/view/screen/new_habit/widgets/habit_notebox.dart';
+import 'package:habitool/widgets/custom_card.dart';
+import 'package:habitool/widgets/time_picker.dart';
 
 import '../../../custom_values/custom_colors.dart';
-import '../../../widgets/habit_namebox.dart';
+import '../../../widgets/body_menu.dart';
+import '../../../widgets/body_menu.dart';
+import '../../../widgets/body_menu.dart';
+import '../../../widgets/body_menu.dart';
+import 'widgets/habit_namebox.dart';
 import '../../../widgets/body_menu.dart';
 import '../../../widgets/date_picker.dart';
 
@@ -13,105 +23,97 @@ class NewHabitInfo extends StatefulWidget {
 }
 
 class _NewHabitInfo extends State<NewHabitInfo> {
-  DateTime selectedDate = DateTime.now();
-
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    DateTime selectedDate = DateTime.now();
+    bool showEndDate = false;
 
+    BodyMenu startDate = BodyMenu(
+      icon: Icons.calendar_today,
+      title: 'Bắt đầu',
+      content: '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => DatePicker(),
+        );
+      },
+    );
+    BodyMenu goal = BodyMenu(
+      icon: FontAwesomeIcons.bullseye,
+      title: 'Mục tiêu',
+      content: 'Không',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => GoalDialog(),
+        );
+      },
+    );
+    BodyMenu repetition = BodyMenu(
+      icon: Icons.cached_rounded,
+      title: 'Lặp lại',
+      content: 'Không',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => RepetitionDialog(),
+        );
+      },
+    );
+    BodyMenu endDate = BodyMenu(
+      title: 'Kết thúc lặp',
+      content: 'Không',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => DatePicker(),
+        );
+      },
+    );
+
+    BodyMenu time = BodyMenu(
+        icon: FontAwesomeIcons.clock,
+        title: 'Thời gian thực hiện',
+        content: '${selectedDate.hour}:${selectedDate.minute}',
+        press: () {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => TimePicker(),
+          );
+        });
+    List<BodyMenu> listBasicInfo = [startDate, goal, repetition, endDate];
+
+    List<Widget> getMenuBasicInfo() {
+      List<Widget> list = List();
+      for (var basicInfo in listBasicInfo) {
+        list.add(basicInfo);
+        if (listBasicInfo.indexOf(basicInfo) != listBasicInfo.length - 1)
+          list.add(Divider(height: 1));
+      }
+      // if (showEndDate) {
+      //   list.add(Divider(height: 1));
+      //   list.add(endDate);
+      // }
+      return list;
+    }
+
+//List <Widget> basicInfo =
     return Material(
-      color: CustomColors.light,
+      color: Colors.transparent,
       child: Column(
         children: <Widget>[
           NameBox(),
-          Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.only(top: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
+          CustomCard(
             child: Column(
-              children: <Widget>[
-                BodyMenu(
-                  icon: Icons.calendar_today,
-                  title: 'Bắt đầu',
-                  content: '21/05/2021',
-                  press: () {
-                    showGeneralDialog(
-                      context: context,
-                      pageBuilder: (_, __, ___) => DatePicker(
-                        height: size.height * 0.45,
-                        width: size.width * 0.8,
-                      ),
-                      transitionBuilder: (_, anim, __, child) {
-                        return SlideTransition(
-                          position:
-                              Tween(begin: Offset(0, 1), end: Offset(0, 0))
-                                  .animate(anim),
-                          child: child,
-                        );
-                      },
-                    );
-                  },
-                ),
-                Divider(
-                  height: 1,
-                ),
-                BodyMenu(
-                  icon: FontAwesomeIcons.bullseye,
-                  title: 'Mục tiêu',
-                  content: 'Không',
-                ),
-                Divider(
-                  height: 1,
-                ),
-                BodyMenu(
-                  title: 'Kết thúc lặp',
-                  content: 'Không',
-                ),
-              ],
+              children: getMenuBasicInfo(),
             ),
           ),
-          Card(
-            color: Colors.white,
-            elevation: 0,
-            margin: EdgeInsets.only(top: 14),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(20),
-            ),
-            child: BodyMenu(
-              icon: FontAwesomeIcons.clock,
-              title: 'Thời gian thực hiện',
-              content: '11:24',
-            ),
+          CustomCard(
+            child: time,
           ),
-          Card(
-              color: Colors.white,
-              elevation: 0,
-              margin: EdgeInsets.only(top: 14),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: TextField(
-                textAlignVertical: TextAlignVertical.center,
-                style: TextStyle(
-                  color: CustomColors.pink,
-                  fontSize: 18,
-                ),
-                decoration: InputDecoration(
-                  border: InputBorder.none,
-                  hintText: 'Ghi chú',
-                  hintStyle: TextStyle(
-                      color: CustomColors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold),
-                  prefixIcon: Icon(
-                    FontAwesomeIcons.stickyNote,
-                    color: CustomColors.grey,
-                  ),
-                ),
-              )),
+          NoteBox(),
         ],
       ),
     );

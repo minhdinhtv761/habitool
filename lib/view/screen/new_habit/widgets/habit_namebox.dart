@@ -1,50 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/widgets/custom_card.dart';
 
-import '../custom_values/custom_colors.dart';
+import '../../../../custom_values/custom_colors.dart';
 
 class NameBox extends StatefulWidget {
-  String habitName;
-  bool isImportant;
-
-  NameBox({
-    Key key,
-    this.habitName,
-    this.isImportant,
-  });
-
   @override
   _NameBoxState createState() => _NameBoxState();
 }
 
 class _NameBoxState extends State<NameBox> {
-  final _habitNameController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    this._habitNameController.text = this.widget.habitName;
-  }
-
-  @override
-  void dispose() {
-    this._habitNameController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
+    //Size size = MediaQuery.of(context).size;
+    bool _isObscure = false;
 
-    return Card(
-      color: Colors.white,
-      elevation: 0,
-      margin: EdgeInsets.only(top: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return CustomCard(
       child: TextField(
-        controller: this._habitNameController,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
             color: CustomColors.pink,
@@ -58,13 +29,11 @@ class _NameBoxState extends State<NameBox> {
               fontSize: 18,
               fontWeight: FontWeight.bold),
           prefixIcon: IconButton(
-            icon: !this.widget.isImportant
-                ? Icon(Icons.star_border)
-                : Icon(Icons.star),
-            color: !this.widget.isImportant ? CustomColors.grey : Colors.yellow,
+            icon: !_isObscure ? Icon(Icons.star_border) : Icon(Icons.star),
+            color: !_isObscure ? CustomColors.grey : Colors.yellow,
             onPressed: () {
               setState(() {
-                this.widget.isImportant = !this.widget.isImportant;
+                _isObscure = !_isObscure;
               });
             },
           ),
