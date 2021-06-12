@@ -4,25 +4,43 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
 
 import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
-import 'package:habitool/view/screen/new_habit/widgets/habit_notebox.dart';
+import 'package:habitool/widgets/habit_notebox.dart';
 import 'package:habitool/widgets/custom_card.dart';
+import 'package:habitool/widgets/habit_namebox.dart';
 import 'package:habitool/widgets/time_picker.dart';
 
-import '../../../custom_values/custom_colors.dart';
-import '../../../widgets/body_menu.dart';
-import '../../../widgets/body_menu.dart';
-import '../../../widgets/body_menu.dart';
-import '../../../widgets/body_menu.dart';
-import 'widgets/habit_namebox.dart';
-import '../../../widgets/body_menu.dart';
-import '../../../widgets/date_picker.dart';
+import 'body_menu.dart';
+import 'date_picker.dart';
 
-class NewHabitInfo extends StatefulWidget {
+class HabitInfo extends StatefulWidget {
+  HabitInfo({
+    Key key,
+    @required this.habitName,
+    @required this.habitTime,
+    @required this.goalUnit,
+    @required this.goal,
+    @required this.isImportant,
+    @required this.startDate,
+    @required this.endDate,
+    @required this.repeat,
+    @required this.note,
+  });
+
+  String habitName;
+  DateTime habitTime;
+  String goalUnit;
+  int goal;
+  bool isImportant;
+  DateTime startDate;
+  DateTime endDate;
+  String repeat;
+  String note;
+
   @override
-  _NewHabitInfo createState() => _NewHabitInfo();
+  _HabitInfo createState() => _HabitInfo();
 }
 
-class _NewHabitInfo extends State<NewHabitInfo> {
+class _HabitInfo extends State<HabitInfo> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -40,6 +58,7 @@ class _NewHabitInfo extends State<NewHabitInfo> {
         );
       },
     );
+
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
@@ -51,6 +70,7 @@ class _NewHabitInfo extends State<NewHabitInfo> {
         );
       },
     );
+
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
@@ -62,6 +82,7 @@ class _NewHabitInfo extends State<NewHabitInfo> {
         );
       },
     );
+    
     BodyMenu endDate = BodyMenu(
       title: 'Kết thúc lặp',
       content: 'Không',
@@ -73,17 +94,19 @@ class _NewHabitInfo extends State<NewHabitInfo> {
       },
     );
 
-    BodyMenu time = BodyMenu(
-        icon: FontAwesomeIcons.clock,
-        title: 'Thời gian thực hiện',
-        content: '${selectedDate.hour}:${selectedDate.minute}',
-        press: () {
-          showGeneralDialog(
-            context: context,
-            pageBuilder: (_, __, ___) => TimePicker(),
-          );
-        });
     List<BodyMenu> listBasicInfo = [startDate, goal, repetition, endDate];
+
+    BodyMenu time = BodyMenu(
+      icon: FontAwesomeIcons.clock,
+      title: 'Thời gian thực hiện',
+      content: '${selectedDate.hour}:${selectedDate.minute}',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => TimePicker(),
+        );
+      },
+    );
 
     List<Widget> getMenuBasicInfo() {
       List<Widget> list = List();
@@ -104,7 +127,10 @@ class _NewHabitInfo extends State<NewHabitInfo> {
       color: Colors.transparent,
       child: Column(
         children: <Widget>[
-          NameBox(),
+          NameBox(
+            habitName: this.widget.habitName,
+            isImportant: this.widget.isImportant,
+          ),
           CustomCard(
             child: Column(
               children: getMenuBasicInfo(),
@@ -113,7 +139,7 @@ class _NewHabitInfo extends State<NewHabitInfo> {
           CustomCard(
             child: time,
           ),
-          NoteBox(),
+          NoteBox(note: this.widget.note),
         ],
       ),
     );

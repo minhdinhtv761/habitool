@@ -7,7 +7,7 @@ import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 
 import '../../../custom_values/custom_colors.dart';
-import 'newhabit_info.dart';
+import '../../../widgets/habit_info.dart';
 
 class NewHabitScreen extends StatefulWidget {
   @override
@@ -52,7 +52,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
               RecommendNewHabit(),
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: NewHabitInfo(),
+                child: HabitInfo(),
               )
             ],
           ),

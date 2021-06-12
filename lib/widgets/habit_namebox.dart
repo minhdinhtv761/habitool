@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../custom_values/custom_colors.dart';
+import 'custom_card.dart';
 
 class NameBox extends StatefulWidget {
   String habitName;
-  bool isImportant;
+  bool isImportant = false;
 
   NameBox({
     Key key,
@@ -36,13 +37,7 @@ class _NameBoxState extends State<NameBox> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return Card(
-      color: Colors.white,
-      elevation: 0,
-      margin: EdgeInsets.only(top: 14),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20),
-      ),
+    return CustomCard(  
       child: TextField(
         controller: this._habitNameController,
         textAlignVertical: TextAlignVertical.center,

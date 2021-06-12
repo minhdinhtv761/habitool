@@ -3,25 +3,25 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
+import 'package:habitool/widgets/habit_info.dart';
 
 import '../../../custom_values/custom_colors.dart';
-import 'habit_info.dart';
 
 enum MenuItems { save, delete }
 
 class ModifyHabitScreen extends StatefulWidget {
-  ModifyHabitScreen(
-      {Key key,
-      @required this.habitName,
-      @required this.habitTime,
-      @required this.goalUnit,
-      @required this.goal,
-      @required this.isImportant,
-      @required this.startDate,
-      @required this.endDate,
-      @required this.repeat,
-      @required this.note});
+  ModifyHabitScreen({
+    Key key,
+    @required this.habitName,
+    @required this.habitTime,
+    @required this.goalUnit,
+    @required this.goal,
+    @required this.isImportant,
+    @required this.startDate,
+    @required this.endDate,
+    @required this.repeat,
+    @required this.note,
+  });
 
   String habitName;
   DateTime habitTime;
