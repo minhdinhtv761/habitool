@@ -1,25 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/model/methods.dart';
+import 'package:habitool/model/profile/user_model.dart';
+import 'package:habitool/view_controller/user_controller.dart';
+
+import '../../../locator.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
+  final UserModel currentUser;
+
+  ChangePasswordScreen({this.currentUser});
+
   @override
   _ChangePasswordScreen createState() => _ChangePasswordScreen();
 }
 
 class _ChangePasswordScreen extends State<ChangePasswordScreen> {
-  // bool _isObscure = true;
-  // @override
-  // void _toggleObscure() {
-  //   setState(() {
-  //     _isObscure = !_isObscure;
-  //   });
-  // }
+  var _passwordController = TextEditingController();
+  var _newPasswordController = TextEditingController();
+  var _reNewPasswordController = TextEditingController();
+
+  var _formKey = GlobalKey<FormState>();
+
+  bool checkCurrentPasswordValid = true;
+
+  @override
+  void dispose() {
+    _passwordController.dispose();
+    _newPasswordController.dispose();
+    _reNewPasswordController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
+      key: _formKey,
       backgroundColor: CustomColors.light,
       appBar: AppBar(
         backgroundColor: CustomColors.light,
@@ -58,37 +76,49 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                             Container(
                               child: TextField(
                                 decoration: InputDecoration(
-                                  labelText: 'Mật khẩu cũ',
+                                  hintText: 'Mật khẩu cũ',
+                                  errorText: checkCurrentPasswordValid
+                                      ? null
+                                      : "kiem tra lai mat khau",
                                   labelStyle: TextStyle(
                                     color: CustomColors.grey,
                                     fontSize: 20,
                                   ),
                                 ),
+                                controller: _passwordController,
                               ),
                             ),
                             SizedBox(height: 20.0),
                             Container(
                               child: TextField(
                                 decoration: InputDecoration(
-                                  labelText: 'Nhập mật khẩu mới',
+                                  hintText: 'Nhập mật khẩu mới',
                                   labelStyle: TextStyle(
                                     color: CustomColors.grey,
                                     fontSize: 20,
                                   ),
                                 ),
+                                controller: _newPasswordController,
+                                obscureText: true,
                               ),
                             ),
                             SizedBox(height: 20.0),
                             Container(
-                              child: TextField(
-                                decoration: InputDecoration(
-                                  labelText: 'Nhập lại mật khẩu mới',
-                                  labelStyle: TextStyle(
-                                    color: CustomColors.grey,
-                                    fontSize: 20,
+                              child: TextFormField(
+                                  decoration: InputDecoration(
+                                    hintText: 'Nhập lại mật khẩu mới',
+                                    labelStyle: TextStyle(
+                                      color: CustomColors.grey,
+                                      fontSize: 20,
+                                    ),
                                   ),
-                                ),
-                              ),
+                                  obscureText: true,
+                                  controller: _reNewPasswordController,
+                                  validator: (value) {
+                                    return _newPasswordController.text == value
+                                        ? null
+                                        : "vui long nhap lai dung mat khau";
+                                  }),
                             ),
                           ],
                         ),
@@ -109,7 +139,18 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )),
-                      onPressed: () {},
+                      onPressed: () async {
+                        var userController = await validatePassword(_passwordController.text);
+                       if(userController){
+                         if (_formKey.currentState.validate()) {
+                           
+                                Navigator.pop(context);
+                              }
+
+                       }
+
+                      
+                      },
                       onLongPress: () {},
                     ),
                     SizedBox(height: 10.0),

@@ -5,16 +5,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/auth_provider.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
+import 'package:habitool/view/screen/intro/signup_screen.dart';
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:provider/provider.dart';
 
-
 class LogInScreen extends StatefulWidget {
-
   @override
   _LogInScreenState createState() => _LogInScreenState();
-
 }
 
 class _LogInScreenState extends State<LogInScreen> {
@@ -22,7 +20,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   final _email = TextEditingController();
   final _password = TextEditingController();
-
 
   void _toggleObscure() {
     setState(() {
@@ -32,7 +29,6 @@ class _LogInScreenState extends State<LogInScreen> {
 
   bool isLoading = false;
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -40,15 +36,13 @@ class _LogInScreenState extends State<LogInScreen> {
       backgroundColor: CustomColors.light,
       body: isLoading
           ? Center(
-            child: Container(
-              height: size.height / 20,
-              width: size.height / 20,
-              child: CircularProgressIndicator(),
-            ),
-      )
+              child: Container(
+                height: size.height / 20,
+                width: size.height / 20,
+                child: CircularProgressIndicator(),
+              ),
+            )
           : SingleChildScrollView(
-
-
               child: Container(
                 child: Stack(
                   alignment: AlignmentDirectional.topCenter,
@@ -92,9 +86,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   SizedBox(
                                     height: 15.0,
                                   ),
-                                  Container(
-                                    child: field(size, "", _email)
-                                  ),
+                                  Container(child: field(size, "", _email)),
                                   SizedBox(height: 20.0),
                                   Container(
                                     child: TextField(
@@ -152,7 +144,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   DashBoardScreen()),
-                                              (route) => false);
+                                          (route) => false);
                                     }
                                   }),
                                 ),
@@ -181,9 +173,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onPressed: () {
-
-                                  },
+                                  onPressed: () {},
                                   onLongPress: () {},
                                 ),
                               ),
@@ -192,39 +182,47 @@ class _LogInScreenState extends State<LogInScreen> {
                           SizedBox(
                             height: 25.0,
                           ),
-                          // Row(
-                          //   mainAxisAlignment: MainAxisAlignment.center,
-                          //   crossAxisAlignment: CrossAxisAlignment.center,
-                          //   children: <Widget>[
-                          //     Text(
-                          //       'Bạn chưa có tài khoản?',
-                          //       style: TextStyle(
-                          //         color: CustomColors.darkgrey,
-                          //         fontSize: 13,
-                          //       ),
-                          //     ),
-                          //     TextButton(
-                          //       child: Text(
-                          //         'Đăng ký',
-                          //         style: TextStyle(
-                          //           color: CustomColors.link,
-                          //           fontSize: 13,
-                          //         ),
-                          //       ),
-                          //       onPressed: () {},
-                          //       onLongPress: () {},
-                          //     ),
-                          //   ],
-                          // )
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: <Widget>[
+                              Text(
+                                'Bạn chưa có tài khoản?',
+                                style: TextStyle(
+                                  color: CustomColors.darkgrey,
+                                  fontSize: 13,
+                                ),
+                              ),
+                              TextButton(
+                                child: Text(
+                                  'Đăng ký',
+                                  style: TextStyle(
+                                    color: CustomColors.link,
+                                    fontSize: 13,
+                                  ),
+                                ),
+                                onPressed: () => googleSignIn().then((user) {
+                                  if (user == null) {
+                                    Navigator.pushAndRemoveUntil(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                SignUpScreen()),
+                                        (route) => false);
+                                  }
+                                }),
+                                onLongPress: () {},
+                              ),
+                            ],
+                          )
                         ],
                       ),
                     ),
                   ],
                 ),
               ),
-      ),
+            ),
     );
-
   }
 
   Widget customButton(Size size, String text) {
@@ -243,19 +241,16 @@ class _LogInScreenState extends State<LogInScreen> {
               });
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          DashBoardScreen()),
-                      (route) => false);
+                  MaterialPageRoute(builder: (context) => DashBoardScreen()),
+                  (route) => false);
             } else {
               print("Login Failed");
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    title: Text('Cảnh páo'),
-                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-                  )
-              );
+                        title: Text('Cảnh páo'),
+                        content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                      ));
               setState(() {
                 isLoading = false;
               });
@@ -265,10 +260,9 @@ class _LogInScreenState extends State<LogInScreen> {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('Cảnh páo'),
-                content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-              )
-          );
+                    title: Text('Cảnh páo'),
+                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                  ));
           print("Please fill form correctly");
         }
       },
@@ -290,5 +284,4 @@ class _LogInScreenState extends State<LogInScreen> {
           )),
     );
   }
-
 }

@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-Future<User> createAccount(String name, String email, String password) async {
+Future<User> createAccount(String email, String password ) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -17,11 +17,11 @@ Future<User> createAccount(String name, String email, String password) async {
     if (user != null) {
       print("Account created Succesfull");
 
-      user.updateProfile(displayName: name);
+      user.updateProfile(displayName: email);
 
       await _firestore.collection('users').doc(_auth.currentUser.uid).set({
-        "name": name,
         "email": email,
+        "password": password,
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
       });
@@ -82,6 +82,26 @@ Future logOut(BuildContext context) async {
   }
 }
 
+Future<bool> validatePassword(String password) async {
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    var firebaseUser = _auth.currentUser;
+
+    var authCredentials = EmailAuthProvider.credential(email: firebaseUser.email, password: password);
+    try {
+      var authResult = await firebaseUser
+          .reauthenticateWithCredential(authCredentials);
+      return authResult.user != null;
+    } catch (e) {
+      print(e);
+      return false;
+    }
+  }
+
+  Future<void> updatePassword(String password) async {
+    FirebaseAuth _auth = FirebaseAuth.instance;
+    var firebaseUser = await _auth.currentUser;
+    firebaseUser.updatePassword(password);
+  }
 
 
 
