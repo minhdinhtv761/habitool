@@ -206,26 +206,45 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   fontSize: 13,
                                 ),
                               ),
-                              TextButton(
-                                child: Text(
-                                  'Đăng nhập',
-                                  style: TextStyle(
-                                    color: CustomColors.link,
-                                    fontSize: 13,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => LogInScreen()),
+                                  );
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Đăng nhập",
+                                    style: TextStyle(
+                                      color: CustomColors.link,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ),
-                                onPressed: () => googleSignIn().then((user) {
-                                  if (user == null) {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LogInScreen()),
-                                        (route) => false);
-                                  }
-                                }),
-                                onLongPress: () {},
                               ),
+                              // TextButton(
+                              //   child: Text(
+                              //     'Đăng nhập',
+                              //     style: TextStyle(
+                              //       color: CustomColors.link,
+                              //       fontSize: 13,
+                              //     ),
+                              //   ),
+                              //   onPressed: () => googleSignIn().then((user) {
+                              //     if (user == null) {
+                              //       Navigator.pushAndRemoveUntil(
+                              //           context,
+                              //           MaterialPageRoute(
+                              //               builder: (context) =>
+                              //                   LogInScreen()),
+                              //           (route) => false);
+                              //     }
+                              //   }),
+                              //   onLongPress: () {},
+                              // ),
                             ],
                           )
                         ],

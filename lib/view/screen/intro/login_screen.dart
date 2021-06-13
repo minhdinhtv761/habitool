@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/auth_provider.dart';
+import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 import 'package:habitool/view/screen/intro/signup_screen.dart';
+import 'package:habitool/view/screen/user/change_password.dart';
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:provider/provider.dart';
@@ -18,9 +20,9 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
-  final _email = TextEditingController();
+  final _email = TextEditingController(text: "minhdinh@gmail.com");
   final _password = TextEditingController();
-
+  UserProvider _user;
   void _toggleObscure() {
     setState(() {
       _isObscure = !_isObscure;
@@ -32,6 +34,9 @@ class _LogInScreenState extends State<LogInScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    _user = Provider.of<UserProvider>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.light,
       body: isLoading
@@ -193,25 +198,24 @@ class _LogInScreenState extends State<LogInScreen> {
                                   fontSize: 13,
                                 ),
                               ),
-                              TextButton(
-                                child: Text(
-                                  'Đăng ký',
-                                  style: TextStyle(
-                                    color: CustomColors.link,
-                                    fontSize: 13,
+                              GestureDetector(
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) => SignUpScreen()),
+                                  );
+                                },
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    "Đăng ký",
+                                    style: TextStyle(
+                                      color: CustomColors.link,
+                                      fontSize: 13,
+                                    ),
                                   ),
                                 ),
-                                onPressed: () => googleSignIn().then((user) {
-                                  if (user == null) {
-                                    Navigator.pushAndRemoveUntil(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                SignUpScreen()),
-                                        (route) => false);
-                                  }
-                                }),
-                                onLongPress: () {},
                               ),
                             ],
                           )
@@ -232,9 +236,8 @@ class _LogInScreenState extends State<LogInScreen> {
           setState(() {
             isLoading = true;
           });
-
-          logIn(_email.text, _password.text).then((user) {
-            if (user != null) {
+          _user.login(email: _email.text, password: _password.text).then((u) {
+            if (u != null) {
               print("Login Sucessfull");
               setState(() {
                 isLoading = false;
@@ -256,6 +259,30 @@ class _LogInScreenState extends State<LogInScreen> {
               });
             }
           });
+          // logIn(_email.text, _password.text).then((user) {
+          //   if (user != null) {
+          //     print("Login Sucessfull");
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          //     Navigator.pushAndRemoveUntil(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => ChangePasswordScreen()),
+          //         (route) => false);
+          //   } else {
+          //     print("Login Failed");
+          //     showDialog(
+          //         context: context,
+          //         builder: (_) => AlertDialog(
+          //               title: Text('Cảnh páo'),
+          //               content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+          //             ));
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          //   }
+          // });
         } else {
           showDialog(
               context: context,
