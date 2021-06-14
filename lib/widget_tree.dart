@@ -15,7 +15,7 @@ class WidgetTree extends StatelessWidget {
   Widget build(BuildContext context) {
     User user = Provider.of<User>(context);
     if (user == null) {
-      return LogInScreen();
+      return HomeScreen();
     }
     return LogInScreen();
   }
