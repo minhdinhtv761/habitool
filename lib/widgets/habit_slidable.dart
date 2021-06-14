@@ -6,23 +6,29 @@ import '../custom_values/custom_type.dart';
 import '../widgets/habit_tile.dart';
 
 class HabitSlidable extends StatefulWidget {
+  HabitTileType habitTileType;
   String habitName;
   DateTime habitTime;
   String goalUnit;
   int goal;
   int goalCompleted;
   bool isImportant;
-  HabitStatus habitStatus;
+  DateTime startDate;
+  DateTime endDate;
+  HabitStatus habitStatus = HabitStatus.doing;
 
   HabitSlidable({
     Key key,
+    @required this.habitTileType,
     @required this.habitName,
     @required this.habitTime,
     @required this.goalUnit,
     @required this.goal,
     @required this.goalCompleted,
     @required this.isImportant,
-    @required this.habitStatus,
+    @required this.startDate,
+    @required this.endDate,
+    this.habitStatus,
   }) : super(key: key);
   @override
   _HabitSlidableState createState() => _HabitSlidableState();
@@ -142,6 +148,7 @@ class _HabitSlidableState extends State<HabitSlidable> {
       color: Colors.transparent,
     ),
   ];
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -150,13 +157,16 @@ class _HabitSlidableState extends State<HabitSlidable> {
       actionPane: SlidableScrollActionPane(),
       actionExtentRatio: 0.15,
       direction: Axis.horizontal,
-      actions: this.widget.habitStatus == HabitStatus.doing
-          ? _doingHabitPrimaryAction
-          : (this.widget.habitStatus == HabitStatus.done
-              ? _doneHabitPrimaryAction
-              : _canceledHabitPrimaryAction),
+      actions: this.widget.habitTileType == HabitTileType.general
+          ? null
+          : (this.widget.habitStatus == HabitStatus.doing
+              ? _doingHabitPrimaryAction
+              : (this.widget.habitStatus == HabitStatus.done
+                  ? _doneHabitPrimaryAction
+                  : _canceledHabitPrimaryAction)),
       secondaryActions: _habitSecondaryAction,
       child: HabitTile(
+        habitTileType: this.widget.habitTileType,
         habitName: this.widget.habitName,
         habitTime: this.widget.habitTime,
         goal: this.widget.goal,
@@ -164,6 +174,8 @@ class _HabitSlidableState extends State<HabitSlidable> {
         goalUnit: this.widget.goalUnit,
         habitStatus: this.widget.habitStatus,
         isImportant: this.widget.isImportant,
+        startDate: this.widget.startDate,
+        endDate: this.widget.endDate,
       ),
     );
   }
