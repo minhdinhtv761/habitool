@@ -245,11 +245,8 @@ class _LogInScreenState extends State<LogInScreen> {
               });
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(
-                      builder: (context) =>
-                          HomeScreen()),
-                      (route) => false);
-
+                  MaterialPageRoute(builder: (context) => HomeScreen()),
+                  (route) => false);
             } else {
               print("Login Failed");
               showDialog(
