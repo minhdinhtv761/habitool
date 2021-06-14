@@ -22,6 +22,13 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
   var _reNewPasswordController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
+
+  void _toggleObscure() {
+    setState(() {
+      _isObscure = !_isObscure;
+    });
+  }
 
   bool checkCurrentPasswordValid = true;
 
@@ -42,9 +49,10 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
       appBar: AppBar(
         backgroundColor: CustomColors.light,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: CustomColors.black),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.arrow_back, color: CustomColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
           'Đổi mật khẩu',
           style: TextStyle(
@@ -105,9 +113,17 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                                       color: CustomColors.grey,
                                       fontSize: 20,
                                     ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        (_isObscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off),
+                                      ),
+                                      onPressed: _toggleObscure,
+                                    ),
                                   ),
                                   controller: _newPasswordController,
-                                  obscureText: true,
+                                  obscureText: _isObscure,
                                 ),
                               ),
                               SizedBox(height: 20.0),
@@ -119,8 +135,16 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                                         color: CustomColors.grey,
                                         fontSize: 20,
                                       ),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          (_isObscure
+                                              ? Icons.visibility
+                                              : Icons.visibility_off),
+                                        ),
+                                        onPressed: _toggleObscure,
+                                      ),
                                     ),
-                                    obscureText: true,
+                                    obscureText: _isObscure,
                                     controller: _reNewPasswordController,
                                     validator: (value) {
                                       return _newPasswordController.text ==

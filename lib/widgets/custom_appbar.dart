@@ -21,9 +21,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         backgroundColor: CustomColors.light,
         shadowColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: CustomColors.black),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.arrow_back, color: CustomColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
           this.widget.title,
           style: TextStyle(

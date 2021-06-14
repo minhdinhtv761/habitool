@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/view/screen/user/adress_dialog.dart';
+import 'package:habitool/view/screen/user/change_password.dart';
 import 'package:habitool/view/screen/user/email_dialog.dart';
 import 'package:habitool/view/screen/user/gender_dialog.dart';
 import 'package:habitool/view/screen/user/phone_dialog.dart';
@@ -100,10 +101,10 @@ class _UserInfoState extends State<UserInfo> {
       icon: Icons.vpn_key_outlined,
       title: 'Đổi mật khẩu',
       press: () {
-        // Navigator.push(
-        //   context,
-        //   MaterialPageRoute(builder: (context) => SecondRoute()),
-        // );
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ChangePasswordScreen()),
+        );
       },
     );
 
