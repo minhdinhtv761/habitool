@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:habitool/Custom_Values/custom_colors.dart';
+import 'package:habitool/view/screen/home_screen.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
@@ -273,10 +274,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isLoading = false;
               });
               Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => DashBoardScreen()));
+                  MaterialPageRoute(builder: (_) => HomeScreen()));
               print("Account Created Sucessfull");
             } else {
-              print("Login failed");
+              print("SignUp failed");
               setState(() {
                 isLoading = false;
               });
