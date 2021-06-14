@@ -6,8 +6,9 @@ import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/auth_provider.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
+import 'package:habitool/view/screen/home_screen.dart';
 import 'package:habitool/view/screen/intro/signup_screen.dart';
-import 'package:habitool/view/screen/user/change_password.dart';
+
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:provider/provider.dart';
@@ -148,8 +149,8 @@ class _LogInScreenState extends State<LogInScreen> {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  DashBoardScreen()),
-                                          (route) => false);
+                                                  HomeScreen()),
+                                              (route) => false);
                                     }
                                   }),
                                 ),
@@ -198,24 +199,24 @@ class _LogInScreenState extends State<LogInScreen> {
                                   fontSize: 13,
                                 ),
                               ),
-                              GestureDetector(
-                                onTap: () {
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => SignUpScreen()),
-                                  );
-                                },
-                                child: Container(
-                                  alignment: Alignment.center,
-                                  child: Text(
-                                    "Đăng ký",
-                                    style: TextStyle(
-                                      color: CustomColors.link,
-                                      fontSize: 13,
-                                    ),
+                              TextButton(
+                                child: Text(
+                                  'Đăng ký',
+                                  style: TextStyle(
+                                    color: CustomColors.link,
+                                    fontSize: 13,
                                   ),
                                 ),
+                                onPressed: () {
+
+                                  Navigator.pushAndRemoveUntil(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              SignUpScreen()),
+                                          (route) => false);
+                                },
+                                onLongPress: () {},
                               ),
                             ],
                           )
@@ -244,8 +245,11 @@ class _LogInScreenState extends State<LogInScreen> {
               });
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => DashBoardScreen()),
-                  (route) => false);
+                  MaterialPageRoute(
+                      builder: (context) =>
+                          HomeScreen()),
+                      (route) => false);
+
             } else {
               print("Login Failed");
               showDialog(

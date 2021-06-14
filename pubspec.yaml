@@ -37,6 +37,7 @@ dependencies:
   provider: ^5.0.0
 
   radio_grouped_buttons: ^1.0.0+2
+  charts_flutter: ^0.10.0
 
 
 dev_dependencies:

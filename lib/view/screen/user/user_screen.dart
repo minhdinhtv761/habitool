@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -152,7 +150,7 @@ class _UserScreenState extends State<UserScreen> {
                             fontSize: 24,
                             fontWeight: FontWeight.bold,
                           )),
-                      onPressed: () {},
+                      onPressed: () => logOut(context),
                       onLongPress: () {},
                     ),
                   )
