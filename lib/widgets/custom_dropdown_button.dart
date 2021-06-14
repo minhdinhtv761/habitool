@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 
 import '../custom_values/custom_colors.dart';
 
@@ -7,10 +8,12 @@ class CustomDropdownButton extends StatefulWidget {
     Key key,
     @required this.listDropdownItems,
     @required this.dropdownValue,
+    this.callback,
   }) : super(key: key);
 
   List<String> listDropdownItems;
   String dropdownValue;
+  StringCallback callback;
 
   @override
   _CustomDropdownButtonState createState() => _CustomDropdownButtonState();
@@ -34,6 +37,7 @@ class _CustomDropdownButtonState extends State<CustomDropdownButton> {
       onChanged: (String newValue) {
         setState(() {
           this.widget.dropdownValue = newValue;
+          this.widget.callback(newValue);
         });
       },
       items: this
