@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:provider/provider.dart';
 import 'Widget_tree.dart';
@@ -73,6 +74,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider.value(value: FirebaseAuth.instance.authStateChanges()),
+         ChangeNotifierProvider.value(value: UserProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

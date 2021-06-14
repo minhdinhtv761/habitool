@@ -4,28 +4,26 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/auth_provider.dart';
+import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 import 'package:habitool/view/screen/home_screen.dart';
 import 'package:habitool/view/screen/intro/signup_screen.dart';
+
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:provider/provider.dart';
 
-
 class LogInScreen extends StatefulWidget {
-
   @override
   _LogInScreenState createState() => _LogInScreenState();
-
 }
 
 class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
-  final _email = TextEditingController();
+  final _email = TextEditingController(text: "minhdinh@gmail.com");
   final _password = TextEditingController();
-
-
+  UserProvider _user;
   void _toggleObscure() {
     setState(() {
       _isObscure = !_isObscure;
@@ -34,23 +32,23 @@ class _LogInScreenState extends State<LogInScreen> {
 
   bool isLoading = false;
 
-
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+
+    _user = Provider.of<UserProvider>(context);
+
     return Scaffold(
       backgroundColor: CustomColors.light,
       body: isLoading
           ? Center(
-            child: Container(
-              height: size.height / 20,
-              width: size.height / 20,
-              child: CircularProgressIndicator(),
-            ),
-      )
+              child: Container(
+                height: size.height / 20,
+                width: size.height / 20,
+                child: CircularProgressIndicator(),
+              ),
+            )
           : SingleChildScrollView(
-
-
               child: Container(
                 child: Stack(
                   alignment: AlignmentDirectional.topCenter,
@@ -94,9 +92,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                   SizedBox(
                                     height: 15.0,
                                   ),
-                                  Container(
-                                    child: field(size, "", _email)
-                                  ),
+                                  Container(child: field(size, "", _email)),
                                   SizedBox(height: 20.0),
                                   Container(
                                     child: TextField(
@@ -183,9 +179,7 @@ class _LogInScreenState extends State<LogInScreen> {
                                       fontWeight: FontWeight.bold,
                                     ),
                                   ),
-                                  onPressed: () {
-
-                                  },
+                                  onPressed: () {},
                                   onLongPress: () {},
                                 ),
                               ),
@@ -232,9 +226,8 @@ class _LogInScreenState extends State<LogInScreen> {
                   ],
                 ),
               ),
-      ),
+            ),
     );
-
   }
 
   Widget customButton(Size size, String text) {
@@ -244,9 +237,8 @@ class _LogInScreenState extends State<LogInScreen> {
           setState(() {
             isLoading = true;
           });
-
-          logIn(_email.text, _password.text).then((user) {
-            if (user != null) {
+          _user.login(email: _email.text, password: _password.text).then((u) {
+            if (u != null) {
               print("Login Sucessfull");
               setState(() {
                 isLoading = false;
@@ -257,28 +249,51 @@ class _LogInScreenState extends State<LogInScreen> {
                       builder: (context) =>
                           HomeScreen()),
                       (route) => false);
+
             } else {
               print("Login Failed");
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(
-                    title: Text('Cảnh páo'),
-                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-                  )
-              );
+                        title: Text('Cảnh páo'),
+                        content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                      ));
               setState(() {
                 isLoading = false;
               });
             }
           });
+          // logIn(_email.text, _password.text).then((user) {
+          //   if (user != null) {
+          //     print("Login Sucessfull");
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          //     Navigator.pushAndRemoveUntil(
+          //         context,
+          //         MaterialPageRoute(
+          //             builder: (context) => ChangePasswordScreen()),
+          //         (route) => false);
+          //   } else {
+          //     print("Login Failed");
+          //     showDialog(
+          //         context: context,
+          //         builder: (_) => AlertDialog(
+          //               title: Text('Cảnh páo'),
+          //               content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+          //             ));
+          //     setState(() {
+          //       isLoading = false;
+          //     });
+          //   }
+          // });
         } else {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                title: Text('Cảnh páo'),
-                content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-              )
-          );
+                    title: Text('Cảnh páo'),
+                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                  ));
           print("Please fill form correctly");
         }
       },
@@ -300,5 +315,4 @@ class _LogInScreenState extends State<LogInScreen> {
           )),
     );
   }
-
 }

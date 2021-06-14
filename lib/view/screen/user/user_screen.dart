@@ -1,11 +1,10 @@
-//import 'dart:html';
-
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/widgets/body_menu.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserScreen extends StatefulWidget {
   @override
