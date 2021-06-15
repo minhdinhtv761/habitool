@@ -24,12 +24,12 @@ class ModifyHabitScreen extends StatefulWidget {
   });
 
   String habitName;
-  DateTime habitTime;
+  String habitTime;
   String goalUnit;
-  int goal;
+  String goal;
   bool isImportant;
-  DateTime startDate;
-  DateTime endDate;
+  String startDate;
+  String endDate;
   String repeat;
   String note;
 
@@ -91,7 +91,7 @@ class _ModifyHabitScreenState extends State<ModifyHabitScreen> {
                 padding: const EdgeInsets.only(top: 13),
                 child: HabitInfo(
                   habitName: this.widget.habitName,
-                  habitTime: this.widget.habitTime,
+                  time: this.widget.habitTime,
                   goalUnit: this.widget.goalUnit,
                   goal: this.widget.goal,
                   isImportant: this.widget.isImportant,

@@ -15,24 +15,24 @@ import 'date_picker.dart';
 class HabitInfo extends StatefulWidget {
   HabitInfo({
     Key key,
-    @required this.habitName,
-    @required this.habitTime,
-    @required this.goalUnit,
-    @required this.goal,
-    @required this.isImportant,
-    @required this.startDate,
-    @required this.endDate,
-    @required this.repeat,
-    @required this.note,
+    this.habitName,
+    this.time,
+    this.goalUnit,
+    this.goal,
+    this.isImportant,
+    this.startDate,
+    this.endDate,
+    this.repeat,
+    this.note,
   });
 
   String habitName;
-  DateTime habitTime;
+  String time;
   String goalUnit;
-  int goal;
+  String goal;
   bool isImportant;
-  DateTime startDate;
-  DateTime endDate;
+  String startDate;
+  String endDate;
   String repeat;
   String note;
 
@@ -44,13 +44,11 @@ class _HabitInfo extends State<HabitInfo> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    DateTime selectedDate = DateTime.now();
-    bool showEndDate = false;
 
     BodyMenu startDate = BodyMenu(
       icon: Icons.calendar_today,
       title: 'Bắt đầu',
-      content: '${selectedDate.day}/${selectedDate.month}/${selectedDate.year}',
+      content: this.widget.startDate,
       press: () {
         showGeneralDialog(
           context: context,
@@ -62,7 +60,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
-      content: 'Không',
+      content: this.widget.goal,
       press: () {
         showGeneralDialog(
           context: context,
@@ -74,7 +72,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
-      content: 'Không',
+      content: this.widget.repeat,
       press: () {
         showGeneralDialog(
           context: context,
@@ -85,7 +83,7 @@ class _HabitInfo extends State<HabitInfo> {
     
     BodyMenu endDate = BodyMenu(
       title: 'Kết thúc lặp',
-      content: 'Không',
+      content: this.widget.endDate,
       press: () {
         showGeneralDialog(
           context: context,
@@ -99,7 +97,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu time = BodyMenu(
       icon: FontAwesomeIcons.clock,
       title: 'Thời gian thực hiện',
-      content: '${selectedDate.hour}:${selectedDate.minute}',
+      content: this.widget.time,
       press: () {
         showGeneralDialog(
           context: context,
