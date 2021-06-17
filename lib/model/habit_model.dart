@@ -8,6 +8,7 @@ import 'package:meta/meta.dart ';
 class MyHabit {
   String _habitId;
   String _name;
+  bool _isImportant;
   IconData _icon;
   int _goal;
   String _unitGoal;
@@ -19,6 +20,7 @@ class MyHabit {
 
   MyHabit() {
     Timestamp timestamp = Timestamp.now();
+    this._isImportant = false;
     this._icon = Icons.ac_unit;
     this._goal = 0;
     this._unitGoal = 'lần';
@@ -33,6 +35,7 @@ class MyHabit {
   }) {
     this._habitId = habitId;
     this._name = data['name'];
+    this._isImportant = data['isImportant'];
     this._icon = data['icon'];
     this._goal = data['targetNumber'];
     this._unitGoal = data['unit'];
@@ -46,6 +49,7 @@ class MyHabit {
   MyHabit.fromMyHabit(MyHabit myHabit) {
     this._habitId = myHabit._habitId;
     this._name = myHabit._name;
+    this._isImportant = myHabit._isImportant;
     this._icon = myHabit._icon;
     this._goal = myHabit._goal;
     this._unitGoal = myHabit._unitGoal;
@@ -61,6 +65,10 @@ class MyHabit {
   get name => this._name;
 
   set name(value) => this._name = value;
+
+  get isImportant => this._isImportant;
+
+  set isImportant(value) => this._isImportant = value;
 
   get icon => this._icon;
 
@@ -98,6 +106,7 @@ class MyHabit {
     return {
       'habitId': _habitId,
       'name': _name,
+      'isImportant': _isImportant,
       'icon': _icon.codePoint,
       'targetNumber': _goal,
       'unitGoal': _unitGoal,
@@ -112,6 +121,7 @@ class MyHabit {
   Map<String, dynamic> updatedJshon() {
     return {
       'name': _name,
+      'isImportant': _isImportant,
       'icon': _icon.codePoint,
       'targetNumber': _goal,
       'unitGoal': _unitGoal,
