@@ -1,11 +1,8 @@
-import 'dart:convert';
-import 'dart:html';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:meta/meta.dart ';
 
-class MyHabit {
+class HabitModel {
   String _habitId;
   String _name;
   bool _isImportant;
@@ -14,22 +11,26 @@ class MyHabit {
   String _unitGoal;
   DateTime _startDate;
   DateTime _endDate;
+  String _repeat;
   DateTime _time;
   String _note;
   String _userId;
 
-  MyHabit() {
-    Timestamp timestamp = Timestamp.now();
+  HabitModel() {
+    DateTime dateTime = DateTime.now();
+
     this._isImportant = false;
     this._icon = Icons.ac_unit;
     this._goal = 0;
     this._unitGoal = 'lần';
-    this._startDate = timestamp.toDate();
-    this._endDate = timestamp.toDate();
-    this._time = DateTime(1, 1, 1, 08, 00);
+    //this._startDate = DateTime.now();
+    this._startDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
+    this._endDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
+    this._repeat = 'Hàng ngày';
+    this._time = DateTime(dateTime.hour, dateTime.minute);
   }
 
-  MyHabit.fromFirebase({
+  HabitModel.fromFirebase({
     Map<String, dynamic> data,
     String habitId,
   }) {
@@ -46,7 +47,7 @@ class MyHabit {
     this._userId = data['uid'];
   }
 
-  MyHabit.fromMyHabit(MyHabit myHabit) {
+  HabitModel.fromMyHabit(HabitModel myHabit) {
     this._habitId = myHabit._habitId;
     this._name = myHabit._name;
     this._isImportant = myHabit._isImportant;
@@ -55,6 +56,7 @@ class MyHabit {
     this._unitGoal = myHabit._unitGoal;
     this._startDate = myHabit._startDate;
     this._endDate = myHabit._endDate;
+    this._repeat = myHabit._repeat;
     this._time = myHabit._time;
     this._note = myHabit._note;
     this._userId = myHabit._userId;
@@ -89,6 +91,10 @@ class MyHabit {
   get endDate => this._endDate;
 
   set endDate(value) => this._endDate = value;
+
+  get repeat => this._repeat;
+
+  set repeat(repeat) => this._repeat = repeat;
 
   get time => this._time;
 

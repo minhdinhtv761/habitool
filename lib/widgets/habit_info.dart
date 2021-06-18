@@ -1,6 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:habitool/model/enums.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
 
 import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
@@ -13,42 +15,61 @@ import 'body_menu.dart';
 import 'date_picker.dart';
 
 class HabitInfo extends StatefulWidget {
-  HabitInfo({
-    Key key,
-    this.habitName,
-    this.time,
-    this.goalUnit,
-    this.goal,
-    this.isImportant,
-    this.startDate,
-    this.endDate,
-    this.repeat,
-    this.note,
-  });
+  HabitInfo(this.mode, {this.habitModel});
 
-  String habitName;
-  String time;
-  String goalUnit;
-  String goal;
-  bool isImportant;
-  String startDate;
-  String endDate;
-  String repeat;
-  String note;
+  final HabitModelMode mode;
+  HabitModel habitModel;
 
   @override
   _HabitInfo createState() => _HabitInfo();
 }
 
+DateTime dateTime = DateTime.now();
+
 class _HabitInfo extends State<HabitInfo> {
+  HabitModel _habitModel = HabitModel();
+  bool edittingEnabled;
+
+//Default value
+  String _name = '';
+  bool _isImportant = false;
+  IconData _icon = Icons.ac_unit;
+  int _goal = 0;
+  String _unitGoal = 'lần';
+  DateTime _startDate = dateTime;
+  DateTime _endDate = dateTime;
+  String _repeat = 'Hàng ngày';
+  DateTime _time = dateTime;
+  String _note = '';
+
+  void initState() {
+    super.initState();
+    if (this.widget.mode == HabitModelMode.NEW) {
+      edittingEnabled = true;
+      createNewHabit();
+    }
+  }
+
+  void createNewHabit() {
+    _habitModel.name = _name;
+    _habitModel.isImportant = _isImportant;
+    _habitModel.icon = _icon;
+    _habitModel.goal = _goal;
+    _habitModel.unitGoal = _unitGoal;
+    _habitModel.startDate = _startDate;
+    _habitModel.endDate = _endDate;
+    _habitModel.repeat = _repeat;
+    _habitModel.time = _time;
+    _habitModel.note = _note;
+  }
+
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
     BodyMenu startDate = BodyMenu(
       icon: Icons.calendar_today,
       title: 'Bắt đầu',
-      content: this.widget.startDate,
+      content:
+          '${_habitModel.startDate.day}/${_habitModel.startDate.month}/${_habitModel.startDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
@@ -60,7 +81,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
-      content: this.widget.goal,
+      content: _habitModel.goal.toString(),
       press: () {
         showGeneralDialog(
           context: context,
@@ -72,7 +93,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
-      content: this.widget.repeat,
+      content: _habitModel.repeat,
       press: () {
         showGeneralDialog(
           context: context,
@@ -80,10 +101,11 @@ class _HabitInfo extends State<HabitInfo> {
         );
       },
     );
-    
+
     BodyMenu endDate = BodyMenu(
       title: 'Kết thúc lặp',
-      content: this.widget.endDate,
+      content:
+          '${_habitModel.endDate.day}/${_habitModel.endDate.month}/${_habitModel.endDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
@@ -97,7 +119,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu time = BodyMenu(
       icon: FontAwesomeIcons.clock,
       title: 'Thời gian thực hiện',
-      content: this.widget.time,
+      content: '${_habitModel.time.hour}:${_habitModel.time.minute}',
       press: () {
         showGeneralDialog(
           context: context,
@@ -126,8 +148,9 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
-            habitName: this.widget.habitName,
-            isImportant: this.widget.isImportant,
+            habitName: _habitModel.name,
+            isImportant: _habitModel.isImportant,
+            enabled: edittingEnabled,
           ),
           CustomCard(
             child: Column(
@@ -137,7 +160,7 @@ class _HabitInfo extends State<HabitInfo> {
           CustomCard(
             child: time,
           ),
-          NoteBox(note: this.widget.note),
+          NoteBox(note: _habitModel.note),
         ],
       ),
     );

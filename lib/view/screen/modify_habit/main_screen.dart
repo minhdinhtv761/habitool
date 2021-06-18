@@ -3,6 +3,7 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habitool/model/enums.dart';
 import 'package:habitool/widgets/habit_info.dart';
 
 import '../../../custom_values/custom_colors.dart';
@@ -12,15 +13,15 @@ enum MenuItems { save, delete }
 class ModifyHabitScreen extends StatefulWidget {
   ModifyHabitScreen({
     Key key,
-    @required this.habitName,
-    @required this.habitTime,
-    @required this.goalUnit,
-    @required this.goal,
-    @required this.isImportant,
-    @required this.startDate,
-    @required this.endDate,
-    @required this.repeat,
-    @required this.note,
+    this.habitName,
+    this.habitTime,
+    this.goalUnit,
+    this.goal,
+    this.isImportant = false,
+    this.startDate,
+    this.endDate,
+    this.repeat,
+    this.note,
   });
 
   String habitName;
@@ -89,17 +90,7 @@ class _ModifyHabitScreenState extends State<ModifyHabitScreen> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: HabitInfo(
-                  habitName: this.widget.habitName,
-                  time: this.widget.habitTime,
-                  goalUnit: this.widget.goalUnit,
-                  goal: this.widget.goal,
-                  isImportant: this.widget.isImportant,
-                  startDate: this.widget.startDate,
-                  endDate: this.widget.endDate,
-                  repeat: this.widget.note,
-                  note: this.widget.note,
-                ),
+                child: HabitInfo(HabitModelMode.VIEW),
               )
             ],
           ),

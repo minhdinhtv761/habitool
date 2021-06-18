@@ -4,13 +4,16 @@ import '../custom_values/custom_colors.dart';
 import 'custom_card.dart';
 
 class NameBox extends StatefulWidget {
+  bool enabled;
   String habitName;
-  bool isImportant = false;
+  bool isImportant;
+  IconData icon;
 
   NameBox({
-    Key key,
+    this.enabled,
     this.habitName,
     this.isImportant,
+    this.icon,
   });
 
   @override
@@ -37,8 +40,10 @@ class _NameBoxState extends State<NameBox> {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return CustomCard(  
-      child: TextField(
+    return CustomCard(
+      child: TextFormField(
+        enabled: this.widget.enabled,
+        initialValue: this.widget.habitName,
         controller: this._habitNameController,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
@@ -77,7 +82,7 @@ class _NameBoxState extends State<NameBox> {
                   ),
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.ac_unit),
+                  icon: Icon(this.widget.icon),
                   color: CustomColors.pink,
                   onPressed: () {},
                 ),

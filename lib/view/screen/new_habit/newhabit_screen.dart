@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habitool/model/enums.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 
@@ -52,7 +54,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
               RecommendNewHabit(),
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: HabitInfo(),
+                child: HabitInfo(HabitModelMode.NEW),
               )
             ],
           ),
