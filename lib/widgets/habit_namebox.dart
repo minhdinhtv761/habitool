@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../custom_values/custom_colors.dart';
 import 'custom_card.dart';
@@ -23,6 +24,34 @@ class NameBox extends StatefulWidget {
 }
 
 class _NameBoxState extends State<NameBox> {
+  void _pickIcon() async {
+    IconData icon = await FlutterIconPicker.showIconPicker(context,
+        iconPackMode: IconPack.fontAwesomeIcons,
+        iconColor: CustomColors.black,
+        iconSize: 30,
+        iconPickerShape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        title: Text('Chọn icon',
+            style: TextStyle(
+              color: CustomColors.black,
+              fontWeight: FontWeight.bold,
+            )),
+        searchIcon: const Icon(
+          Icons.search,
+          color: CustomColors.pink,
+        ),
+        searchHintText: 'Tìm kiếm...',
+        closeChild: Text(
+          'Hủy',
+          style: TextStyle(
+            color: CustomColors.pink,
+          ),
+        ));
+
+    this.widget.icon = icon;
+    setState(() {});
+  }
+
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -71,7 +100,7 @@ class _NameBoxState extends State<NameBox> {
                 child: IconButton(
                   icon: Icon(this.widget.icon),
                   color: CustomColors.pink,
-                  onPressed: () {},
+                  onPressed: _pickIcon,
                 ),
               ),
             ),
