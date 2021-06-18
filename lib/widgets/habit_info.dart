@@ -31,7 +31,7 @@ class _HabitInfo extends State<HabitInfo> {
   bool edittingEnabled;
 
 //Default value
-  String _name = '';
+  String _name = "";
   bool _isImportant = false;
   IconData _icon = Icons.ac_unit;
   int _goal = 0;
@@ -40,7 +40,7 @@ class _HabitInfo extends State<HabitInfo> {
   DateTime _endDate = dateTime;
   String _repeat = 'Hàng ngày';
   DateTime _time = dateTime;
-  String _note = '';
+  String _note = "";
 
   void initState() {
     super.initState();
@@ -81,7 +81,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
-      content: _habitModel.goal.toString(),
+      content: '${_habitModel.goal.toString()} ${_habitModel.unitGoal}',
       press: () {
         showGeneralDialog(
           context: context,
@@ -148,9 +148,11 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
-            habitName: _habitModel.name,
-            isImportant: _habitModel.isImportant,
             enabled: edittingEnabled,
+            icon: _icon,
+            habitName: _name,
+            isImportant: _isImportant,
+            onValueChange: (text) => _name = text,
           ),
           CustomCard(
             child: Column(
@@ -160,7 +162,11 @@ class _HabitInfo extends State<HabitInfo> {
           CustomCard(
             child: time,
           ),
-          NoteBox(note: _habitModel.note),
+          NoteBox(
+            enabled: edittingEnabled,
+            onValueChange: (text) => _note = text,
+            note: _note,
+          ),
         ],
       ),
     );
