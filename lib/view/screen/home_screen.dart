@@ -3,8 +3,10 @@ import 'package:flutter/material.dart';
 import '../../custom_values/custom_colors.dart';
 import 'achivement/achievement_screen.dart';
 import 'dashboard/dashboard_screen.dart';
+import 'new_habit/newhabit_screen.dart';
 import 'statistic/statistic_screen.dart';
 import 'user/user_screen.dart';
+import 'package:habitool/widgets/habit_info.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -20,7 +22,8 @@ class _HomeScreenState extends State<HomeScreen> {
     DashBoardScreen(),
     StatisticScreen(),
     AchievementScreen(),
-    UserScreen()
+    UserScreen(),
+    NewHabitScreen()
   ];
 
   final PageStorageBucket _bucket = PageStorageBucket();
@@ -51,7 +54,11 @@ class _HomeScreenState extends State<HomeScreen> {
         size: 45.0,
         color: Colors.white,
         ),
-      onPressed: () {},
+      onPressed: () {
+        setState(() {
+          this.currentTab = 4;
+        });
+      },
       );
   }
 
