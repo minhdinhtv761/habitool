@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
-import 'package:habitool/model/profile/user_model.dart';
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../locator.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  final UserModel currentUser;
+  final UserData currentUser;
 
   ChangePasswordScreen({this.currentUser});
 

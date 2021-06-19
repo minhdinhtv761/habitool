@@ -5,8 +5,10 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
+  String dateOfBirth;
+  Function(String) edited;
   DatePicker({
-    Key key,
+    Key key,this.dateOfBirth,this.edited
   }) : super(key: key);
 
   @override
@@ -32,6 +34,27 @@ class _DatePickerState extends State<DatePicker> {
 
   //   controller.forward();
   // }
+
+  // TextEditingController _dateController = TextEditingController();
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   _dateController.text = widget.dateOfBirth;
+  // }
+
+  DateTime date;
+
+  String getText() {
+    DateTime date = DateTime.parse("");
+    date.toString();
+
+    if (date == null) {
+      return 'Select Date';
+    } else {
+      return DateFormat('MM/dd/yyyy').format(date);
+    }
+  }
 
   DateRangePickerController _datePickerController = DateRangePickerController();
 
@@ -115,5 +138,19 @@ class _DatePickerState extends State<DatePicker> {
         ),
       ),
     );
+  }
+
+  Future pickDate(BuildContext context) async {
+    final initialDate = DateTime.now();
+    final newDate = await showDatePicker(
+      context: context,
+      initialDate: date ?? initialDate,
+      firstDate: DateTime(DateTime.now().year - 5),
+      lastDate: DateTime(DateTime.now().year + 5),
+    );
+
+    if (newDate == null) return;
+
+    setState(() => date = newDate);
   }
 }

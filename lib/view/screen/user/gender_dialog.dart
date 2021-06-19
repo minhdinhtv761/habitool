@@ -5,20 +5,29 @@ import 'package:habitool/widgets/custom_dialog.dart';
 import 'package:radio_grouped_buttons/radio_grouped_buttons.dart';
 
 class GenderDialog extends StatefulWidget {
-  const GenderDialog({Key key}) : super(key: key);
+  String gender;
+  Function(String) edited;
+  GenderDialog({Key key, this.gender, this.edited}) : super(key: key);
 
   @override
   _GenderDialogState createState() => _GenderDialogState();
 }
 
 class _GenderDialogState extends State<GenderDialog> {
+  TextEditingController _genderController = TextEditingController();
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    _genderController.text = widget.gender;
+  }
   List<String> buttonList = ['Nam', 'Nữ', 'Khác'];
 
   @override
   Widget build(BuildContext context) {
     return CustomDialog(
       title: 'Giới tính',
-      content: CustomRadioButton(
+      content: CustomRadioButton(       
         buttonLables: buttonList,
         buttonValues: buttonList,
         radioButtonValue: (value, index) {
