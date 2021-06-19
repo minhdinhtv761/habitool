@@ -282,7 +282,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         content: Text('Đăng ký thành công'),
                       ));
             } else {
-              print("Login failed");
+              print("SignUp failed");
               setState(() {
                 isLoading = false;
               });

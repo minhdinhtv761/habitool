@@ -25,8 +25,18 @@ Future<User> createAccount(
       await _firestore.collection('users').doc(_auth.currentUser.uid).set({
         "email": email,
         "password": password,
+        "name": "Habiter",
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
+
+      });
+
+      await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({
+        "finish": 0,
+        "delete": 0,
+        "cancel": 0,
+        "uid": _auth.currentUser.uid,
+
       });
 
       return user;

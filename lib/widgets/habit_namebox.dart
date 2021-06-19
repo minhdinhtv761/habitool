@@ -1,16 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../custom_values/custom_colors.dart';
 import 'custom_card.dart';
 
 class NameBox extends StatefulWidget {
+  final bool enabled;
   String habitName;
-  bool isImportant = false;
+  bool isImportant;
+  IconData icon;
+  Function onValueChange;
 
   NameBox({
-    Key key,
+    this.enabled,
     this.habitName,
     this.isImportant,
+    this.icon,
+    this.onValueChange,
   });
 
   @override
@@ -18,28 +24,43 @@ class NameBox extends StatefulWidget {
 }
 
 class _NameBoxState extends State<NameBox> {
-  final _habitNameController = TextEditingController();
+  void _pickIcon() async {
+    IconData icon = await FlutterIconPicker.showIconPicker(context,
+        iconPackMode: IconPack.fontAwesomeIcons,
+        iconColor: CustomColors.black,
+        iconSize: 30,
+        iconPickerShape:
+            RoundedRectangleBorder(borderRadius: BorderRadius.circular(20.0)),
+        title: Text('Chọn icon',
+            style: TextStyle(
+              color: CustomColors.black,
+              fontWeight: FontWeight.bold,
+            )),
+        searchIcon: const Icon(
+          Icons.search,
+          color: CustomColors.pink,
+        ),
+        searchHintText: 'Tìm kiếm...',
+        closeChild: Text(
+          'Hủy',
+          style: TextStyle(
+            color: CustomColors.pink,
+          ),
+        ));
 
-  @override
-  void initState() {
-    super.initState();
-
-    this._habitNameController.text = this.widget.habitName;
-  }
-
-  @override
-  void dispose() {
-    this._habitNameController.dispose();
-    super.dispose();
+    this.widget.icon = icon;
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
 
-    return CustomCard(  
-      child: TextField(
-        controller: this._habitNameController,
+    return CustomCard(
+      child: TextFormField(
+        enabled: this.widget.enabled,
+        onChanged: this.widget.onValueChange,
+        initialValue: this.widget.habitName,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
             color: CustomColors.pink,
@@ -77,9 +98,9 @@ class _NameBoxState extends State<NameBox> {
                   ),
                 ),
                 child: IconButton(
-                  icon: Icon(Icons.ac_unit),
+                  icon: Icon(this.widget.icon),
                   color: CustomColors.pink,
-                  onPressed: () {},
+                  onPressed: _pickIcon,
                 ),
               ),
             ),
