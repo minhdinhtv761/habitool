@@ -26,6 +26,9 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
         appBar: CustomAppBar(
           title: 'Tạo mới thói quen',
           actionText: 'Lưu',
+          action: () {
+            print(_habitModel.time);
+          },
           //action: chỗ này là một hàm lưu dữ liệu của _habitModel ,
           // ví dụ:
           // action: HabitModel.addNewHabit(_habitModel);

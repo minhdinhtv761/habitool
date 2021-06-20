@@ -61,7 +61,7 @@ class _DialogMenuState extends State<DialogMenu> {
                     typeInput: TextInputType.number,
                     textAlign: TextAlign.center,
                     hintText: '0',
-                    onValueChanged: (text) {
+                    getText: (text) {
                       this.widget.getText(text);
                     },
                   ),

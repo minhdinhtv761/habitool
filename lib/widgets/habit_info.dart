@@ -98,7 +98,7 @@ class _HabitInfo extends State<HabitInfo> {
           pageBuilder: (_, __, ___) => GoalDialog(
             getGoal: (goal) {
               setState(() {
-                _habitModel.goal = int.parse(goal);
+                _goal = int.parse(goal);
               });
               onChanged();
             },
@@ -192,12 +192,14 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
-            enabled: edittingEnabled,
-            icon: _icon,
-            habitName: _name,
-            isImportant: _isImportant,
-            onValueChange: (text) => _name = text,
-          ),
+              enabled: edittingEnabled,
+              icon: _icon,
+              habitName: _name,
+              isImportant: _isImportant,
+              onValueChange: (text) {
+                _name = text;
+                onChanged();
+              }),
           CustomCard(
             child: Column(
               children: getMenuBasicInfo(),

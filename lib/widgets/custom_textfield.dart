@@ -8,18 +8,20 @@ class CustomTextField extends StatelessWidget {
     @required this.typeInput,
     @required this.textAlign,
     @required this.hintText,
-    this.onValueChanged,
+    this.getText,
   });
 
   final TextAlign textAlign;
   final TextInputType typeInput;
   final String hintText;
-  final Function onValueChanged;
+  final StringCallback getText;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      onChanged: this.onValueChanged,
+      onChanged: (text) {
+        this.getText(text);
+      },
       textAlign: this.textAlign,
       keyboardType: this.typeInput,
       style: TextStyle(
