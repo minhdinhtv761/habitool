@@ -68,12 +68,17 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu startDate = BodyMenu(
       icon: Icons.calendar_today,
       title: 'Bắt đầu',
-      content:
-          '${_habitModel.startDate.day}/${_habitModel.startDate.month}/${_habitModel.startDate.year}',
+      content: '${_startDate.day}/${_startDate.month}/${_startDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => DatePicker(),
+          pageBuilder: (_, __, ___) => DatePicker(
+            callback: (value) {
+              setState(() {
+                _startDate = value;
+              });
+            },
+          ),
         );
       },
     );
@@ -81,7 +86,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
-      content: '${_habitModel.goal.toString()} ${_habitModel.unitGoal}',
+      content: '${_goal.toString()} $_unitGoal',
       press: () {
         showGeneralDialog(
           context: context,
@@ -104,12 +109,17 @@ class _HabitInfo extends State<HabitInfo> {
 
     BodyMenu endDate = BodyMenu(
       title: 'Kết thúc lặp',
-      content:
-          '${_habitModel.endDate.day}/${_habitModel.endDate.month}/${_habitModel.endDate.year}',
+      content: '${_endDate.day}/${_endDate.month}/${_endDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => DatePicker(),
+          pageBuilder: (_, __, ___) => DatePicker(
+            callback: (value) {
+              setState(() {
+                _endDate = value;
+              });
+            },
+          ),
         );
       },
     );
@@ -119,7 +129,7 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu time = BodyMenu(
       icon: FontAwesomeIcons.clock,
       title: 'Thời gian thực hiện',
-      content: '${_habitModel.time.hour}:${_habitModel.time.minute}',
+      content: '${_time.hour}:${_time.minute}',
       press: () {
         showGeneralDialog(
           context: context,

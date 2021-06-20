@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 import 'package:intl/intl.dart';
 import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 
@@ -6,34 +7,15 @@ import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
   DatePicker({
-    Key key,
-  }) : super(key: key);
-
+    this.callback,
+  });
+  final DateTimeCallback callback;
   @override
   _DatePickerState createState() => _DatePickerState();
 }
 
 class _DatePickerState extends State<DatePicker> {
-  // AnimationController controller;
-  // Animation<double> scaleAnimation;
-
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   controller =
-  //       AnimationController(vsync: this, duration: Duration(milliseconds: 450));
-  //   scaleAnimation =
-  //       CurvedAnimation(parent: controller, curve: Curves.elasticInOut);
-
-  //   controller.addListener(() {
-  //     setState(() {});
-  //   });
-
-  //   controller.forward();
-  // }
-
-  DateRangePickerController _datePickerController = DateRangePickerController();
+  final DateRangePickerController _controller = DateRangePickerController();
 
   final TextStyle _textStyleCurrentDate = new TextStyle(
     color: CustomColors.black,
@@ -69,9 +51,11 @@ class _DatePickerState extends State<DatePicker> {
             showActionButtons: true,
             cancelText: 'CANCEl',
             confirmText: 'OK',
-            onSubmit: (context) {},
+            onSubmit: (Object value) {
+              this.widget.callback(value);
+              Navigator.pop(context, 'OK');
+            },
             onCancel: () => Navigator.pop(context, 'Cancel'),
-            controller: _datePickerController,
             navigationDirection: DateRangePickerNavigationDirection.horizontal,
             showNavigationArrow: true,
             selectionMode: DateRangePickerSelectionMode.single,
