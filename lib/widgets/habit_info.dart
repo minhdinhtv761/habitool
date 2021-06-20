@@ -118,10 +118,18 @@ class _HabitInfo extends State<HabitInfo> {
       title: 'Lặp lại',
       content: _repeat,
       press: () {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => RepetitionDialog(),
-        );
+        // showGeneralDialog(
+        //   context: context,
+        //   pageBuilder: (_, __, ___) => RepetitionDialog(
+        //     // getRepeat: (repeat)
+        //     // {
+        //     //   setState(() {
+        //     //     _habitModel.repeat = int.parse(repeat);
+        //     //   });
+        //     //   onChanged();
+        //     // },
+        //   ),
+        // );
       },
     );
 
@@ -152,7 +160,14 @@ class _HabitInfo extends State<HabitInfo> {
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => TimePicker(),
+          pageBuilder: (_, __, ___) => TimePicker(
+            dateTimeCallback: (time) {
+              setState(() {
+                _time = time;
+              });
+              onChanged();
+            },
+          ),
         );
       },
     );

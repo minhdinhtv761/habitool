@@ -7,18 +7,20 @@ import 'package:habitool/widgets/custom_textfield.dart';
 
 class DialogMenu extends StatefulWidget {
   DialogMenu({
-    Key key,
     @required this.listDropdownItems,
     @required this.dropdownValue,
     @required this.listUnit,
-    this.callback,
-  }) : super(key: key);
+    this.getDropDownButtonValue,
+    this.getText,
+  });
 
   List<String> listDropdownItems;
   String dropdownValue;
   List<String> listUnit;
 
-  StringCallback callback;
+  StringCallback getDropDownButtonValue;
+  StringCallback getText;
+
   @override
   _DialogMenuState createState() => _DialogMenuState();
 }
@@ -38,7 +40,7 @@ class _DialogMenuState extends State<DialogMenu> {
           dropdownValue: this.widget.dropdownValue,
           callback: (value) => setState(() {
             this.widget.dropdownValue = value;
-            this.widget.callback(value);
+            this.widget.getDropDownButtonValue(value);
             int index = this.widget.listDropdownItems.indexOf(value);
             if (index != 0) {
               _isVisible = true;
@@ -59,6 +61,9 @@ class _DialogMenuState extends State<DialogMenu> {
                     typeInput: TextInputType.number,
                     textAlign: TextAlign.center,
                     hintText: '0',
+                    onValueChanged: (text) {
+                      this.widget.getText(text);
+                    },
                   ),
                 ),
                 Text(

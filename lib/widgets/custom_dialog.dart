@@ -10,9 +10,11 @@ class CustomDialog extends StatefulWidget {
     Key key,
     @required this.title,
     @required this.content,
+    this.onSubmit,
   }) : super(key: key);
 
   final String title;
+  final VoidCallback onSubmit;
   Widget content;
 
   @override
@@ -50,7 +52,7 @@ class _CustomDialogState extends State<CustomDialog> {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
+          onPressed: this.widget.onSubmit,
           child: const Text(
             'Đồng ý',
             style: TextStyle(
