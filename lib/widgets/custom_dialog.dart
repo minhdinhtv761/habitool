@@ -8,14 +8,12 @@ import 'custom_dropdown_button.dart';
 class CustomDialog extends StatefulWidget {
   Function edited;
   CustomDialog({
-    Key key,
     @required this.title,
     @required this.content,
     this.edited,
-  }) : super(key: key);
+  });
 
   final String title;
-  final VoidCallback onSubmit;
   Widget content;
 
   @override

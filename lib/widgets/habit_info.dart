@@ -65,7 +65,6 @@ class _HabitInfo extends State<HabitInfo> {
     _habitModel.note = _note;
 
     this.widget.habitCallback(_habitModel);
-
   }
 
   @override
@@ -78,6 +77,7 @@ class _HabitInfo extends State<HabitInfo> {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
+            _startDate,
             callback: (value) {
               setState(() {
                 _startDate = value;
@@ -141,6 +141,7 @@ class _HabitInfo extends State<HabitInfo> {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
+            _endDate,
             callback: (value) {
               setState(() {
                 _endDate = value;

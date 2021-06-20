@@ -31,23 +31,25 @@ class _UserInfoState extends State<UserInfo> {
   bool _displayNameValid = true;
   bool isLoading = false;
 
-  String phoneNumber;
-  String address;
-  String gender;
-  String name;
-  String email;
+//Default
+  DateTime _birthDay = DateTime.now();
+  String _phoneNumber = '';
+  String _address = '';
+  String _gender = 'Nam';
+  String _name = '';
+  String _email = '';
   //String avatar;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    user = Provider.of<UserProvider>(context, listen: false).user;
-    phoneNumber = user.phoneNumber;
-    address = user.address;
-    gender = user.gender;
-    name = user.displayName;
-    email = user.email;
+    // user = Provider.of<UserProvider>(context, listen: false).user;
+    // _phoneNumber = user.phoneNumber;
+    // _address = user.address;
+    // _gender = user.gender;
+    // _name = user.displayName;
+    // _email = user.email;
     //avatar = user.urlAvt;
   }
 
@@ -57,121 +59,92 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu username = BodyMenu(
       icon: Icons.person,
       title: 'Tên người dùng',
+      content: _name,
     );
 
     BodyMenu birth = BodyMenu(
         icon: Icons.calendar_today,
         title: 'Ngày sinh',
-        content: '',
+        content: '${_birthDay.day}/${_birthDay.month}/${_birthDay.year}',
         press: () {
           showGeneralDialog(
             context: context,
-            pageBuilder: (_, __, ___) => DatePicker(),
+            pageBuilder: (_, __, ___) => DatePicker(
+              _birthDay,
+              callback: (value) {
+                setState(() {
+                  _birthDay = value;
+                });
+              },
+            ),
           );
         });
-    BodyMenu Gender = BodyMenu(
+    BodyMenu gender = BodyMenu(
       icon: FontAwesomeIcons.transgender,
       title: 'Giới tính',
-      content: 'Nam',
-      press: () async {
-        String genderEdited;
-        bool result = await showGeneralDialog(
+      content: _gender,
+      press: () {
+        showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => GenderDialog(
-              gender: gender,
-              edited: (value) {
-                genderEdited = value;
-              }),
-        );
-      },
-    );
-    BodyMenu Address = BodyMenu(
-      icon: FontAwesomeIcons.mapMarkedAlt,
-      title: 'Địa chỉ',
-      content: address,
-      press: () async {
-        String addressEdited;
-        bool result = await showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => AdressDialog(
-            address: address,
-            edited: (value) {
-              addressEdited = value;
+            _gender,
+            getGender: (value) {
+              setState(() {
+                _gender = value;
+              });
             },
           ),
         );
-        if (result != null && result) {
-          updateAddress(
-              address: addressEdited,
-              uid: _user.user.uid,
-              success: () {
-                setState(() {
-                  address = addressEdited;
-                });
-              },
-              fail: (e) {
-                print(e);
+      },
+    );
+    BodyMenu address = BodyMenu(
+      icon: FontAwesomeIcons.mapMarkedAlt,
+      title: 'Địa chỉ',
+      content: _address,
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => AdressDialog(
+            edited: (value) {
+              setState(() {
+                _address = value;
               });
-        }
+            },
+          ),
+        );
       },
     );
 
     BodyMenu phone = BodyMenu(
-      icon: Icons.phone,
-      title: 'Số điện thoại',
-      content: phoneNumber,
-      press: () async {
-        String phoneEdited;
-        bool result = await showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => PhoneDialog(
-              phone: phoneNumber,
+        icon: Icons.phone,
+        title: 'Số điện thoại',
+        content: _phoneNumber,
+        press: () {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => PhoneDialog(
               edited: (value) {
-                phoneEdited = value;
-              }),
-        );
-        if (result != null && result) {
-          updatePhonenumber(
-              phone: phoneEdited,
-              uid: _user.user.uid,
-              success: () {
                 setState(() {
-                  phoneNumber = phoneEdited;
+                  _phoneNumber = value;
                 });
               },
-              fail: (e) {
-                print(e);
-              });
-        }
-      },
-    );
-    BodyMenu Email = BodyMenu(
+            ),
+          );
+        });
+    BodyMenu email = BodyMenu(
       icon: FontAwesomeIcons.envelope,
       title: 'Email',
-      content: email,
-      press: () async {
-        String emailEdited;
-        bool result = await showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => EmailDialog(
-              email: email,
-              edited: (value) {
-                emailEdited = value;
-              }),
-        );
-        if (result != null && result) {
-          updateEmail(
-              email: emailEdited,
-              uid: _user.user.uid,
-              success: () {
-                setState(() {
-                  email = emailEdited;
-                });
-              },
-              fail: (e) {
-                print(e);
-              });
-        }
+      content: _email,
+      press: () {
+        showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => EmailDialog(
+                  edited: (value) {
+                    setState(() {
+                      _email = value;
+                    });
+                  },
+                ));
       },
     );
 
@@ -191,6 +164,7 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu password = BodyMenu(
       icon: Icons.vpn_key_outlined,
       title: 'Đổi mật khẩu',
+      content: '',
       press: () {
         Navigator.push(
           context,
@@ -199,8 +173,8 @@ class _UserInfoState extends State<UserInfo> {
       },
     );
 
-    List<BodyMenu> listPersonal = [birth, Gender, Address];
-    List<BodyMenu> listContact = [phone, Email];
+    List<BodyMenu> listPersonal = [birth, gender, address];
+    List<BodyMenu> listContact = [phone, email];
     List<BodyMenu> listSocial = [google, facebook];
 
     //Create list

@@ -6,11 +6,12 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
-  String dateOfBirth;
-  Function(String) edited;
-  DatePicker({
+  DateTime selectedDate;
+  DatePicker(
+    this.selectedDate, {
     this.callback,
   });
+
   final DateTimeCallback callback;
 
   @override
@@ -50,6 +51,7 @@ class _DatePickerState extends State<DatePicker> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SfDateRangePicker(
+            initialSelectedDate: this.widget.selectedDate,
             view: DateRangePickerView.month,
             showActionButtons: true,
             cancelText: 'CANCEl',
@@ -102,19 +104,5 @@ class _DatePickerState extends State<DatePicker> {
         ),
       ),
     );
-  }
-
-  Future pickDate(BuildContext context) async {
-    final initialDate = DateTime.now();
-    final newDate = await showDatePicker(
-      context: context,
-      initialDate: date ?? initialDate,
-      firstDate: DateTime(DateTime.now().year - 5),
-      lastDate: DateTime(DateTime.now().year + 5),
-    );
-
-    if (newDate == null) return;
-
-    setState(() => date = newDate);
   }
 }
