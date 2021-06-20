@@ -15,6 +15,7 @@ class CustomDialog extends StatefulWidget {
   }) : super(key: key);
 
   final String title;
+  final VoidCallback onSubmit;
   Widget content;
 
   @override
