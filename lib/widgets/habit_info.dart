@@ -61,6 +61,17 @@ class _HabitInfo extends State<HabitInfo> {
     _habitModel.repeat = _repeat;
     _habitModel.time = _time;
     _habitModel.note = _note;
+
+    // print(' : ${_habitModel.name}');
+    // print(' : ${_habitModel.isImportant}');
+    // print(' : ${_habitModel.icon}');
+    // print(' : ${_habitModel.goal}');
+    // print(' : ${_habitModel.unitGoal}');
+    // print(' : ${_habitModel.startDate}');
+    // print(' : ${_habitModel.endDate}');
+    // print(' : ${_habitModel.repeat}');
+    // print(' : ${_habitModel.time}');
+    // print(' : ${_habitModel.note}');
   }
 
   @override
@@ -152,7 +163,9 @@ class _HabitInfo extends State<HabitInfo> {
             icon: _icon,
             habitName: _name,
             isImportant: _isImportant,
-            onValueChange: (text) => _name = text,
+            onValueChange: (text)  {
+              _name = text;
+            },
           ),
           CustomCard(
             child: Column(

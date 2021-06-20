@@ -251,7 +251,7 @@ class _LogInScreenState extends State<LogInScreen> {
                   showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
-                            title: Text('Cảnh páo'),
+                            title: Text('Cảnh báo'),
                             content:
                                 Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
                           ));
@@ -291,7 +291,7 @@ class _LogInScreenState extends State<LogInScreen> {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                    title: Text('Cảnh páo'),
+                    title: Text('Cảnh báo'),
                     content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
                   ));
           print("Please fill form correctly");
