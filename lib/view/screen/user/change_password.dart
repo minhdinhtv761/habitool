@@ -54,13 +54,13 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
               Navigator.pop(context);
             }),
         title: Text(
-          'Đổi mật khẩu',
+          'Đổi mật khẩu',         
           style: TextStyle(
             color: CustomColors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-        ),
+        ),       
       ),
       body: SingleChildScrollView(
         child: Form(

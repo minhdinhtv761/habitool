@@ -27,12 +27,12 @@ class _GenderDialogState extends State<GenderDialog> {
   Widget build(BuildContext context) {
     return CustomDialog(
       title: 'Giới tính',
-      content: CustomRadioButton(       
+      content: CustomRadioButton(              
         buttonLables: buttonList,
         buttonValues: buttonList,
-        radioButtonValue: (value, index) {
+        radioButtonValue: (value, index) {         
           print("Button value " + value.toString());
-          print("Integer value " + index.toString());
+          print("Integer value " + index.toString());         
         },
         horizontal: true,
         enableShape: true,

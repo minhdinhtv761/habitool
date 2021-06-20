@@ -224,6 +224,27 @@ Future<void> updateEmail(
   }
 }
 
+Future<void> updateAvatar(
+    {@required String avatar,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"avatar": avatar}).then((value) {
+      print("Thay đổi avatar thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+
 Future<void> updateDateOfBirth(
     {@required String date,
     @required uid,

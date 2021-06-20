@@ -36,6 +36,7 @@ class _UserInfoState extends State<UserInfo> {
   String gender;
   String name;
   String email;
+  //String avatar;
 
   @override
   void initState() {
@@ -47,6 +48,7 @@ class _UserInfoState extends State<UserInfo> {
     gender = user.gender;
     name = user.displayName;
     email = user.email;
+    //avatar = user.urlAvt;
   }
 
   @override
@@ -67,14 +69,19 @@ class _UserInfoState extends State<UserInfo> {
             pageBuilder: (_, __, ___) => DatePicker(),
           );
         });
-    BodyMenu gender = BodyMenu(
+    BodyMenu Gender = BodyMenu(
       icon: FontAwesomeIcons.transgender,
       title: 'Giới tính',
       content: 'Nam',
-      press: () {
-        showGeneralDialog(
+      press: () async {
+        String genderEdited;
+        bool result = await showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => GenderDialog(),
+          pageBuilder: (_, __, ___) => GenderDialog(
+              gender: gender,
+              edited: (value) {
+                genderEdited = value;
+              }),
         );
       },
     );
@@ -192,7 +199,7 @@ class _UserInfoState extends State<UserInfo> {
       },
     );
 
-    List<BodyMenu> listPersonal = [birth, gender, Address];
+    List<BodyMenu> listPersonal = [birth, Gender, Address];
     List<BodyMenu> listContact = [phone, Email];
     List<BodyMenu> listSocial = [google, facebook];
 
