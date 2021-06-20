@@ -237,6 +237,7 @@ class _LogInScreenState extends State<LogInScreen> {
           setState(() {
             isLoading = true;
           });
+<<<<<<< Updated upstream
           _user.login(email: _email.text, password: _password.text).then((u) {
             if (u != null) {
               print("Login Sucessfull");
@@ -257,6 +258,36 @@ class _LogInScreenState extends State<LogInScreen> {
                       ));
               setState(() {
                 isLoading = false;
+=======
+          _user.login(
+              email: _email.text,
+              password: _password.text,
+              success: (u) {
+                if (u != null) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (route) => false);
+                } else {
+                  print("Login Failed");
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            title: Text('Cảnh báo'),
+                            content:
+                                Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                          ));
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
+              fail: () {
+                print("Login Failed");
+>>>>>>> Stashed changes
               });
             }
           });
@@ -288,7 +319,7 @@ class _LogInScreenState extends State<LogInScreen> {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                    title: Text('Cảnh páo'),
+                    title: Text('Cảnh báo'),
                     content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
                   ));
           print("Please fill form correctly");

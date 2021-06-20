@@ -41,6 +41,56 @@ class HabitInfo extends StatefulWidget {
 }
 
 class _HabitInfo extends State<HabitInfo> {
+<<<<<<< Updated upstream
+=======
+  HabitModel _habitModel = HabitModel();
+  bool edittingEnabled;
+
+//Default value
+  String _name = "";
+  bool _isImportant = false;
+  IconData _icon = Icons.ac_unit;
+  int _goal = 0;
+  String _unitGoal = 'lần';
+  DateTime _startDate = dateTime;
+  DateTime _endDate = dateTime;
+  String _repeat = 'Hàng ngày';
+  DateTime _time = dateTime;
+  String _note = "";
+
+  void initState() {
+    super.initState();
+    if (this.widget.mode == HabitModelMode.NEW) {
+      edittingEnabled = true;
+      createNewHabit();
+    }
+  }
+
+  void createNewHabit() {
+    _habitModel.name = _name;
+    _habitModel.isImportant = _isImportant;
+    _habitModel.icon = _icon;
+    _habitModel.goal = _goal;
+    _habitModel.unitGoal = _unitGoal;
+    _habitModel.startDate = _startDate;
+    _habitModel.endDate = _endDate;
+    _habitModel.repeat = _repeat;
+    _habitModel.time = _time;
+    _habitModel.note = _note;
+
+    // print(' : ${_habitModel.name}');
+    // print(' : ${_habitModel.isImportant}');
+    // print(' : ${_habitModel.icon}');
+    // print(' : ${_habitModel.goal}');
+    // print(' : ${_habitModel.unitGoal}');
+    // print(' : ${_habitModel.startDate}');
+    // print(' : ${_habitModel.endDate}');
+    // print(' : ${_habitModel.repeat}');
+    // print(' : ${_habitModel.time}');
+    // print(' : ${_habitModel.note}');
+  }
+
+>>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -128,8 +178,18 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
+<<<<<<< Updated upstream
             habitName: this.widget.habitName,
             isImportant: this.widget.isImportant,
+=======
+            enabled: edittingEnabled,
+            icon: _icon,
+            habitName: _name,
+            isImportant: _isImportant,
+            onValueChange: (text)  {
+              _name = text;
+            },
+>>>>>>> Stashed changes
           ),
           CustomCard(
             child: Column(
