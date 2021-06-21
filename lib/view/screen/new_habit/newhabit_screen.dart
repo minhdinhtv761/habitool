@@ -3,6 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:habitool/model/enums.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 
@@ -28,8 +30,6 @@ class NewHabitScreen extends StatefulWidget {
 }
 
 class _NewHabitScreenState extends State<NewHabitScreen> {
-<<<<<<< Updated upstream
-=======
   HabitModel _habitModel = HabitModel();
 
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -39,17 +39,12 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
         _habitModel.unitGoal, _habitModel.startDate, _habitModel.endDate, _habitModel.repeat, _habitModel.time, _habitModel.note);
   }
 
->>>>>>> Stashed changes
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: CustomColors.light,
-
         appBar: CustomAppBar(
           title: 'Tạo mới thói quen',
-<<<<<<< Updated upstream
-          action: 'Lưu',
-=======
           actionText: 'Lưu',
           action: () {
             // print(_habitModel.name);
@@ -67,7 +62,6 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
           //action: chỗ này là một hàm lưu dữ liệu của _habitModel ,
           // ví dụ:
           // action: HabitModel.addNewHabit(_habitModel);
->>>>>>> Stashed changes
         ),
         body: Padding(
           padding: const EdgeInsets.only(left: 21, top: 10, right: 21),
@@ -76,7 +70,12 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
               RecommendNewHabit(),
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: HabitInfo(),
+                child: HabitInfo(
+                  HabitModelMode.NEW,
+                  habitCallback: (habitModel) {
+                    this._habitModel = habitModel;
+                  },
+                ),
               )
             ],
           ),
