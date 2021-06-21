@@ -84,7 +84,7 @@ class _HabitInfo extends State<HabitInfo> {
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => DatePicker(),
+          //pageBuilder: (_, __, ___) => DatePicker(),
         );
       },
     );
@@ -120,7 +120,7 @@ class _HabitInfo extends State<HabitInfo> {
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => DatePicker(),
+          //pageBuilder: (_, __, ___) => DatePicker(),
         );
       },
     );

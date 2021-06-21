@@ -5,16 +5,16 @@ import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
-class HelpScreen extends StatefulWidget {
+class ReportScreen extends StatefulWidget {
   final UserData currentUser;
 
-  HelpScreen({this.currentUser});
+  ReportScreen({this.currentUser});
 
   @override
-  _HelpScreen createState() => _HelpScreen();
+  _ReportScreen createState() => _ReportScreen();
 }
 
-class _HelpScreen extends State<HelpScreen> {
+class _ReportScreen extends State<ReportScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +27,7 @@ class _HelpScreen extends State<HelpScreen> {
               Navigator.pop(context);
             }),
         title: Text(
-          'Trợ giúp',
+          'Báo cáo sự cố',
           style: TextStyle(
             color: CustomColors.black,
             fontSize: 18,

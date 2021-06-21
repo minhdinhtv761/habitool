@@ -15,6 +15,7 @@ import 'package:habitool/widgets/custom_card.dart';
 import 'package:habitool/widgets/date_picker.dart';
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:habitool/widgets/habit_info.dart';
 import 'package:provider/provider.dart';
 
 class UserInfo extends StatefulWidget {
@@ -31,9 +32,10 @@ class _UserInfoState extends State<UserInfo> {
   bool _displayNameValid = true;
   bool isLoading = false;
 
+  DateTime _birthDay = DateTime.now();
   String phoneNumber;
   String address;
-  String gender;
+  String _gender;
   String name;
   String email;
   //String avatar;
@@ -45,7 +47,7 @@ class _UserInfoState extends State<UserInfo> {
     user = Provider.of<UserProvider>(context, listen: false).user;
     phoneNumber = user.phoneNumber;
     address = user.address;
-    gender = user.gender;
+    _gender = user.gender;
     name = user.displayName;
     email = user.email;
     //avatar = user.urlAvt;
@@ -62,27 +64,63 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu birth = BodyMenu(
         icon: Icons.calendar_today,
         title: 'Ngày sinh',
-        content: '',
-        press: () {
-          showGeneralDialog(
+        content: '${_birthDay.day}/${_birthDay.month}/${_birthDay.year}',
+        press: () async {
+          //String dateEdited;
+          String result = await showGeneralDialog(
             context: context,
-            pageBuilder: (_, __, ___) => DatePicker(),
+            pageBuilder: (_, __, ___) => DatePicker(
+              _birthDay,
+              callback: (value) {
+                setState(() {
+                  _birthDay = value;
+                });
+                //dateEdited = value as String;
+              },
+            ),
           );
+          // if (result != null) {
+          //   updateDateOfBirth(
+          //       date: dateEdited,
+          //       uid: _user.user.uid,
+          //       success: () {
+          //         setState(() {
+          //           _birthDay = dateEdited;
+          //         });
+          //       },
+          //       fail: (e) {
+          //         print(e);
+          //       });
+          // }
         });
     BodyMenu Gender = BodyMenu(
       icon: FontAwesomeIcons.transgender,
       title: 'Giới tính',
-      content: 'Nam',
+      content: _gender,
       press: () async {
         String genderEdited;
         bool result = await showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => GenderDialog(
-              gender: gender,
-              edited: (value) {
-                genderEdited = value;
-              }),
+            _gender,
+            getGender: (value) {
+              genderEdited = value;
+            },
+          ),
         );
+        if (result != null && result) {
+          updateGender(
+              gender: genderEdited,
+              uid: _user.user.uid,
+              success: () {
+                setState(() {
+                  _gender = genderEdited;
+                });
+              },
+              fail: (e) {
+                print(e);
+              });
+        }
       },
     );
     BodyMenu Address = BodyMenu(

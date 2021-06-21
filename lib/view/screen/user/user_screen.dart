@@ -4,7 +4,10 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
+import 'package:habitool/view/screen/user/help_screen.dart';
 import 'package:habitool/view/screen/user/infomation_screen.dart';
+import 'package:habitool/view/screen/user/report_screen.dart';
+import 'package:habitool/view/screen/user/rule_screen.dart';
 import 'package:habitool/view/screen/user/setting_screen.dart';
 import 'package:habitool/widgets/body_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -75,11 +78,6 @@ class _UserScreenState extends State<UserScreen> {
                         Divider(
                           height: 1,
                         ),
-                        // BodyMenu(
-                        //   icon: Icons.settings,
-                        //   title: 'Cài đặt ứng dụng',
-                        //   content: '',
-                        // ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -132,27 +130,60 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        BodyMenu(
-                          icon: Icons.help,
-                          title: 'Trợ giúp',
-                          content: '',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HelpScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.help,
+                              title: 'Trợ giúp',
+                              content: '',
+                            ),
+                          ),
                         ),
                         Divider(
                           height: 1,
                         ),
-                        BodyMenu(
-                          icon: Icons.warning,
-                          title: 'Báo cáo sự cố',
-                          content: '',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ReportScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.warning,
+                              title: 'Báo cáo sự cố',
+                              content: '',
+                            ),
+                          ),
                         ),
                         Divider(
                           height: 1,
                         ),
-                        BodyMenu(
-                          icon: Icons.book,
-                          title: 'Điều khoản sử dụng',
-                          content: '',
-                        )
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RuleScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.book,
+                              title: 'Điều khoản sử dụng',
+                              content: '',
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),

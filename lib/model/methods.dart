@@ -1,4 +1,3 @@
-
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,17 +27,7 @@ Future<User> createAccount(
         "name": "Habiter",
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
-
       });
-
-      await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({
-        "finish": 0,
-        "delete": 0,
-        "cancel": 0,
-        "uid": _auth.currentUser.uid,
-
-      });
-
       return user;
     } else {
       print("Account creation failed");
@@ -183,6 +172,7 @@ Future<void> updateGender(
     fail(e.toString());
   }
 }
+
 Future<void> updateName(
     {@required String name,
     @required uid,
@@ -203,6 +193,7 @@ Future<void> updateName(
     fail(e.toString());
   }
 }
+
 Future<void> updateEmail(
     {@required String email,
     @required uid,
@@ -245,7 +236,7 @@ Future<void> updateAvatar(
   }
 }
 
-Future<void> updateDateOfBirth(
+Future<String> updateDateOfBirth(
     {@required String date,
     @required uid,
     Function success,
