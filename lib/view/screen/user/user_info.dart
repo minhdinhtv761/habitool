@@ -105,6 +105,7 @@ class _UserInfoState extends State<UserInfo> {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => AdressDialog(
+            address: _address,
             edited: (value) {
               setState(() {
                 _address = value;
@@ -123,6 +124,7 @@ class _UserInfoState extends State<UserInfo> {
           showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => PhoneDialog(
+              phone: _phoneNumber,
               edited: (value) {
                 setState(() {
                   _phoneNumber = value;
@@ -139,6 +141,7 @@ class _UserInfoState extends State<UserInfo> {
         showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => EmailDialog(
+                  email: _email,
                   edited: (value) {
                     setState(() {
                       _email = value;

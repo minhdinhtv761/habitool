@@ -5,10 +5,9 @@ import 'package:habitool/widgets/custom_dialog.dart';
 import 'package:habitool/widgets/custom_textfield.dart';
 
 class AdressDialog extends StatefulWidget {
-  //String address;
+  String address;
   StringCallback edited;
-  // AdressDialog({Key key, this.address, this.edited}) : super(key: key);
-  AdressDialog({this.edited});
+  AdressDialog({this.address, this.edited});
   @override
   _AdressDialogState createState() => _AdressDialogState();
 }
@@ -28,6 +27,7 @@ class _AdressDialogState extends State<AdressDialog> {
     return CustomDialog(
       title: 'Địa chỉ',
       content: CustomTextField(
+        initialValue: this.widget.address,
         typeInput: TextInputType.streetAddress,
         textAlign: TextAlign.start,
         hintText: 'Nhập địa chỉ',

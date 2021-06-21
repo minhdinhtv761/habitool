@@ -9,16 +9,19 @@ class CustomTextField extends StatelessWidget {
     @required this.textAlign,
     @required this.hintText,
     this.getText,
+    this.initialValue,
   });
 
   final TextAlign textAlign;
   final TextInputType typeInput;
   final String hintText;
   final StringCallback getText;
+  final String initialValue;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      initialValue: this.initialValue,
       onChanged: (text) {
         this.getText(text);
       },

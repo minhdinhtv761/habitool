@@ -5,10 +5,10 @@ import 'package:habitool/widgets/custom_dialog.dart';
 import 'package:habitool/widgets/custom_textfield.dart';
 
 class EmailDialog extends StatefulWidget {
-  //String email;
+  String email;
   StringCallback edited;
-  //EmailDialog({Key key, this.email, this.edited}) : super(key: key);
-  EmailDialog({this.edited});
+  EmailDialog({this.email, this.edited});
+
   @override
   _EmailDialogState createState() => _EmailDialogState();
 }
@@ -28,6 +28,7 @@ class _EmailDialogState extends State<EmailDialog> {
     return CustomDialog(
       title: 'E-mail',
       content: CustomTextField(
+        initialValue: this.widget.email,
         typeInput: TextInputType.emailAddress,
         textAlign: TextAlign.start,
         hintText: 'Nhập e-mail',
