@@ -36,9 +36,13 @@ class _CustomAppBarState extends State<CustomAppBar> {
           TextButton(
             child: Text(this.widget.action,
                 style: TextStyle(fontSize: 18, color: CustomColors.link)),
+<<<<<<< Updated upstream
             onPressed: () {
               print('Saved');
             },
+=======
+            onPressed: this.widget.action
+>>>>>>> Stashed changes
           )
         ]);
   }

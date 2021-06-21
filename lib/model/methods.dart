@@ -59,6 +59,7 @@ Future<User> logIn(String email, String password) async {
 
     if (user != null) {
       print("Login Sucessfull");
+      print("UID: ${user.uid}");
       _firestore
           .collection('users')
           .doc(_auth.currentUser.uid)

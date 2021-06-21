@@ -22,7 +22,7 @@ class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
   final _email = TextEditingController(text: "minhdinh@gmail.com");
-  final _password = TextEditingController();
+  final _password = TextEditingController(text: "99999999");
   UserProvider _user;
   void _toggleObscure() {
     setState(() {
