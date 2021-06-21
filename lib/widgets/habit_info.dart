@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/model/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
@@ -15,9 +16,10 @@ import 'body_menu.dart';
 import 'date_picker.dart';
 
 class HabitInfo extends StatefulWidget {
-  HabitInfo(this.mode, {this.habitModel});
+  HabitInfo(this.mode, {this.habitModel, this.habitCallback});
 
   final HabitModelMode mode;
+  final HabitCallback habitCallback;
   HabitModel habitModel;
 
   @override
@@ -46,11 +48,11 @@ class _HabitInfo extends State<HabitInfo> {
     super.initState();
     if (this.widget.mode == HabitModelMode.NEW) {
       edittingEnabled = true;
-      createNewHabit();
-    }
+    } else
+      edittingEnabled = false;
   }
 
-  void createNewHabit() {
+  void onChanged() {
     _habitModel.name = _name;
     _habitModel.isImportant = _isImportant;
     _habitModel.icon = _icon;
@@ -62,16 +64,7 @@ class _HabitInfo extends State<HabitInfo> {
     _habitModel.time = _time;
     _habitModel.note = _note;
 
-    // print(' : ${_habitModel.name}');
-    // print(' : ${_habitModel.isImportant}');
-    // print(' : ${_habitModel.icon}');
-    // print(' : ${_habitModel.goal}');
-    // print(' : ${_habitModel.unitGoal}');
-    // print(' : ${_habitModel.startDate}');
-    // print(' : ${_habitModel.endDate}');
-    // print(' : ${_habitModel.repeat}');
-    // print(' : ${_habitModel.time}');
-    // print(' : ${_habitModel.note}');
+    this.widget.habitCallback(_habitModel);
   }
 
   @override
@@ -79,12 +72,19 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu startDate = BodyMenu(
       icon: Icons.calendar_today,
       title: 'Bắt đầu',
-      content:
-          '${_habitModel.startDate.day}/${_habitModel.startDate.month}/${_habitModel.startDate.year}',
+      content: '${_startDate.day}/${_startDate.month}/${_startDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
-          //pageBuilder: (_, __, ___) => DatePicker(),
+          pageBuilder: (_, __, ___) => DatePicker(
+            _startDate,
+            callback: (value) {
+              setState(() {
+                _startDate = value;
+              });
+              onChanged();
+            },
+          ),
         );
       },
     );
@@ -92,11 +92,24 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu goal = BodyMenu(
       icon: FontAwesomeIcons.bullseye,
       title: 'Mục tiêu',
-      content: '${_habitModel.goal.toString()} ${_habitModel.unitGoal}',
+      content: '${_goal.toString()} ${_unitGoal}',
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => GoalDialog(),
+          pageBuilder: (_, __, ___) => GoalDialog(
+            getGoal: (goal) {
+              setState(() {
+                _goal = int.parse(goal);
+              });
+              onChanged();
+            },
+            getUnitGoal: (unitGoal) {
+              setState(() {
+                _unitGoal = unitGoal;
+              });
+              onChanged();
+            },
+          ),
         );
       },
     );
@@ -104,23 +117,38 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
-      content: _habitModel.repeat,
+      content: _repeat,
       press: () {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => RepetitionDialog(),
-        );
+        // showGeneralDialog(
+        //   context: context,
+        //   pageBuilder: (_, __, ___) => RepetitionDialog(
+        //     // getRepeat: (repeat)
+        //     // {
+        //     //   setState(() {
+        //     //     _habitModel.repeat = int.parse(repeat);
+        //     //   });
+        //     //   onChanged();
+        //     // },
+        //   ),
+        // );
       },
     );
 
     BodyMenu endDate = BodyMenu(
       title: 'Kết thúc lặp',
-      content:
-          '${_habitModel.endDate.day}/${_habitModel.endDate.month}/${_habitModel.endDate.year}',
+      content: '${_endDate.day}/${_endDate.month}/${_endDate.year}',
       press: () {
         showGeneralDialog(
           context: context,
-          //pageBuilder: (_, __, ___) => DatePicker(),
+          pageBuilder: (_, __, ___) => DatePicker(
+            _endDate,
+            callback: (value) {
+              setState(() {
+                _endDate = value;
+              });
+              onChanged();
+            },
+          ),
         );
       },
     );
@@ -130,11 +158,18 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu time = BodyMenu(
       icon: FontAwesomeIcons.clock,
       title: 'Thời gian thực hiện',
-      content: '${_habitModel.time.hour}:${_habitModel.time.minute}',
+      content: '${_time.hour}:${_time.minute}',
       press: () {
         showGeneralDialog(
           context: context,
-          pageBuilder: (_, __, ___) => TimePicker(),
+          pageBuilder: (_, __, ___) => TimePicker(
+            dateTimeCallback: (time) {
+              setState(() {
+                _time = time;
+              });
+              onChanged();
+            },
+          ),
         );
       },
     );
@@ -159,14 +194,14 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
-            enabled: edittingEnabled,
-            icon: _icon,
-            habitName: _name,
-            isImportant: _isImportant,
-            onValueChange: (text)  {
-              _name = text;
-            },
-          ),
+              enabled: edittingEnabled,
+              icon: _icon,
+              habitName: _name,
+              isImportant: _isImportant,
+              onValueChange: (text) {
+                _name = text;
+                onChanged();
+              }),
           CustomCard(
             child: Column(
               children: getMenuBasicInfo(),
@@ -177,7 +212,10 @@ class _HabitInfo extends State<HabitInfo> {
           ),
           NoteBox(
             enabled: edittingEnabled,
-            onValueChange: (text) => _note = text,
+            onValueChange: (text) {
+              _note = text;
+              onChanged();
+            },
             note: _note,
           ),
         ],

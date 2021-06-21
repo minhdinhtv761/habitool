@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
+
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
 
 class CustomTextField extends StatelessWidget {
-  const CustomTextField({
-    Key key,
+  CustomTextField({
     @required this.typeInput,
     @required this.textAlign,
     @required this.hintText,
     this.getText,
     this.initialValue,
-  }) : super(key: key);
+  });
 
   final TextAlign textAlign;
   final TextInputType typeInput;
@@ -22,7 +22,7 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextFormField(
       initialValue: this.initialValue,
-       onChanged: (text) {
+      onChanged: (text) {
         this.getText(text);
       },
       textAlign: this.textAlign,

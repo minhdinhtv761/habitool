@@ -32,6 +32,7 @@ class _GenderDialogState extends State<GenderDialog> {
     return CustomDialog(
         title: 'Giới tính',
         content: CustomRadioButton(
+          initialSelection: buttonList.indexOf(this.widget.gender),
           buttonLables: buttonList,
           buttonValues: buttonList,
           radioButtonValue: (value, index) {

@@ -19,11 +19,11 @@ class _InfomationUserScreenState extends State<InfomationUserScreen> {
       backgroundColor: CustomColors.light,
       appBar: CustomAppBar(
         title: 'Thông tin cá nhân',
-        action: 'Lưu',
+        actionText: 'Lưu',
       ),
       body: ListView(
         children: [
-          UserAvatar(),
+          //  UserAvatar(),
           UserInfo(),
         ],
       ),
