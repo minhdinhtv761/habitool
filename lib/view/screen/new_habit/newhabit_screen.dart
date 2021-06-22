@@ -8,7 +8,6 @@ import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 
-import 'package:habitool/model/profile/user_model.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
