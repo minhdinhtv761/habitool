@@ -6,10 +6,14 @@ import 'package:syncfusion_flutter_datepicker/datepicker.dart';
 import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
-  DatePicker({
+  DateTime selectedDate;
+  DatePicker(
+    this.selectedDate, {
     this.callback,
   });
+
   final DateTimeCallback callback;
+
   @override
   _DatePickerState createState() => _DatePickerState();
 }
@@ -47,6 +51,7 @@ class _DatePickerState extends State<DatePicker> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SfDateRangePicker(
+            initialSelectedDate: this.widget.selectedDate,
             view: DateRangePickerView.month,
             showActionButtons: true,
             cancelText: 'CANCEl',

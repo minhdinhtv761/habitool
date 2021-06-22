@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
-import 'package:habitool/model/profile/user_model.dart';
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:provider/provider.dart';
 
 import '../../../locator.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
-  final UserModel currentUser;
+  final UserData currentUser;
 
   ChangePasswordScreen({this.currentUser});
 
@@ -22,6 +22,13 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
   var _reNewPasswordController = TextEditingController();
 
   var _formKey = GlobalKey<FormState>();
+  bool _isObscure = true;
+
+  void _toggleObscure() {
+    setState(() {
+      _isObscure = !_isObscure;
+    });
+  }
 
   bool checkCurrentPasswordValid = true;
 
@@ -42,17 +49,18 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
       appBar: AppBar(
         backgroundColor: CustomColors.light,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: CustomColors.black),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.arrow_back, color: CustomColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
-          'Đổi mật khẩu',
+          'Đổi mật khẩu',         
           style: TextStyle(
             color: CustomColors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-        ),
+        ),       
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -105,9 +113,17 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                                       color: CustomColors.grey,
                                       fontSize: 20,
                                     ),
+                                    suffixIcon: IconButton(
+                                      icon: Icon(
+                                        (_isObscure
+                                            ? Icons.visibility
+                                            : Icons.visibility_off),
+                                      ),
+                                      onPressed: _toggleObscure,
+                                    ),
                                   ),
                                   controller: _newPasswordController,
-                                  obscureText: true,
+                                  obscureText: _isObscure,
                                 ),
                               ),
                               SizedBox(height: 20.0),
@@ -119,8 +135,16 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                                         color: CustomColors.grey,
                                         fontSize: 20,
                                       ),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          (_isObscure
+                                              ? Icons.visibility
+                                              : Icons.visibility_off),
+                                        ),
+                                        onPressed: _toggleObscure,
+                                      ),
                                     ),
-                                    obscureText: true,
+                                    obscureText: _isObscure,
                                     controller: _reNewPasswordController,
                                     validator: (value) {
                                       return _newPasswordController.text ==

@@ -38,25 +38,15 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
     await DatabaseService(_auth.currentUser.uid).updateHabitData(_habitModel.name, _habitModel.isImportant, _habitModel.icon,_habitModel.goal,
         _habitModel.unitGoal, _habitModel.startDate, _habitModel.endDate, _habitModel.repeat, _habitModel.time, _habitModel.note);
   }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: CustomColors.light,
+
         appBar: CustomAppBar(
           title: 'Tạo mới thói quen',
           actionText: 'Lưu',
           action: () {
-            // print(_habitModel.name);
-            // print(_habitModel.isImportant);
-            // print(_habitModel.goal);
-            // print(_habitModel.unitGoal);
-            // print(_habitModel.startDate);
-            // print(_habitModel.endDate);
-            // print(_habitModel.repeat);
-            // print(_habitModel.time);
-            // print(_habitModel.note);
-
             UpdateDatabase();
           },
           //action: chỗ này là một hàm lưu dữ liệu của _habitModel ,

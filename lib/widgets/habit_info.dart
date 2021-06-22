@@ -77,6 +77,7 @@ class _HabitInfo extends State<HabitInfo> {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
+            _startDate,
             callback: (value) {
               setState(() {
                 _startDate = value;
@@ -140,6 +141,7 @@ class _HabitInfo extends State<HabitInfo> {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
+            _endDate,
             callback: (value) {
               setState(() {
                 _endDate = value;

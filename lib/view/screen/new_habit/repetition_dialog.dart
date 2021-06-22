@@ -68,12 +68,11 @@ class _RepetitionDialogState extends State<RepetitionDialog> {
           ],
         ),
       ),
-      onSubmit: () {
+      edited: () {
         int index = _listDropdownItems.indexOf(_dropdownValue);
         String unitGoal = _listUnit[index];
         this.widget.getUnit(unitGoal);
         this.widget.getRepeat(this._repeat);
-        Navigator.pop(context, 'OK');
       },
     );
   }

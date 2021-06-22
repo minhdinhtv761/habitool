@@ -23,9 +23,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         backgroundColor: CustomColors.light,
         shadowColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: CustomColors.black),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.arrow_back, color: CustomColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
           this.widget.title,
           style: TextStyle(
@@ -38,7 +39,8 @@ class _CustomAppBarState extends State<CustomAppBar> {
           TextButton(
             child: Text(this.widget.actionText,
                 style: TextStyle(fontSize: 18, color: CustomColors.link)),
-            onPressed: this.widget.action
+            onPressed: this.widget.action,
+
           )
         ]);
   }

@@ -5,6 +5,7 @@ import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 import 'package:habitool/view/screen/intro/signup_screen.dart';
 import 'package:habitool/view/screen/new_habit/newhabit_screen.dart';
 import 'package:habitool/view/screen/user/change_password.dart';
+import 'package:habitool/view/screen/user/infomation_screen.dart';
 import 'package:habitool/view/screen/user/user_screen.dart';
 import 'package:provider/provider.dart';
 

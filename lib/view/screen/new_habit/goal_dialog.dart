@@ -39,12 +39,11 @@ class _GoalDialogState extends State<GoalDialog> {
           this._goal = text;
         },
       ),
-      onSubmit: () {
+      edited: () {
         int index = _listDropdownItems.indexOf(_dropdownValue);
         String unitGoal = _listUnit[index];
         this.widget.getUnitGoal(unitGoal);
         this.widget.getGoal(this._goal);
-        Navigator.pop(context, 'OK');
       },
     );
   }

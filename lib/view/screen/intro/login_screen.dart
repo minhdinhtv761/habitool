@@ -21,8 +21,13 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
-  final _email = TextEditingController(text: "minhdinh@gmail.com");
-  final _password = TextEditingController(text: "99999999");
+// <<<<<<< UpdateDatabase
+//   final _email = TextEditingController(text: "minhdinh@gmail.com");
+//   final _password = TextEditingController(text: "99999999");
+//=======
+  final _email = TextEditingController();
+  final _password = TextEditingController();
+
   UserProvider _user;
   void _toggleObscure() {
     setState(() {
@@ -145,12 +150,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                       )),
                                   onPressed: () => googleSignIn().then((user) {
                                     if (user != null) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  HomeScreen()),
-                                              (route) => false);
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) => HomeScreen()),
+                                      );
                                     }
                                   }),
                                 ),
@@ -208,13 +212,11 @@ class _LogInScreenState extends State<LogInScreen> {
                                   ),
                                 ),
                                 onPressed: () {
-
                                   Navigator.pushAndRemoveUntil(
                                       context,
                                       MaterialPageRoute(
-                                          builder: (context) =>
-                                              SignUpScreen()),
-                                          (route) => false);
+                                          builder: (context) => SignUpScreen()),
+                                      (route) => false);
                                 },
                                 onLongPress: () {},
                               ),
@@ -237,29 +239,35 @@ class _LogInScreenState extends State<LogInScreen> {
           setState(() {
             isLoading = true;
           });
-          _user.login(email: _email.text, password: _password.text).then((u) {
-            if (u != null) {
-              print("Login Sucessfull");
-              setState(() {
-                isLoading = false;
+          _user.login(
+              email: _email.text,
+              password: _password.text,
+              success: (u) {
+                if (u != null) {
+                  setState(() {
+                    isLoading = false;
+                  });
+                  Navigator.pushAndRemoveUntil(
+                      context,
+                      MaterialPageRoute(builder: (context) => HomeScreen()),
+                      (route) => false);
+                } else {
+                  print("Login Failed");
+                  showDialog(
+                      context: context,
+                      builder: (_) => AlertDialog(
+                            title: Text('Cảnh báo'),
+                            content:
+                                Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                          ));
+                  setState(() {
+                    isLoading = false;
+                  });
+                }
+              },
+              fail: () {
+                print("Login Failed");
               });
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                  (route) => false);
-            } else {
-              print("Login Failed");
-              showDialog(
-                  context: context,
-                  builder: (_) => AlertDialog(
-                        title: Text('Cảnh páo'),
-                        content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-                      ));
-              setState(() {
-                isLoading = false;
-              });
-            }
-          });
           // logIn(_email.text, _password.text).then((user) {
           //   if (user != null) {
           //     print("Login Sucessfull");
@@ -288,7 +296,7 @@ class _LogInScreenState extends State<LogInScreen> {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
-                    title: Text('Cảnh páo'),
+                    title: Text('Cảnh báo'),
                     content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
                   ));
           print("Please fill form correctly");
