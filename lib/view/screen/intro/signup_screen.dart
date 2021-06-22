@@ -21,18 +21,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   final TextEditingController _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  // @override
-  // void initState() {
-  //   super.initState();
-
-  //   _emailController.addListener(() => setState(() {}));
-  // }
-
-  // @override
-  // void dispose() {
-  //   _emailController.dispose();
-  //   super.dispose();
-  // }
+  final _RePasswordController = TextEditingController();
 
   void _toggleObscure() {
     setState(() {
@@ -103,25 +92,55 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                       child: field(size, "", _emailController)),
                                   SizedBox(height: 20.0),
                                   Container(
-                                    child: TextField(
-                                      controller: _passwordController,
-                                      decoration: InputDecoration(
-                                        labelText: 'Mật khẩu',
-                                        labelStyle: TextStyle(
-                                          color: CustomColors.grey,
-                                          fontSize: 15,
-                                        ),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(
-                                            (_isObscure
-                                                ? Icons.visibility
-                                                : Icons.visibility_off),
+                                    child: TextFormField(
+                                        controller: _passwordController,
+                                        decoration: InputDecoration(
+                                          labelText: 'Mật khẩu',
+                                          labelStyle: TextStyle(
+                                            color: CustomColors.grey,
+                                            fontSize: 15,
                                           ),
-                                          onPressed: () {},
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                              (_isObscure
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                            ),
+                                            onPressed: _toggleObscure,
+                                          ),
                                         ),
-                                      ),
-                                      obscureText: _isObscure,
-                                    ),
+                                        obscureText: _isObscure,
+                                        validator: (val) {
+                                          if (val.isEmpty) return 'Empty';
+                                          return null;
+                                        }),
+                                  ),
+                                  SizedBox(height: 20.0),
+                                  Container(
+                                    child: TextFormField(
+                                        decoration: InputDecoration(
+                                          labelText: 'Nhập lại mật khẩu',
+                                          labelStyle: TextStyle(
+                                            color: CustomColors.grey,
+                                            fontSize: 15,
+                                          ),
+                                          suffixIcon: IconButton(
+                                            icon: Icon(
+                                              (_isObscure
+                                                  ? Icons.visibility
+                                                  : Icons.visibility_off),
+                                            ),
+                                            onPressed: _toggleObscure,
+                                          ),
+                                        ),
+                                        obscureText: _isObscure,
+                                        controller: _RePasswordController,
+                                        validator: (val) {
+                                          if (val.isEmpty) return 'Empty';
+                                          if (val != _passwordController.text)
+                                            return 'Not Match';
+                                          return null;
+                                        }),
                                   ),
                                   SizedBox(height: 50.0),
                                   customButton(size, "Đăng ký")
@@ -226,26 +245,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                   ),
                                 ),
                               ),
-                              // TextButton(
-                              //   child: Text(
-                              //     'Đăng nhập',
-                              //     style: TextStyle(
-                              //       color: CustomColors.link,
-                              //       fontSize: 13,
-                              //     ),
-                              //   ),
-                              //   onPressed: () => googleSignIn().then((user) {
-                              //     if (user == null) {
-                              //       Navigator.pushAndRemoveUntil(
-                              //           context,
-                              //           MaterialPageRoute(
-                              //               builder: (context) =>
-                              //                   LogInScreen()),
-                              //           (route) => false);
-                              //     }
-                              //   }),
-                              //   onLongPress: () {},
-                              // ),
                             ],
                           )
                         ],
@@ -262,20 +261,26 @@ class _SignUpScreenState extends State<SignUpScreen> {
     return GestureDetector(
       onTap: () {
         if (_emailController.text.isNotEmpty &&
-            _passwordController.text.isNotEmpty) {
+            _passwordController.text.isNotEmpty &&
+            _RePasswordController.text.isNotEmpty) {
           setState(() {
             isLoading = true;
           });
 
-          createAccount(_emailController.text, _passwordController.text)
+          createAccount(_emailController.text, _passwordController.text,
+                  _RePasswordController.text)
               .then((user) {
             if (user != null) {
               setState(() {
                 isLoading = false;
               });
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (_) => HomeScreen()));
-              print("Account Created Sucessfull");
+              Navigator.push(
+                  context, MaterialPageRoute(builder: (_) => LogInScreen()));
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                        content: Text('Đăng ký thành công'),
+                      ));
             } else {
               print("SignUp failed");
               setState(() {
@@ -284,6 +289,11 @@ class _SignUpScreenState extends State<SignUpScreen> {
             }
           });
         } else {
+          showDialog(
+              context: context,
+              builder: (_) => AlertDialog(
+                    content: Text('Đăng ký không thành công'),
+                  ));
           print("Please enter Fields");
         }
       },

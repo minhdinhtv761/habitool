@@ -3,13 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
-  CustomAppBar({Key key, this.title, this.action})
+  CustomAppBar({Key key, this.title, this.actionText, this.action})
       : preferredSize = Size.fromHeight(60.0),
         super(key: key);
-  @override
+
   final Size preferredSize;
   final String title;
-  final String action;
+  final String actionText;
+  final Function action;
+
   @override
   _CustomAppBarState createState() => _CustomAppBarState();
 }
@@ -21,9 +23,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         backgroundColor: CustomColors.light,
         shadowColor: Colors.transparent,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back, color: CustomColors.black),
-          onPressed: () {},
-        ),
+            icon: Icon(Icons.arrow_back, color: CustomColors.black),
+            onPressed: () {
+              Navigator.pop(context);
+            }),
         title: Text(
           this.widget.title,
           style: TextStyle(
@@ -34,9 +37,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         ),
         actions: <Widget>[
           TextButton(
-            child: Text(this.widget.action,
+            child: Text(this.widget.actionText,
                 style: TextStyle(fontSize: 18, color: CustomColors.link)),
-            onPressed: () {},
+            onPressed: this.widget.action,
+
           )
         ]);
   }

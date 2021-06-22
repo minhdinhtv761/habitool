@@ -6,38 +6,30 @@ import 'package:habitool/widgets/custom_card.dart';
 import '../custom_values/custom_colors.dart';
 
 class NoteBox extends StatefulWidget {
-  NoteBox({
-    Key key,
-    @required this.note,
-  });
-
+  final bool enabled;
+  Function onValueChange;
   String note;
+
+  NoteBox({
+    @required this.enabled,
+    this.onValueChange,
+    this.note,
+  });
 
   @override
   _NoteBoxState createState() => _NoteBoxState();
 }
 
 class _NoteBoxState extends State<NoteBox> {
-  final _noteController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-
-    this._noteController.text = this.widget.note;
-  }
-
-  @override
-  void dispose() {
-    this._noteController.dispose();
-    super.dispose();
-  }
-
   @override
   Widget build(BuildContext context) {
     return CustomCard(
-      child: TextField(
-        controller: this._noteController,
+      child: TextFormField(
+        onChanged: this.widget.onValueChange,
+        enabled: this.widget.enabled,
+        initialValue: this.widget.note,
+        textInputAction: TextInputAction.newline,
+        keyboardType: TextInputType.multiline,
         textAlignVertical: TextAlignVertical.center,
         style: TextStyle(
           color: CustomColors.pink,

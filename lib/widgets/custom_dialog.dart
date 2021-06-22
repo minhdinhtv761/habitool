@@ -6,13 +6,15 @@ import '../custom_values/custom_type.dart';
 import 'custom_dropdown_button.dart';
 
 class CustomDialog extends StatefulWidget {
+  Function edited;
   CustomDialog({
-    Key key,
     @required this.title,
     @required this.content,
-  }) : super(key: key);
+    this.edited,
+  });
 
   final String title;
+  final VoidCallback onSubmit;
   Widget content;
 
   @override
@@ -23,7 +25,6 @@ class _CustomDialogState extends State<CustomDialog> {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-
     return AlertDialog(
       backgroundColor: Colors.white,
       shape: RoundedRectangleBorder(
@@ -41,7 +42,7 @@ class _CustomDialogState extends State<CustomDialog> {
       ),
       actions: <Widget>[
         TextButton(
-          onPressed: () => Navigator.pop(context, 'Cancel'),
+          onPressed: () => Navigator.pop(context, false),
           child: Text(
             'Hủy',
             style: TextStyle(
@@ -50,7 +51,10 @@ class _CustomDialogState extends State<CustomDialog> {
           ),
         ),
         TextButton(
-          onPressed: () => Navigator.pop(context, 'OK'),
+          onPressed: () {
+            Navigator.pop(context, true);
+            widget.edited();
+          },
           child: const Text(
             'Đồng ý',
             style: TextStyle(

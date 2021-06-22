@@ -1,11 +1,13 @@
-import 'package:habitool/model/profile/user_model.dart';
+
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
-Future<User> createAccount(String email, String password) async {
+Future<User> createAccount(
+    String email, String password, String repassword) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
 
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -48,7 +50,7 @@ Future<User> createAccount(String email, String password) async {
   }
 }
 
-Future<User> logIn(String email, String password) async {
+Future<UserData> logIn(String email, String password) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
   FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
@@ -56,24 +58,25 @@ Future<User> logIn(String email, String password) async {
     User user = (await _auth.signInWithEmailAndPassword(
             email: email, password: password))
         .user;
-
+    UserData userData;
     if (user != null) {
       print("Login Sucessfull");
-      _firestore
+//<<<<<<< UpdateDatabase
+      print("UID: ${user.uid}");
+       _firestore
+// =======
+//       await _firestore
+// >>>>>>> HabitModel
           .collection('users')
           .doc(_auth.currentUser.uid)
           .get()
           .then((value) {
-        print(value.data());
-        return UserModel.formJson(value.data());
+        userData = UserData.fromJson(value.data());
         //user.updateProfile(displayName: value['name']);
       });
-
-      return user;
-    } else {
-      print("Login Failed");
-      return user;
     }
+
+    return userData;
   } catch (e) {
     print(e);
     return null;
@@ -120,6 +123,151 @@ Future<bool> validatePassword(String email,
   } catch (e) {
     print(e);
     return false;
+  }
+}
+
+Future<void> updatePhonenumber(
+    {@required String phone,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"phone": phone}).then((value) {
+      print("Thay đổi sdt thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+
+Future<void> updateAddress(
+    {@required String address,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"address": address}).then((value) {
+      print("Thay đổi dia chi thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+
+Future<void> updateGender(
+    {@required String gender,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"gender": gender}).then((value) {
+      print("Thay đổi gioi tinh thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+Future<void> updateName(
+    {@required String name,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"name": name}).then((value) {
+      print("Thay đổi ten thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+Future<void> updateEmail(
+    {@required String email,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"email": email}).then((value) {
+      print("Thay đổi email thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+
+Future<void> updateAvatar(
+    {@required String avatar,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"avatar": avatar}).then((value) {
+      print("Thay đổi avatar thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
+  }
+}
+
+Future<void> updateDateOfBirth(
+    {@required String date,
+    @required uid,
+    Function success,
+    Function(String) fail}) async {
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  try {
+    await FirebaseFirestore.instance
+        .collection("users")
+        .doc(uid)
+        .update({"DOB": date}).then((value) {
+      print("Thay đổi ngày thành công");
+      success();
+    });
+  } catch (e) {
+    print(e);
+    fail(e.toString());
   }
 }
 

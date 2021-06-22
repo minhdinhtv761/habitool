@@ -1,11 +1,14 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/widgets/custom_dialog.dart';
 
 class TimePicker extends StatefulWidget {
-  const TimePicker({Key key}) : super(key: key);
-
+  TimePicker({
+    this.dateTimeCallback,
+  });
+  DateTimeCallback dateTimeCallback;
   @override
   _TimePickerState createState() => _TimePickerState();
 }
@@ -43,8 +46,10 @@ class _TimePickerState extends State<TimePicker> {
               mode: CupertinoDatePickerMode.time,
               // minuteInterval: 10,
               use24hFormat: true,
-              onDateTimeChanged: (dateTime) =>
-                  setState(() => this.dateTime = dateTime),
+              onDateTimeChanged: (dateTime) {
+                setState(() => this.dateTime = dateTime);
+                this.widget.dateTimeCallback(dateTime);
+              },
             ),
           ),
         ),

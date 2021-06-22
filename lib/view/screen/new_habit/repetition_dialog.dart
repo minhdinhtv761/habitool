@@ -13,13 +13,18 @@ import 'widgets/dialog_menu.dart';
 class RepetitionDialog extends StatefulWidget {
   RepetitionDialog({
     Key key,
+    this.getUnit,
+    this.getRepeat,
   }) : super(key: key);
-
+  final StringCallback getUnit;
+  final StringCallback getRepeat;
   @override
   _RepetitionDialogState createState() => _RepetitionDialogState();
 }
 
 class _RepetitionDialogState extends State<RepetitionDialog> {
+  String _repeat = '';
+
   List<String> _listDropdownItems = [
     'Không',
     'Hàng ngày',
@@ -51,7 +56,7 @@ class _RepetitionDialogState extends State<RepetitionDialog> {
               listDropdownItems: _listDropdownItems,
               dropdownValue: _dropdownValue,
               listUnit: _listUnit,
-              callback: (value) => setState(() {
+              getDropDownButtonValue: (value) => setState(() {
                 this._dropdownValue = value;
                 showWeekly();
               }),
@@ -63,6 +68,12 @@ class _RepetitionDialogState extends State<RepetitionDialog> {
           ],
         ),
       ),
+      edited: () {
+        int index = _listDropdownItems.indexOf(_dropdownValue);
+        String unitGoal = _listUnit[index];
+        this.widget.getUnit(unitGoal);
+        this.widget.getRepeat(this._repeat);
+      },
     );
   }
 }
