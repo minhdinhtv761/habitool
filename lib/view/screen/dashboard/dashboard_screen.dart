@@ -1,10 +1,10 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:table_calendar/table_calendar.dart';
+import 'package:habitool/custom_values/enums.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/custom_dropdown_button.dart';
 import 'all_habit_list/finished_habit_list.dart';
-import 'all_habit_list/infuture_habit_list.dart';
 import 'all_habit_list/ongoing_habit_list.dart';
 import 'dashboard_appbar.dart';
 import 'today_habit_list/canceled_habit_list.dart';
@@ -94,7 +94,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     this._typeDropdownValue == 'Sắp thực hiện'
                 ? (this._showDropdownValue == 'Hôm nay'
                     ? DoneHabit()
-                    : InFutureHabit())
+                    : OnGoingHabit())
                 : null,
           ),
           SliverPadding(
@@ -105,6 +105,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 ? (this._showDropdownValue == 'Hôm nay'
                     ? CanceledHabit()
                     : FinishedHabit())
+                //  : InFutureHabit(HabitStatus.future))
                 : null,
           ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar

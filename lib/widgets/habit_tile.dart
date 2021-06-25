@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/custom_values/enums.dart';
 import 'package:percent_indicator/circular_percent_indicator.dart';
 
 import '../custom_values/custom_colors.dart';
@@ -8,6 +9,7 @@ class HabitTile extends StatefulWidget {
   HabitTileType habitTileType;
   String habitName;
   DateTime habitTime;
+  IconData icon;
   String goalUnit;
   int goal;
   int goalCompleted;
@@ -20,10 +22,11 @@ class HabitTile extends StatefulWidget {
     Key key,
     @required this.habitTileType,
     @required this.habitName,
+    @required this.icon,
     @required this.habitTime,
     @required this.goalUnit,
     @required this.goal,
-    @required this.goalCompleted,
+    this.goalCompleted,
     @required this.isImportant,
     @required this.startDate,
     this.endDate,
@@ -68,7 +71,7 @@ class _HabitTileState extends State<HabitTile> {
                                 ? 1.0
                                 : 0.0)),
                     center: Icon(
-                      Icons.android_rounded,
+                      widget.icon,
                       color: CustomColors.blue,
                     ),
                     animation: false,

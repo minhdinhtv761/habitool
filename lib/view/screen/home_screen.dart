@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:habitool/model/enums.dart';
 
 import '../../custom_values/custom_colors.dart';
 import 'achivement/achievement_screen.dart';

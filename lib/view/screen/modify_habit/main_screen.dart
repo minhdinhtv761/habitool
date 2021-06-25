@@ -3,7 +3,8 @@ import 'dart:ui';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:habitool/model/enums.dart';
+import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/widgets/habit_info.dart';
 
 import '../../../custom_values/custom_colors.dart';
@@ -11,29 +12,8 @@ import '../../../custom_values/custom_colors.dart';
 enum MenuItems { save, delete }
 
 class ModifyHabitScreen extends StatefulWidget {
-  ModifyHabitScreen({
-    Key key,
-    this.habitName,
-    this.habitTime,
-    this.goalUnit,
-    this.goal,
-    this.isImportant = false,
-    this.startDate,
-    this.endDate,
-    this.repeat,
-    this.note,
-  });
-
-  String habitName;
-  String habitTime;
-  String goalUnit;
-  String goal;
-  bool isImportant;
-  String startDate;
-  String endDate;
-  String repeat;
-  String note;
-
+  final HabitModel habitModel;
+  ModifyHabitScreen(this.habitModel);
   @override
   _ModifyHabitScreenState createState() => _ModifyHabitScreenState();
 }
@@ -51,7 +31,7 @@ class _ModifyHabitScreenState extends State<ModifyHabitScreen> {
             onPressed: () {},
           ),
           title: Text(
-            this.widget.habitName,
+            this.widget.habitModel.name,
             style: TextStyle(
               color: CustomColors.black,
               fontSize: 18,

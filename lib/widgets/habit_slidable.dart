@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
+import 'package:habitool/custom_values/enums.dart';
 
 import '../custom_values/custom_colors.dart';
 import '../custom_values/custom_type.dart';
@@ -7,9 +8,10 @@ import '../widgets/habit_tile.dart';
 
 class HabitSlidable extends StatefulWidget {
   HabitTileType habitTileType;
-  String habitName;
-  DateTime habitTime;
-  String goalUnit;
+  String name;
+  IconData icon;
+  DateTime time;
+  String unitGoal;
   int goal;
   int goalCompleted;
   bool isImportant;
@@ -18,18 +20,18 @@ class HabitSlidable extends StatefulWidget {
   HabitStatus habitStatus = HabitStatus.doing;
 
   HabitSlidable({
-    Key key,
     @required this.habitTileType,
-    @required this.habitName,
-    @required this.habitTime,
-    @required this.goalUnit,
+    @required this.name,
+    @required this.icon,
+    @required this.time,
+    @required this.unitGoal,
     @required this.goal,
-    @required this.goalCompleted,
+    this.goalCompleted,
     @required this.isImportant,
     @required this.startDate,
     @required this.endDate,
     this.habitStatus,
-  }) : super(key: key);
+  });
   @override
   _HabitSlidableState createState() => _HabitSlidableState();
 }
@@ -167,11 +169,12 @@ class _HabitSlidableState extends State<HabitSlidable> {
       secondaryActions: _habitSecondaryAction,
       child: HabitTile(
         habitTileType: this.widget.habitTileType,
-        habitName: this.widget.habitName,
-        habitTime: this.widget.habitTime,
+        habitName: this.widget.name,
+        icon: this.widget.icon,
+        habitTime: this.widget.time,
         goal: this.widget.goal,
         goalCompleted: this.widget.goalCompleted,
-        goalUnit: this.widget.goalUnit,
+        goalUnit: this.widget.unitGoal,
         habitStatus: this.widget.habitStatus,
         isImportant: this.widget.isImportant,
         startDate: this.widget.startDate,

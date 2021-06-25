@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
+import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/functions/habit_functions.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
 class InFutureHabit extends StatefulWidget {
-  const InFutureHabit({Key key}) : super(key: key);
+  final HabitStatus status;
+  InFutureHabit(this.status);
 
   @override
   _InFutureHabitState createState() => _InFutureHabitState();
@@ -23,11 +27,11 @@ class _InFutureHabitState extends State<InFutureHabit> {
     ),
     HabitSlidable(
       habitTileType: HabitTileType.general,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
+      name: "Habit's name",
+      time: DateTime.now(),
       goal: 5,
       goalCompleted: 3,
-      goalUnit: 'ly',
+      unitGoal: 'ly',
       habitStatus: HabitStatus.doing,
       isImportant: false,
       startDate: DateTime(2021, 7, 1),
@@ -35,11 +39,11 @@ class _InFutureHabitState extends State<InFutureHabit> {
     ),
     HabitSlidable(
       habitTileType: HabitTileType.general,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
+      name: "Habit's name",
+      time: DateTime.now(),
       goal: 5,
       goalCompleted: 3,
-      goalUnit: 'ly',
+      unitGoal: 'ly',
       habitStatus: HabitStatus.doing,
       isImportant: false,
       startDate: DateTime(2021, 7, 1),

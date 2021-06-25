@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
-import 'package:habitool/custom_values/custom_type.dart';
+import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/functions/habit_functions.dart';
+import 'package:habitool/model/habit_model.dart';
+import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
+import 'package:provider/provider.dart';
 
 class FinishedHabit extends StatefulWidget {
-  const FinishedHabit({Key key}) : super(key: key);
-
   @override
   _FinishedHabitState createState() => _FinishedHabitState();
 }
@@ -21,37 +23,19 @@ class _FinishedHabitState extends State<FinishedHabit> {
         ),
       ),
     ),
-    HabitSlidable(
-      habitTileType: HabitTileType.general,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
-      goal: 5,
-      goalCompleted: 3,
-      goalUnit: 'ly',
-      habitStatus: HabitStatus.doing,
-      isImportant: false,
-      startDate: DateTime(2021, 5, 1),
-      endDate: DateTime(2021, 6, 1),
-    ),
-    HabitSlidable(
-      habitTileType: HabitTileType.general,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
-      goal: 5,
-      goalCompleted: 3,
-      goalUnit: 'ly',
-      habitStatus: HabitStatus.doing,
-      isImportant: false,
-      startDate: DateTime(2021, 5, 1),
-      endDate: DateTime(2021, 6, 1),
-    ),
   ];
 
   @override
   Widget build(BuildContext context) {
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
+    _finishedHabitList = HabitFunctions.buildListWidgetFromModel(
+        _finishedHabitList, habitServices.getFinishedHabitList().toList());
+
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {
+          print(_finishedHabitList.length);
           if (_finishedHabitList.length == 1) {
             return null;
           } else {

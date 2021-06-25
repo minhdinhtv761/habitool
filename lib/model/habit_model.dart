@@ -1,140 +1,155 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:habitool/custom_values/enums.dart';
 import 'package:meta/meta.dart ';
 
 class HabitModel {
-  String _habitId;
-  String _name;
-  bool _isImportant;
-  IconData _icon;
-  int _goal;
-  String _unitGoal;
-  DateTime _startDate;
-  DateTime _endDate;
-  String _repeat;
-  DateTime _time;
-  String _note;
-  String _userId;
+  String habitId;
+  String name;
+  bool isImportant;
+  IconData icon;
+  int goal;
+  String unitGoal;
+  DateTime startDate;
+  DateTime endDate;
+  List<int> repeat;
+  DateTime time;
+  String note;
+  HabitStatus status;
 
-  HabitModel() {
-    DateTime dateTime = DateTime.now();
+  get getHabitId => this.habitId;
 
-    this._isImportant = false;
-    this._icon = Icons.ac_unit;
-    this._goal = 0;
-    this._unitGoal = 'lần';
-    //this._startDate = DateTime.now();
-    this._startDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
-    this._endDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
-    this._repeat = 'Hàng ngày';
-    this._time = DateTime(dateTime.hour, dateTime.minute);
-  }
+  set setHabitId(habitId) => this.habitId = habitId;
 
-  HabitModel.fromFirebase({
+  get getName => this.name;
+
+  set setName(name) => this.name = name;
+
+  get getIsImportant => this.isImportant;
+
+  set setIsImportant(isImportant) => this.isImportant = isImportant;
+
+  get getIcon => this.icon;
+
+  set setIcon(icon) => this.icon = icon;
+
+  get getGoal => this.goal;
+
+  set setGoal(goal) => this.goal = goal;
+
+  get getUnitGoal => this.unitGoal;
+
+  set setUnitGoal(unitGoal) => this.unitGoal = unitGoal;
+
+  get getStartDate => this.startDate;
+
+  set setStartDate(startDate) => this.startDate = startDate;
+
+  get getEndDate => this.endDate;
+
+  set setEndDate(endDate) => this.endDate = endDate;
+
+  get getRepeat => this.repeat;
+
+  set setRepeat(repeat) => this.repeat = repeat;
+
+  get getTime => this.time;
+
+  set setTime(time) => this.time = time;
+
+  get getNote => this.note;
+
+  set setNote(note) => this.note = note;
+
+  get getStatus => this.status;
+
+  set setStatus(status) => this.status = status;
+
+  HabitModel(
+      {this.habitId,
+      this.name,
+      this.isImportant,
+      this.icon,
+      this.goal,
+      this.unitGoal,
+      this.startDate,
+      this.endDate,
+      this.repeat,
+      this.time,
+      this.note,
+      this.status});
+  // HabitModel() {
+  //   DateTime dateTime = DateTime.now();
+
+  //   this._isImportant = false;
+  //   this._icon = Icons.ac_unit;
+  //   this._goal = 0;
+  //   this._unitGoal = 'lần';
+  //   //this._startDate = DateTime.now();
+  //   this._startDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
+  //   this._endDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
+  //   this._repeat = <int>[0, 1, 2, 3, 4, 5, 6, 7];
+  //   this._time = DateTime(dateTime.hour, dateTime.minute);
+  // }
+
+  factory HabitModel.fromFirebase(
     Map<String, dynamic> data,
-    String habitId,
-  }) {
-    this._habitId = habitId;
-    this._name = data['name'];
-    this._isImportant = data['isImportant'];
-    this._icon = data['icon'];
-    this._goal = data['targetNumber'];
-    this._unitGoal = data['unit'];
-    this._startDate = data['startDate'].toDate();
-    this._endDate = data['endDate'].toDate();
-    this._time = data['time'];
-    this._note = data['note'];
-    this._userId = data['uid'];
+  ) {
+    return HabitModel(
+      habitId: data['habitId'],
+      name: data['name'],
+      isImportant: data['isImportant'],
+      icon: IconData(data['icon'], fontFamily: 'MaterialIcons'),
+      goal: data['goal'],
+      unitGoal: data['unitGoal'],
+      startDate: data['startDate'].toDate(),
+      endDate: data['endDate'].toDate(),
+      time: data['time'].toDate(),
+      repeat: List.from(data['repeat']),
+      note: data['note'],
+    );
   }
 
   HabitModel.fromMyHabit(HabitModel myHabit) {
-    this._habitId = myHabit._habitId;
-    this._name = myHabit._name;
-    this._isImportant = myHabit._isImportant;
-    this._icon = myHabit._icon;
-    this._goal = myHabit._goal;
-    this._unitGoal = myHabit._unitGoal;
-    this._startDate = myHabit._startDate;
-    this._endDate = myHabit._endDate;
-    this._repeat = myHabit._repeat;
-    this._time = myHabit._time;
-    this._note = myHabit._note;
-    this._userId = myHabit._userId;
+    this.habitId = myHabit.habitId;
+    this.name = myHabit.name;
+    this.isImportant = myHabit.isImportant;
+    this.icon = myHabit.icon;
+    this.goal = myHabit.goal;
+    this.unitGoal = myHabit.unitGoal;
+    this.startDate = myHabit.startDate;
+    this.endDate = myHabit.endDate;
+    this.repeat = myHabit.repeat;
+    this.time = myHabit.time;
+    this.note = myHabit.note;
   }
-
-  get habitId => this._habitId;
-
-  get name => this._name;
-
-  set name(value) => this._name = value;
-
-  get isImportant => this._isImportant;
-
-  set isImportant(value) => this._isImportant = value;
-
-  get icon => this._icon;
-
-  set icon(value) => this._icon = value;
-
-  get goal => this._goal;
-
-  set goal(value) => this._goal = value;
-
-  get unitGoal => this._unitGoal;
-
-  set unitGoal(value) => this._unitGoal = value;
-
-  get startDate => this._startDate;
-
-  set startDate(value) => this._startDate = value;
-
-  get endDate => this._endDate;
-
-  set endDate(value) => this._endDate = value;
-
-  get repeat => this._repeat;
-
-  set repeat(repeat) => this._repeat = repeat;
-
-  get time => this._time;
-
-  set time(value) => this._time = value;
-
-  get note => this._note;
-
-  set note(value) => this._note = value;
-
-  get userId => this._userId;
-
-  set userId(value) => this._userId = value;
 
   Map<String, dynamic> toJshon() {
     return {
-      'habitId': _habitId,
-      'name': _name,
-      'isImportant': _isImportant,
-      'icon': _icon.codePoint,
-      'targetNumber': _goal,
-      'unitGoal': _unitGoal,
-      'startDate': _startDate.millisecondsSinceEpoch,
-      'endDate': _endDate.millisecondsSinceEpoch,
-      'time': _time.millisecondsSinceEpoch,
-      'note': _note,
-      'userId': _userId,
+      'habitId': habitId,
+      'name': name,
+      'isImportant': isImportant,
+      'icon': icon.codePoint,
+      'targetNumber': goal,
+      'unitGoal': unitGoal,
+      'startDate': startDate.millisecondsSinceEpoch,
+      'endDate': endDate.millisecondsSinceEpoch,
+      'time': time.millisecondsSinceEpoch,
+      'note': note,
     };
   }
 
   Map<String, dynamic> updatedJshon() {
     return {
-      'name': _name,
-      'isImportant': _isImportant,
-      'icon': _icon.codePoint,
-      'targetNumber': _goal,
-      'unitGoal': _unitGoal,
-      'startDate': _startDate.millisecondsSinceEpoch,
-      'endDate': _endDate.millisecondsSinceEpoch,
-      'time': _time.millisecondsSinceEpoch,
-      'note': _note,
+      'name': name,
+      'isImportant': isImportant,
+      'icon': icon.codePoint,
+      'targetNumber': goal,
+      'unitGoal': unitGoal,
+      'startDate': startDate.millisecondsSinceEpoch,
+      'endDate': endDate.millisecondsSinceEpoch,
+      'time': time.millisecondsSinceEpoch,
+      'note': note,
     };
   }
 }

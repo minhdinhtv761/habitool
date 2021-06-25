@@ -3,6 +3,7 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../custom_values/custom_colors.dart';
 import 'custom_card.dart';
+
 //version: "4.2.0"
 class NameBox extends StatefulWidget {
   final bool enabled;
@@ -10,6 +11,8 @@ class NameBox extends StatefulWidget {
   bool isImportant;
   IconData icon;
   Function onValueChange;
+  Function(bool) getImportantValue;
+  Function(IconData) getIconData;
 
   NameBox({
     this.enabled,
@@ -17,6 +20,8 @@ class NameBox extends StatefulWidget {
     this.isImportant,
     this.icon,
     this.onValueChange,
+    this.getIconData,
+    this.getImportantValue,
   });
 
   @override
@@ -49,6 +54,7 @@ class _NameBoxState extends State<NameBox> {
         ));
 
     this.widget.icon = icon;
+    this.widget.getIconData(this.widget.icon);
     setState(() {});
   }
 
@@ -81,6 +87,7 @@ class _NameBoxState extends State<NameBox> {
             onPressed: () {
               setState(() {
                 this.widget.isImportant = !this.widget.isImportant;
+                this.widget.getImportantValue(this.widget.isImportant);
               });
             },
           ),

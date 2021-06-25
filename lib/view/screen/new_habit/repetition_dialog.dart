@@ -47,27 +47,28 @@ class _RepetitionDialogState extends State<RepetitionDialog> {
   Widget build(BuildContext context) {
     return CustomDialog(
       title: 'Lặp lại',
-      content: Container(
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DialogMenu(
-              listDropdownItems: _listDropdownItems,
-              dropdownValue: _dropdownValue,
-              listUnit: _listUnit,
-              getDropDownButtonValue: (value) => setState(() {
-                this._dropdownValue = value;
-                showWeekly();
-              }),
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Visibility(visible: _isWeekly, child: DialogDatePicker()),
-          ],
-        ),
-      ),
+      content: DialogDatePicker(),
+      // content: Container(
+      //   child: Column(
+      //     mainAxisSize: MainAxisSize.min,
+      //     crossAxisAlignment: CrossAxisAlignment.start,
+      //     children: [
+      //       DialogMenu(
+      //         listDropdownItems: _listDropdownItems,
+      //         dropdownValue: _dropdownValue,
+      //         listUnit: _listUnit,
+      //         getDropDownButtonValue: (value) => setState(() {
+      //           this._dropdownValue = value;
+      //           showWeekly();
+      //         }),
+      //       ),
+      //       SizedBox(
+      //         height: 10,
+      //       ),
+      //       Visibility(visible: _isWeekly, child: DialogDatePicker()),
+      //     ],
+      //   ),
+      // ),
       edited: () {
         int index = _listDropdownItems.indexOf(_dropdownValue);
         String unitGoal = _listUnit[index];

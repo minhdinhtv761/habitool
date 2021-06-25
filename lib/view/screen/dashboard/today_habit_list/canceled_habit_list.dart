@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
+import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
 class CanceledHabit extends StatefulWidget {
@@ -23,11 +24,11 @@ class _CanceledHabitState extends State<CanceledHabit> {
     ),
     HabitSlidable(
       habitTileType: HabitTileType.dailyProgress,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
+      name: "Habit's name",
+      time: DateTime.now(),
       goal: 5,
       goalCompleted: 3,
-      goalUnit: 'ly',
+      unitGoal: 'ly',
       habitStatus: HabitStatus.canceled,
       isImportant: false,
       startDate: DateTime(2021, 6, 1),
@@ -35,11 +36,11 @@ class _CanceledHabitState extends State<CanceledHabit> {
     ),
     HabitSlidable(
       habitTileType: HabitTileType.dailyProgress,
-      habitName: "Habit's name",
-      habitTime: DateTime.now(),
+      name: "Habit's name",
+      time: DateTime.now(),
       goal: 5,
       goalCompleted: 3,
-      goalUnit: 'ly',
+      unitGoal: 'ly',
       habitStatus: HabitStatus.canceled,
       isImportant: false,
       startDate: DateTime(2021, 6, 1),

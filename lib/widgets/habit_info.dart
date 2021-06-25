@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_type.dart';
-import 'package:habitool/model/enums.dart';
+import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
 
@@ -35,12 +35,14 @@ class _HabitInfo extends State<HabitInfo> {
 //Default value
   String _name = "";
   bool _isImportant = false;
-  IconData _icon = Icons.ac_unit;
+  IconData _icon = FontAwesomeIcons.heart;
   int _goal = 0;
   String _unitGoal = 'lần';
   DateTime _startDate = dateTime;
   DateTime _endDate = dateTime;
-  String _repeat = 'Hàng ngày';
+  List<int> _repeat = [1, 2, 3, 4, 5, 6, 7];
+
+  List<String> _repeatString = [];
   DateTime _time = dateTime;
   String _note = "";
 
@@ -48,8 +50,24 @@ class _HabitInfo extends State<HabitInfo> {
     super.initState();
     if (this.widget.mode == HabitModelMode.NEW) {
       edittingEnabled = true;
-    } else
-      edittingEnabled = false;
+    } else {
+      edittingEnabled = true;
+      //Gán giá trị
+      onCreate();
+    }
+  }
+
+  void onCreate() {
+    _name = _habitModel.name;
+    _isImportant = _habitModel.isImportant;
+    _icon = _habitModel.icon;
+    _goal = _habitModel.goal;
+    _unitGoal = _habitModel.unitGoal;
+    _startDate = _habitModel.startDate;
+    _endDate = _habitModel.endDate;
+    _repeat = _habitModel.repeat;
+    _time = _habitModel.time;
+    _note = _habitModel.note;
   }
 
   void onChanged() {
@@ -65,6 +83,15 @@ class _HabitInfo extends State<HabitInfo> {
     _habitModel.note = _note;
 
     this.widget.habitCallback(_habitModel);
+  }
+
+  List<String> getDate = ['T2', 'T3', 'T4', 'T5', 'T5', 'T7', 'CN'];
+  void changeRepeatToString() {
+    _repeatString.clear();
+    _repeat.forEach((element) {
+      int index = _repeat.indexOf(element);
+      _repeatString.add(getDate[index]);
+    });
   }
 
   @override
@@ -117,20 +144,20 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
-      content: _repeat,
+      content: (_repeat.length == 7 ? 'Hàng ngày' : _repeatString.join(', ')),
       press: () {
-        // showGeneralDialog(
-        //   context: context,
-        //   pageBuilder: (_, __, ___) => RepetitionDialog(
-        //     // getRepeat: (repeat)
-        //     // {
-        //     //   setState(() {
-        //     //     _habitModel.repeat = int.parse(repeat);
-        //     //   });
-        //     //   onChanged();
-        //     // },
-        //   ),
-        // );
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => RepetitionDialog(
+              // getRepeat: (repeat)
+              // {
+              //   setState(() {
+              //     _habitModel.repeat = int.parse(repeat);
+              //   });
+              //   onChanged();
+              // },
+              ),
+        );
       },
     );
 
@@ -194,14 +221,23 @@ class _HabitInfo extends State<HabitInfo> {
       child: Column(
         children: <Widget>[
           NameBox(
-              enabled: edittingEnabled,
-              icon: _icon,
-              habitName: _name,
-              isImportant: _isImportant,
-              onValueChange: (text) {
-                _name = text;
-                onChanged();
-              }),
+            enabled: edittingEnabled,
+            icon: _icon,
+            habitName: _name,
+            isImportant: _isImportant,
+            onValueChange: (text) {
+              _name = text;
+              onChanged();
+            },
+            getIconData: (icon) {
+              _icon = icon;
+              onChanged();
+            },
+            getImportantValue: (value) {
+              _isImportant = value;
+              onChanged();
+            },
+          ),
           CustomCard(
             child: Column(
               children: getMenuBasicInfo(),
