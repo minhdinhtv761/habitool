@@ -9,6 +9,7 @@ class EmailDialog extends StatefulWidget {
   StringCallback edited;
   //EmailDialog({Key key, this.email, this.edited}) : super(key: key);
   EmailDialog({this.email, this.edited});
+
   @override
   _EmailDialogState createState() => _EmailDialogState();
 }

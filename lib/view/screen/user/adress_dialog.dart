@@ -7,7 +7,6 @@ import 'package:habitool/widgets/custom_textfield.dart';
 class AdressDialog extends StatefulWidget {
   String address;
   StringCallback edited;
-  // AdressDialog({Key key, this.address, this.edited}) : super(key: key);
   AdressDialog({this.address, this.edited});
   @override
   _AdressDialogState createState() => _AdressDialogState();
