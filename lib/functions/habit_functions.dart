@@ -10,17 +10,11 @@ import 'package:habitool/widgets/habit_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HabitFunctions {
-  static String covertIconDataToString(IconData iconData) {
-    String result = iconData.toString();
-    if ((result != null) && (result.length > 0)) {
-      result = result.substring(0, result.length - 1);
-    }
-    result = result.replaceAll('IconData(', '');
-    return result;
-  }
-
-  static DateTime convertToDateTime(Timestamp time) {
-    return DateTime.fromMicrosecondsSinceEpoch(time.microsecondsSinceEpoch);
+  static bool getAllHabit(HabitServices habitServices) {
+    habitServices.getFinishedHabitFromFirebase();
+    habitServices.getFutureHabitFromFirebase();
+    habitServices.getGoingHabitFromFirebase();
+    return true;
   }
 
   static void handelHabitSelectedOption(

@@ -3,6 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/model/habit_record.dart';
@@ -61,14 +62,37 @@ class HabitServices {
         .catchError((error) => print("Failed to update habit: $error"));
   }
 
-  List<HabitModel> _finishedHabitList = [];
-
-  List<HabitModel> getFinishedHabitList() {
-    return _finishedHabitList;
+  //danh sách các thói quen đang thực hiện (ngày bắt đầu = now)
+  List<HabitModel> _goingHabitList = [];
+  Future<void> getGoingHabitFromFirebase() async {
+    var result = await collectionHabit
+        .collection('habits')
+        .where('startDate', isLessThanOrEqualTo: DateTime.now())
+        .get();
+    result.docs.forEach((habitData) {
+      Map<String, dynamic> data = habitData.data();
+      DateTime endDate = data['endDate'].toDate();
+      if (endDate.isAfter(DateTime.now()))
+        _goingHabitList.add(HabitModel.fromFirebase(data));
+    });
   }
 
+  //danh sách các thói quen sắp thực hiện (ngày bắt đầu > now)
+  List<HabitModel> _futureHabitList = [];
+  Future<void> getFutureHabitFromFirebase() async {
+    var result = await collectionHabit
+        .collection('habits')
+        .where('startDate', isGreaterThan: DateTime.now())
+        .get();
+    result.docs.forEach((habitData) {
+      Map<String, dynamic> data = habitData.data();
+      _futureHabitList.add(HabitModel.fromFirebase(data));
+    });
+  }
+
+  //Danh sách các thói quen đã thực hiện (ngày kết thúc <now)
+  List<HabitModel> _finishedHabitList = [];
   Future<void> getFinishedHabitFromFirebase() async {
-    _finishedHabitList.clear();
     var result = await collectionHabit
         .collection('habits')
         .where('endDate', isLessThan: DateTime.now())
@@ -79,6 +103,22 @@ class HabitServices {
     });
   }
 
+//Lấy danh sách thói quen theo thời gian
+  List<HabitModel> getHabitList(HabitStatus status) {
+    switch (status) {
+      case HabitStatus.future:
+        return _futureHabitList;
+        break;
+      case HabitStatus.done:
+        return _finishedHabitList;
+        break;
+      default:
+        return _goingHabitList;
+        break;
+    }
+  }
+
+//Lữu trữ các dữ liệu thực hiện thói quen theo ngày
   static Future<void> addHabitRecordData(
       String habitId, DateTime date, int day, int goal) {
     return collectionHabit

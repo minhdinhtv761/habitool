@@ -1,11 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/view/screen/dashboard/habit_list.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/custom_dropdown_button.dart';
-import 'all_habit_list/finished_habit_list.dart';
-import 'all_habit_list/ongoing_habit_list.dart';
 import 'dashboard_appbar.dart';
 import 'today_habit_list/canceled_habit_list.dart';
 import 'today_habit_list/doing_habit_list.dart';
@@ -37,6 +36,10 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     ]
   ];
   String _typeDropdownValue = 'Tất cả';
+
+  Widget onGoingHabits = HabitList(HabitTileType.general, HabitStatus.doing);
+  Widget inFutureHabits = HabitList(HabitTileType.general, HabitStatus.future);
+  Widget finishedHabits = HabitList(HabitTileType.general, HabitStatus.done);
 
   @override
   Widget build(BuildContext context) {
@@ -84,7 +87,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     this._typeDropdownValue == 'Đang thực hiện'
                 ? (this._showDropdownValue == 'Hôm nay'
                     ? DoingHabit()
-                    : OnGoingHabit())
+                    : this.onGoingHabits)
                 : null,
           ),
           SliverPadding(
@@ -94,7 +97,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     this._typeDropdownValue == 'Sắp thực hiện'
                 ? (this._showDropdownValue == 'Hôm nay'
                     ? DoneHabit()
-                    : OnGoingHabit())
+                    : this.inFutureHabits)
                 : null,
           ),
           SliverPadding(
@@ -104,8 +107,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     this._typeDropdownValue == 'Đã kết thúc'
                 ? (this._showDropdownValue == 'Hôm nay'
                     ? CanceledHabit()
-                    : FinishedHabit())
-                //  : InFutureHabit(HabitStatus.future))
+                    : this.finishedHabits)
                 : null,
           ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar
