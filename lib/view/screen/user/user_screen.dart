@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:habitool/view/screen/user/help_screen.dart';
 import 'package:habitool/view/screen/user/infomation_screen.dart';
@@ -11,6 +12,8 @@ import 'package:habitool/view/screen/user/rule_screen.dart';
 import 'package:habitool/view/screen/user/setting_screen.dart';
 import 'package:habitool/widgets/body_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:habitool/provider/user_provider.dart';
 //import 'package:habitool/view/screen/user';
 
 class UserScreen extends StatefulWidget {
@@ -19,6 +22,18 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  UserData user;
+  String email;
+  String image;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = Provider.of<UserProvider>(context, listen: false).user;
+    email = user.email;
+    //avatar = user.urlAvt;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -71,7 +86,7 @@ class _UserScreenState extends State<UserScreen> {
                             child: BodyMenu(
                               icon: Icons.person,
                               title: 'Thông tin cá nhân',
-                              content: 'Nguyễn Văn B',
+                              content: email,
                             ),
                           ),
                         ),
@@ -193,7 +208,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
 
           SliverPadding(
-            padding: EdgeInsets.only(top: 80.0, left: 60.0, right: 60.0),
+            padding: EdgeInsets.only(top: 60.0, left: 60.0, right: 60.0),
             sliver: SliverToBoxAdapter(
               child: Column(
                 children: <Widget>[
@@ -333,6 +348,12 @@ class _UserScreenState extends State<UserScreen> {
                 color: CustomColors.grey,
                 shape: BoxShape.circle,
               ),
+              child: ClipOval(child: image != null && image != ""
+                    ? Image.network(
+                        image,
+                        fit: BoxFit.fill,
+                      )
+                    : Container(),),
             ),
             SizedBox(
               width: 10.0,
@@ -341,7 +362,7 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Nguyễn VĂn B',
+                  email,
                   style: TextStyle(
                     color: CustomColors.black,
                     fontSize: 24,

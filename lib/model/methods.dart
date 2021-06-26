@@ -56,7 +56,6 @@ Future<UserData> logIn(String email, String password) async {
           .get()
           .then((value) {
         userData = UserData.fromJson(value.data());
-        //user.updateProfile(displayName: value['name']);
       });
     }
 

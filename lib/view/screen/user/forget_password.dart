@@ -3,22 +3,18 @@ import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/provider/user_provider.dart';
-import 'package:mailer/smtp_server.dart';
 import 'package:provider/provider.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:toast/toast.dart';
 
-class HelpScreen extends StatefulWidget {
+class ForgetPasswordScreen extends StatefulWidget {
   final UserData currentUser;
 
-  HelpScreen({this.currentUser});
+  ForgetPasswordScreen({this.currentUser});
 
   @override
-  _HelpScreen createState() => _HelpScreen();
+  _ForgetPasswordScreen createState() => _ForgetPasswordScreen();
 }
 
-class _HelpScreen extends State<HelpScreen> {
+class _ForgetPasswordScreen extends State<ForgetPasswordScreen> {
   final TextEditingController _emailController = TextEditingController();
 
   @override
@@ -33,7 +29,7 @@ class _HelpScreen extends State<HelpScreen> {
               Navigator.pop(context);
             }),
         title: Text(
-          'Trợ giúp',
+          'Quên mật khẩu',
           style: TextStyle(
             color: CustomColors.black,
             fontSize: 18,

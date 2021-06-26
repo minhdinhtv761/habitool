@@ -18,23 +18,33 @@ class _RuleScreen extends State<RuleScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.light,
-      appBar: AppBar(
         backgroundColor: CustomColors.light,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: CustomColors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: Text(
-          'Cài đặt ứng dụng',
-          style: TextStyle(
-            color: CustomColors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
+        appBar: AppBar(
+          backgroundColor: CustomColors.light,
+          leading: IconButton(
+              icon: Icon(Icons.arrow_back, color: CustomColors.black),
+              onPressed: () {
+                Navigator.pop(context);
+              }),
+          title: Text(
+            'Điều khoản ứng dụng',
+            style: TextStyle(
+              color: CustomColors.black,
+              fontSize: 18,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
-      ),
-    );
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Image.asset(
+              'assets/images/Điều khoản sử dụng.jpg',
+              width: 200,
+              height: 400,
+              fit: BoxFit.contain,
+            )
+          ],
+        ));
   }
 }

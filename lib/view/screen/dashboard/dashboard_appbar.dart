@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_calendar.dart';
+import 'package:provider/provider.dart';
+import 'package:habitool/provider/user_provider.dart';
 
 class DashboardAppBar extends StatefulWidget {
   DashboardAppBar({Key key, this.callback}) : super(key: key);
@@ -13,6 +16,17 @@ class DashboardAppBar extends StatefulWidget {
 }
 
 class _DashboardAppBarState extends State<DashboardAppBar> {
+  String email;
+  UserData user;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = Provider.of<UserProvider>(context, listen: false).user;
+    email = user.email;
+    //avatar = user.urlAvt;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -50,7 +64,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               height: 5.0,
             ),
             Text(
-              'Your name',
+              email,
               style: TextStyle(
                 color: CustomColors.light,
                 fontSize: 18,
