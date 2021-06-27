@@ -117,7 +117,6 @@ class HabitServices {
         DateTime date = habitRecordData['date'].toDate();
         if (date.isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
           {
-            print('vào today');
             var completed = habitRecordData['completed'];
             if (completed == -1)
               _todayHabitListCancel.add(HabitModel.fromJson(data));

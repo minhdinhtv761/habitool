@@ -1,8 +1,7 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habitrecord_model.dart';
-import 'package:meta/meta.dart ';
 
 class HabitModel {
   String habitId;
@@ -16,7 +15,7 @@ class HabitModel {
   List<int> repeat;
   DateTime time;
   String note;
-  List habitRecords;
+  List<HabitRecord> habitRecords;
 
   List get getHabitRecords => this.habitRecords;
 
@@ -95,6 +94,7 @@ class HabitModel {
       time: data['time'].toDate(),
       repeat: List.from(data['repeat']),
       note: data['note'],
+      habitRecords: HabitRecord.fromJsonArray(data['habitRecords']),
     );
   }
 

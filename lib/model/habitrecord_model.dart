@@ -1,17 +1,11 @@
-import 'package:habitool/custom_values/enums.dart';
+import 'package:flutter/material.dart';
+import 'package:habitool/model/habit_model.dart';
 
 class HabitRecord {
   DateTime date;
-  int completed;
+  int completed = 0;
+
   HabitRecord({this.date, this.completed});
-
-  get getDateTime => this.date;
-
-  set setDateTime(dateTime) => this.date = dateTime;
-
-  get getCompleted => this.completed;
-
-  set setCompleted(completed) => this.completed = completed;
 
   factory HabitRecord.fromJson(
     Map<String, dynamic> data,
@@ -20,5 +14,14 @@ class HabitRecord {
       date: data['date'].toDate(),
       completed: data['completed'],
     );
+  }
+
+  static List<HabitRecord> fromJsonArray(List<dynamic> jsonArray) {
+    List<HabitRecord> habitRecordFromJson = [];
+
+    jsonArray.forEach((jsonData) {
+      habitRecordFromJson.add(HabitRecord.fromJson(jsonData));
+    });
+    return habitRecordFromJson;
   }
 }

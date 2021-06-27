@@ -71,24 +71,40 @@ class HabitFunctions {
   static List<Widget> buildDailyListWidget(List<Widget> listWidget,
       List<HabitModel> habitModelList, DateTime date, HabitStatus status) {
     List<Widget> _list = listWidget;
-    habitModelList.forEach((habit) {
-      print(habit.getHabitRecords[0]);
-      _list.add(HabitSlidable(
-        habitTileType: HabitTileType.dailyProgress,
-        name: habit.name,
-        icon: habit.icon,
-        time: habit.time,
-        unitGoal: habit.unitGoal,
-        goal: habit.goal,
-        isImportant: habit.isImportant,
-        startDate: habit.startDate,
-        endDate: habit.endDate,
-        habitStatus: status,
-        goalCompleted: 0,
-      ));
+    //lấy giá trị ngày
+    DateTime _date = DateTime(date.year, date.month, date.day);
+    habitModelList.forEach((habitModel) {
+      //tìm thói quen trong ngày
+      habitModel.habitRecords.forEach((habitRecord) {
+        print(habitRecord.date);
+        //nếu thói quen có ngày trùng ngày yêu cầu
+        if (habitRecord.date.isAtSameMomentAs(_date)) {
+          int completed = habitRecord.completed;
+          _list.add(HabitSlidable(
+            habitTileType: HabitTileType.dailyProgress,
+            name: habitModel.name,
+            icon: habitModel.icon,
+            time: habitModel.time,
+            unitGoal: habitModel.unitGoal,
+            goal: habitModel.goal,
+            isImportant: habitModel.isImportant,
+            startDate: habitModel.startDate,
+            endDate: habitModel.endDate,
+            habitStatus: status,
+            goalCompleted: completed,
+          ));
+        }
+      });
     });
     return _list;
   }
+
+  // static HabitStatus getHabitStatus(int completed, int goal) {
+  //   if (completed == -1)
+  //     return HabitStatus.canceled;
+  //   else if (completed == goal) return HabitStatus.done;
+  //   return HabitStatus.doing;
+  // }
 
   static bool getOnGoingHabit(DateTime startDate, DateTime endDate) {
     DateTime now = DateTime.now();
