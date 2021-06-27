@@ -1,4 +1,4 @@
-import 'package:habitool/model/habit_record.dart';
+import 'package:habitool/model/habitrecord_model.dart';
 
 class DailyRecord {
   DateTime dateTime;

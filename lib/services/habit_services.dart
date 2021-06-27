@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
-import 'package:habitool/model/habit_record.dart';
+import 'package:habitool/model/habitrecord_model.dart';
 
 class HabitServices {
   HabitServices();
@@ -30,41 +30,20 @@ class HabitServices {
       'time': habitModel.time,
       'note': habitModel.note,
     }).then((value) {
-      print("Habit Added");
       habitModel.habitId = value.id;
       //Adding Habit
       collectionHabit
           .collection('habits')
           .doc(value.id)
           .update({'id': value.id});
-
       HabitFunctions.createHabitRecords(habitModel);
     }).catchError((error) => print("Failed to add habit: $error"));
   }
 
-  static Future<void> updateHabitData(HabitModel habitModel) {
-    return collectionHabit
-        .collection('habits')
-        .doc(habitModel.habitId)
-        .update({
-          'name': habitModel.name,
-          'isImportant': habitModel.isImportant,
-          'icon': habitModel.icon.codePoint,
-          'goal': habitModel.goal,
-          'unitGoal': habitModel.unitGoal,
-          'startDate': habitModel.startDate,
-          'endDate': habitModel.endDate,
-          'repeat': habitModel.repeat,
-          'time': habitModel.time,
-          'note': habitModel.note,
-        })
-        .then((value) => print("Habit Updated"))
-        .catchError((error) => print("Failed to update habit: $error"));
-  }
-
-  //danh sách các thói quen đang thực hiện (ngày bắt đầu = now)
+  //danh sách các thói quen đang thực hiện (ngày bắt đầu < now < ngày kt)
   List<HabitModel> _goingHabitList = [];
   Future<void> getGoingHabitFromFirebase() async {
+    print('going');
     var result = await collectionHabit
         .collection('habits')
         .where('startDate', isLessThanOrEqualTo: DateTime.now())
@@ -72,98 +51,117 @@ class HabitServices {
     result.docs.forEach((habitData) {
       Map<String, dynamic> data = habitData.data();
       DateTime endDate = data['endDate'].toDate();
-      if (endDate.isAfter(DateTime.now()))
-        _goingHabitList.add(HabitModel.fromFirebase(data));
+      if (endDate.isAfter(DateTime.now())) {
+        print('vào going');
+        _goingHabitList.add(HabitModel.fromJson(data));
+      }
     });
   }
 
   //danh sách các thói quen sắp thực hiện (ngày bắt đầu > now)
   List<HabitModel> _futureHabitList = [];
   Future<void> getFutureHabitFromFirebase() async {
+    print('future');
     var result = await collectionHabit
         .collection('habits')
         .where('startDate', isGreaterThan: DateTime.now())
         .get();
     result.docs.forEach((habitData) {
+      print('vào future');
       Map<String, dynamic> data = habitData.data();
-      _futureHabitList.add(HabitModel.fromFirebase(data));
+      _futureHabitList.add(HabitModel.fromJson(data));
     });
   }
 
   //Danh sách các thói quen đã thực hiện (ngày kết thúc <now)
   List<HabitModel> _finishedHabitList = [];
   Future<void> getFinishedHabitFromFirebase() async {
+    print('finish');
     var result = await collectionHabit
         .collection('habits')
         .where('endDate', isLessThan: DateTime.now())
         .get();
     result.docs.forEach((habitData) {
+      print('vào finish');
       Map<String, dynamic> data = habitData.data();
-      _finishedHabitList.add(HabitModel.fromFirebase(data));
+      _finishedHabitList.add(HabitModel.fromJson(data));
     });
   }
 
-//Lấy danh sách thói quen theo thời gian
-  List<HabitModel> getHabitList(HabitStatus status) {
+//Lữu trữ các dữ liệu thực hiện thói quen theo ngày
+  static Future<void> addHabitRecordData(
+      HabitModel habitModel, DateTime date, int completed) {
+    return collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.createHabitRecord(date, completed));
+  }
+
+//danh sách thói quen trong ngày
+  List<HabitModel> _todayHabitListDoing = [];
+
+  List<HabitModel> _todayHabitListDone = [];
+
+  List<HabitModel> _todayHabitListCancel = [];
+
+  Future<void> getTodayHabitFromFirebase() async {
+    print('today');
+    //lấy ds thói quen
+    var result = await collectionHabit.collection('habits').get();
+    DateTime now = DateTime.now();
+//Kiểm tra: thói quen nào có ngày thực hiện trùng now
+    result.docs.forEach((habitData) {
+      Map<String, dynamic> data = habitData.data();
+      var habitRecords = data['habitRecords'] as List<dynamic>;
+      habitRecords.forEach((habitRecordData) async {
+        DateTime date = habitRecordData['date'].toDate();
+        if (date.isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
+          {
+            print('vào today');
+            var completed = habitRecordData['completed'];
+            if (completed == -1)
+              _todayHabitListCancel.add(HabitModel.fromJson(data));
+            else if (completed == data['goal'])
+              _todayHabitListDone.add(HabitModel.fromJson(data));
+            else {
+              _todayHabitListDoing.add(HabitModel.fromJson(data));
+            }
+          }
+        }
+      });
+    });
+  }
+
+  Future<void> getTodayHabitListStatus(
+      Map<String, dynamic> data, dynamic habitRecordData) async {
+    var completed = habitRecordData['completed'];
+    if (completed == -1)
+      _todayHabitListCancel.add(HabitModel.fromJson(data));
+    else if (completed == data['goal'])
+      _todayHabitListDone.add(HabitModel.fromJson(data));
+    else {
+      _todayHabitListDoing.add(HabitModel.fromJson(data));
+    }
+  }
+
+  //Lấy danh sách thói quen theo thời gian
+  List<HabitModel> getHabitList(HabitTileType type, HabitStatus status) {
+    print('trả dữ liệu');
+    bool isGeneral = (type == HabitTileType.general);
     switch (status) {
       case HabitStatus.future:
         return _futureHabitList;
         break;
       case HabitStatus.done:
-        return _finishedHabitList;
+        return isGeneral ? _finishedHabitList : _todayHabitListDone;
+        break;
+      case HabitStatus.doing:
+        print('kiểm tra đang thực hiện');
+        return isGeneral ? _goingHabitList : _todayHabitListDoing;
         break;
       default:
-        return _goingHabitList;
+        return _todayHabitListCancel;
         break;
     }
-  }
-
-//Lữu trữ các dữ liệu thực hiện thói quen theo ngày
-  static Future<void> addHabitRecordData(
-      String habitId, DateTime date, int day, int goal) {
-    return collectionHabit
-        .collection('habits')
-        .doc(habitId)
-        .collection('habitRecords')
-        .add({
-      'date': date,
-      'day': day,
-      'completed': 0,
-      'goal': goal,
-    }).then((value) => print('added'));
-  }
-
-  static List<List<HabitRecord>> getCancelHabitRecordList(
-      HabitModel habitModel, DateTime dateTime) {
-    List<List<HabitRecord>> _list = [];
-    collectionHabit.collection('habits').get().then((value) {
-      value.docs.forEach((element) {
-        Map<String, dynamic> result = element.data();
-        _list.add(getCancelHabitRecord(result['id'], dateTime));
-      });
-    });
-    return _list;
-  }
-
-  static List<HabitRecord> getCancelHabitRecord(
-      String habitId, DateTime dateTime) {
-    List<HabitRecord> _list = [];
-    collectionHabit
-        .collection('habits')
-        .doc(habitId)
-        .collection('habitRecords')
-        .where('date', isEqualTo: dateTime)
-        .where('completed', isEqualTo: -1)
-        .get()
-        .then((value) {
-      value.docs.forEach((element) {
-        Map<String, dynamic> result = element.data();
-        _list.add(HabitRecord(
-            dateTime: dateTime,
-            day: result['day'],
-            completed: result['completed']));
-      });
-    });
-    return _list;
   }
 }

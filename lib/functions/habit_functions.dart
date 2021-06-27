@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
+import 'package:habitool/model/habitrecord_model.dart';
 import 'package:habitool/services/habit_services.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:habitool/view/screen/modify_habit/main_screen.dart';
@@ -10,11 +11,11 @@ import 'package:habitool/widgets/habit_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HabitFunctions {
-  static bool getAllHabit(HabitServices habitServices) {
+  static Future<void> getAllHabit(HabitServices habitServices) async {
     habitServices.getFinishedHabitFromFirebase();
     habitServices.getFutureHabitFromFirebase();
     habitServices.getGoingHabitFromFirebase();
-    return true;
+    habitServices.getTodayHabitFromFirebase();
   }
 
   static void handelHabitSelectedOption(
@@ -35,22 +36,22 @@ class HabitFunctions {
     );
   }
 
-  static Future<void> addHabit(HabitModel _habitModel) {
-    return HabitServices.addHabitData(_habitModel);
+  static Future<void> addHabit(HabitModel habitModel) {
+    return HabitServices.addHabitData(habitModel);
   }
 
   static void createHabitRecords(HabitModel habitModel) {
     DateTime date = habitModel.startDate;
     Duration duration = Duration(days: 1);
     while (date.isBefore(habitModel.endDate.add(Duration(days: 1)))) {
-      HabitServices.addHabitRecordData(
-          habitModel.habitId, date, date.weekday, habitModel.goal);
+      HabitServices.addHabitRecordData(habitModel, date, 0);
       date = date.add(duration);
     }
   }
 
-  static List<Widget> buildListWidgetFromModel(
+  static List<Widget> buildGeneralListWidget(
       List<Widget> listWidget, List<HabitModel> habitModelList) {
+    print('build general ${habitModelList.length}');
     List<Widget> _list = listWidget;
     habitModelList.forEach((habit) {
       _list.add(HabitSlidable(
@@ -65,5 +66,35 @@ class HabitFunctions {
           endDate: habit.endDate));
     });
     return _list;
+  }
+
+  static List<Widget> buildDailyListWidget(List<Widget> listWidget,
+      List<HabitModel> habitModelList, DateTime date, HabitStatus status) {
+    List<Widget> _list = listWidget;
+    habitModelList.forEach((habit) {
+      print(habit.getHabitRecords[0]);
+      _list.add(HabitSlidable(
+        habitTileType: HabitTileType.dailyProgress,
+        name: habit.name,
+        icon: habit.icon,
+        time: habit.time,
+        unitGoal: habit.unitGoal,
+        goal: habit.goal,
+        isImportant: habit.isImportant,
+        startDate: habit.startDate,
+        endDate: habit.endDate,
+        habitStatus: status,
+        goalCompleted: 0,
+      ));
+    });
+    return _list;
+  }
+
+  static bool getOnGoingHabit(DateTime startDate, DateTime endDate) {
+    DateTime now = DateTime.now();
+    if (startDate.isAfter(now))
+      return false;
+    else if (endDate.isBefore(now)) return false;
+    return true;
   }
 }

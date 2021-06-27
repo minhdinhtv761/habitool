@@ -6,14 +6,11 @@ import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
+import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:firebase_auth/firebase_auth.dart';
-
+import 'package:provider/provider.dart';
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/habit_info.dart';
 
@@ -25,10 +22,11 @@ class NewHabitScreen extends StatefulWidget {
 class _NewHabitScreenState extends State<NewHabitScreen> {
   HabitModel _habitModel = HabitModel();
 
-  FirebaseAuth _auth = FirebaseAuth.instance;
-
   @override
   Widget build(BuildContext context) {
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
+    HabitFunctions.getAllHabit(habitServices);
     return Scaffold(
         backgroundColor: CustomColors.light,
         appBar: CustomAppBar(

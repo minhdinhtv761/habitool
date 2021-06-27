@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
@@ -15,13 +16,10 @@ import 'view/screen/intro/login_screen.dart';
 class WidgetTree extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    HabitServices habitServices =
-        Provider.of<HabitServices>(context, listen: false);
-    habitServices.getFinishedHabitFromFirebase();
     User user = Provider.of<User>(context);
     if (user == null) {
-      return DashBoardScreen();
+      return NewHabitScreen();
     }
-    return DashBoardScreen();
+    return NewHabitScreen();
   }
 }

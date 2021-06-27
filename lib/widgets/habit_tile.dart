@@ -41,7 +41,32 @@ class _HabitTileState extends State<HabitTile> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    //
+    //progressColor
+    //
+    Color dailyColor = (this.widget.habitStatus == HabitStatus.doing
+        ? CustomColors.pink
+        : (this.widget.habitStatus == HabitStatus.done
+            ? CustomColors.blue
+            : CustomColors.grey));
+    Color genderalColor = (DateTime.now().isBefore(this.widget.startDate)
+        ? CustomColors.blue
+        : (DateTime.now().isAfter(this.widget.endDate)
+            ? CustomColors.grey
+            : CustomColors.pink));
+    //
+    //NameColor
+    //
+    Color dailyColorText = (this.widget.habitStatus == HabitStatus.doing
+        ? CustomColors.black
+        : (this.widget.habitStatus == HabitStatus.done
+            ? CustomColors.blue
+            : CustomColors.grey));
+    Color genderalColorText = (DateTime.now().isBefore(this.widget.startDate)
+        ? CustomColors.blue
+        : (DateTime.now().isAfter(this.widget.endDate)
+            ? CustomColors.grey
+            : CustomColors.black));
     return GestureDetector(
       child: Container(
         width: size.width * 0.85,
@@ -72,13 +97,17 @@ class _HabitTileState extends State<HabitTile> {
                                 : 0.0)),
                     center: Icon(
                       widget.icon,
-                      color: CustomColors.blue,
+                      color: (this.widget.habitTileType ==
+                              HabitTileType.dailyProgress
+                          ? dailyColor
+                          : genderalColor),
                     ),
                     animation: false,
                     circularStrokeCap: CircularStrokeCap.round,
-                    progressColor: this.widget.habitStatus == HabitStatus.doing
-                        ? CustomColors.pink
-                        : CustomColors.blue,
+                    progressColor: (this.widget.habitTileType ==
+                            HabitTileType.dailyProgress
+                        ? dailyColor
+                        : genderalColor),
                     backgroundColor: CustomColors.grey,
                   ),
                 ),
@@ -142,30 +171,15 @@ class _HabitTileState extends State<HabitTile> {
                               ? CustomColors.grey
                               : Colors.amber,
                         ),
-                        onTap: () {
-                          setState(() {
-                            this.widget.isImportant = !this.widget.isImportant;
-                          });
-                        },
                       ),
                       SizedBox(width: 5.0),
                       Text(
                         this.widget.habitName,
                         style: TextStyle(
-                          color: this.widget.habitTileType ==
-                                  HabitTileType.general
-                              ? (DateTime.now()
-                                          .isAfter(this.widget.startDate) &&
-                                      (DateTime.now()
-                                              .isBefore(this.widget.endDate) ||
-                                          this.widget.endDate == null)
-                                  ? CustomColors.black
-                                  : CustomColors.grey)
-                              : (this.widget.habitStatus == HabitStatus.doing
-                                  ? CustomColors.black
-                                  : (this.widget.habitStatus == HabitStatus.done
-                                      ? CustomColors.blue
-                                      : CustomColors.grey)),
+                          color:
+                              this.widget.habitTileType == HabitTileType.general
+                                  ? genderalColorText
+                                  : dailyColorText,
                           fontSize: 13.0,
                           fontWeight: FontWeight.bold,
                         ),

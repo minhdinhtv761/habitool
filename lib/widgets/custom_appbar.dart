@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 
 class CustomAppBar extends StatefulWidget implements PreferredSizeWidget {
   CustomAppBar({Key key, this.title, this.actionText, this.action})
@@ -25,7 +26,10 @@ class _CustomAppBarState extends State<CustomAppBar> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => DashBoardScreen()),
+              );
             }),
         title: Text(
           this.widget.title,
@@ -40,7 +44,6 @@ class _CustomAppBarState extends State<CustomAppBar> {
             child: Text(this.widget.actionText,
                 style: TextStyle(fontSize: 18, color: CustomColors.link)),
             onPressed: this.widget.action,
-
           )
         ]);
   }

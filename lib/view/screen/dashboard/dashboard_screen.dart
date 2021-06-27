@@ -1,14 +1,17 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/functions/habit_functions.dart';
+import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/view/screen/dashboard/habit_list.dart';
+import 'package:habitool/view/screen/dashboard/today_habit_list/canceled_habit_list.dart';
+import 'package:habitool/view/screen/dashboard/today_habit_list/doing_habit_list.dart';
+import 'package:habitool/view/screen/dashboard/today_habit_list/done_habit_list.dart';
 
 import '../../../custom_values/custom_colors.dart';
 import '../../../widgets/custom_dropdown_button.dart';
 import 'dashboard_appbar.dart';
-import 'today_habit_list/canceled_habit_list.dart';
-import 'today_habit_list/doing_habit_list.dart';
-import 'today_habit_list/done_habit_list.dart';
+import 'package:provider/provider.dart';
 
 class DashBoardScreen extends StatefulWidget {
   @override
@@ -17,9 +20,7 @@ class DashBoardScreen extends StatefulWidget {
 
 class _DashBoardScreenState extends State<DashBoardScreen> {
   DateTime _selectedDay = DateTime.now();
-
   List<String> _listShowDropdownItems = <String>['Hôm nay', 'Tất cả'];
-  String _showDropdownValue = 'Hôm nay';
 
   List<List<String>> _listTypeDropdownItems = <List<String>>[
     <String>[
@@ -35,15 +36,26 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
       'Đã kết thúc',
     ]
   ];
+
   String _typeDropdownValue = 'Tất cả';
+  String _showDropdownValue = 'Hôm nay';
 
   Widget onGoingHabits = HabitList(HabitTileType.general, HabitStatus.doing);
   Widget inFutureHabits = HabitList(HabitTileType.general, HabitStatus.future);
   Widget finishedHabits = HabitList(HabitTileType.general, HabitStatus.done);
 
+  Widget doingHabits =
+      HabitList(HabitTileType.dailyProgress, HabitStatus.doing);
+  Widget doneHabits = HabitList(HabitTileType.dailyProgress, HabitStatus.done);
+  Widget cancelHabits =
+      HabitList(HabitTileType.dailyProgress, HabitStatus.canceled);
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    //general
+
+    //daily
 
     return Scaffold(
       backgroundColor: CustomColors.light,
@@ -51,8 +63,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
         physics: BouncingScrollPhysics(),
         slivers: <Widget>[
           DashboardAppBar(
-            callback: (value) => setState(() => this._selectedDay = value),
-          ),
+              //callback: (value) => setState(() => this._selectedDay = value),
+              ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
             sliver: SliverToBoxAdapter(
@@ -82,13 +94,13 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
           ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: this._typeDropdownValue == 'Tất cả' ||
+            sliver: (this._typeDropdownValue == 'Tất cả' ||
                     this._typeDropdownValue == 'Chưa hoàn thành' ||
                     this._typeDropdownValue == 'Đang thực hiện'
                 ? (this._showDropdownValue == 'Hôm nay'
-                    ? DoingHabit()
-                    : this.onGoingHabits)
-                : null,
+                    ? doingHabits
+                    : onGoingHabits)
+                : null),
           ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
@@ -96,18 +108,18 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                     this._typeDropdownValue == 'Đã hoàn thành' ||
                     this._typeDropdownValue == 'Sắp thực hiện'
                 ? (this._showDropdownValue == 'Hôm nay'
-                    ? DoneHabit()
-                    : this.inFutureHabits)
+                    ? doneHabits
+                    : inFutureHabits)
                 : null,
           ),
           SliverPadding(
             padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: this._typeDropdownValue == 'Tất cả' ||
-                    this._typeDropdownValue == 'Đã hủy' ||
-                    this._typeDropdownValue == 'Đã kết thúc'
+            sliver: _typeDropdownValue == 'Tất cả' ||
+                    _typeDropdownValue == 'Đã hủy' ||
+                    _typeDropdownValue == 'Đã kết thúc'
                 ? (this._showDropdownValue == 'Hôm nay'
-                    ? CanceledHabit()
-                    : this.finishedHabits)
+                    ? cancelHabits
+                    : finishedHabits)
                 : null,
           ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar

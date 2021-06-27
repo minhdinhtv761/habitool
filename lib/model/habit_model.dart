@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/model/habitrecord_model.dart';
 import 'package:meta/meta.dart ';
 
 class HabitModel {
@@ -15,7 +16,11 @@ class HabitModel {
   List<int> repeat;
   DateTime time;
   String note;
-  HabitStatus status;
+  List habitRecords;
+
+  List get getHabitRecords => this.habitRecords;
+
+  set setHabitRecords(List habitRecords) => this.habitRecords = habitRecords;
 
   get getHabitId => this.habitId;
 
@@ -61,10 +66,6 @@ class HabitModel {
 
   set setNote(note) => this.note = note;
 
-  get getStatus => this.status;
-
-  set setStatus(status) => this.status = status;
-
   HabitModel(
       {this.habitId,
       this.name,
@@ -77,22 +78,9 @@ class HabitModel {
       this.repeat,
       this.time,
       this.note,
-      this.status});
-  // HabitModel() {
-  //   DateTime dateTime = DateTime.now();
+      this.habitRecords});
 
-  //   this._isImportant = false;
-  //   this._icon = Icons.ac_unit;
-  //   this._goal = 0;
-  //   this._unitGoal = 'lần';
-  //   //this._startDate = DateTime.now();
-  //   this._startDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
-  //   this._endDate = DateTime(dateTime.day, dateTime.month, dateTime.year);
-  //   this._repeat = <int>[0, 1, 2, 3, 4, 5, 6, 7];
-  //   this._time = DateTime(dateTime.hour, dateTime.minute);
-  // }
-
-  factory HabitModel.fromFirebase(
+  factory HabitModel.fromJson(
     Map<String, dynamic> data,
   ) {
     return HabitModel(
@@ -110,6 +98,17 @@ class HabitModel {
     );
   }
 
+  Map<String, dynamic> createHabitRecord(DateTime date, int completed) {
+    return {
+      'habitRecords': FieldValue.arrayUnion([
+        {
+          "date": date,
+          "completed": completed,
+        },
+      ])
+    };
+  }
+
   HabitModel.fromMyHabit(HabitModel myHabit) {
     this.habitId = myHabit.habitId;
     this.name = myHabit.name;
@@ -122,34 +121,5 @@ class HabitModel {
     this.repeat = myHabit.repeat;
     this.time = myHabit.time;
     this.note = myHabit.note;
-  }
-
-  Map<String, dynamic> toJshon() {
-    return {
-      'habitId': habitId,
-      'name': name,
-      'isImportant': isImportant,
-      'icon': icon.codePoint,
-      'targetNumber': goal,
-      'unitGoal': unitGoal,
-      'startDate': startDate.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
-      'time': time.millisecondsSinceEpoch,
-      'note': note,
-    };
-  }
-
-  Map<String, dynamic> updatedJshon() {
-    return {
-      'name': name,
-      'isImportant': isImportant,
-      'icon': icon.codePoint,
-      'targetNumber': goal,
-      'unitGoal': unitGoal,
-      'startDate': startDate.millisecondsSinceEpoch,
-      'endDate': endDate.millisecondsSinceEpoch,
-      'time': time.millisecondsSinceEpoch,
-      'note': note,
-    };
   }
 }
