@@ -34,7 +34,7 @@ class _UserScreenState extends State<UserScreen> {
                 'Cài đặt',
                 style: TextStyle(
                   color: CustomColors.pink,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -110,7 +110,7 @@ class _UserScreenState extends State<UserScreen> {
                 'Trợ giúp & hỗ trợ',
                 style: TextStyle(
                   color: CustomColors.pink,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -211,7 +211,7 @@ class _UserScreenState extends State<UserScreen> {
         'Đăng xuất',
         style: TextStyle(
           color: CustomColors.light,
-          fontSize: 24,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -235,7 +235,7 @@ class _UserScreenState extends State<UserScreen> {
               'Cá Nhân Hóa',
               style: TextStyle(
                 color: CustomColors.light,
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -310,10 +310,10 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Nguyễn VĂn B',
+                  'Nguyễn Văn B',
                   style: TextStyle(
                     color: CustomColors.black,
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -321,7 +321,7 @@ class _UserScreenState extends State<UserScreen> {
                   height: 3.0,
                 ),
                 Text(
-                  'logged in with facebook',
+                  'Logged in with facebook',
                   style: TextStyle(
                     color: CustomColors.darkgrey,
                     fontSize: 14,
