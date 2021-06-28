@@ -48,11 +48,13 @@ class _TimePickerState extends State<TimePicker> {
               use24hFormat: true,
               onDateTimeChanged: (dateTime) {
                 setState(() => this.dateTime = dateTime);
-                this.widget.dateTimeCallback(dateTime);
               },
             ),
           ),
         ),
+        edited: () {
+          this.widget.dateTimeCallback(this.dateTime);
+        },
       ),
     );
   }

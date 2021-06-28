@@ -98,13 +98,11 @@ class HabitModel {
     );
   }
 
-  Map<String, dynamic> createHabitRecord(DateTime date, int completed) {
+  Map<String, dynamic> createHabitRecord(
+      DateTime date, int completed, int status) {
     return {
       'habitRecords': FieldValue.arrayUnion([
-        {
-          "date": date,
-          "completed": completed,
-        },
+        {"date": date, "completed": completed, "status": status},
       ])
     };
   }

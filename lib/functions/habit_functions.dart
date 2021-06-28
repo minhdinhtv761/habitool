@@ -11,7 +11,7 @@ import 'package:habitool/widgets/habit_slidable.dart';
 import 'package:provider/provider.dart';
 
 class HabitFunctions {
-  static Future<void> getAllHabit(HabitServices habitServices) async {
+  static Future<void> getAllHabit(HabitServices habitServices) {
     habitServices.getFinishedHabitFromFirebase();
     habitServices.getFutureHabitFromFirebase();
     habitServices.getGoingHabitFromFirebase();
@@ -36,22 +36,25 @@ class HabitFunctions {
     );
   }
 
-  static Future<void> addHabit(HabitModel habitModel) {
-    return HabitServices.addHabitData(habitModel);
+  Future<void> addHabit(HabitModel habitModel, BuildContext context) {
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
+    return habitServices.addHabitData(habitModel);
   }
 
-  static void createHabitRecords(HabitModel habitModel) {
+  void createHabitRecords(HabitModel habitModel, BuildContext context) {
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
     DateTime date = habitModel.startDate;
     Duration duration = Duration(days: 1);
     while (date.isBefore(habitModel.endDate.add(Duration(days: 1)))) {
-      HabitServices.addHabitRecordData(habitModel, date, 0);
+      habitServices.addHabitRecordData(habitModel, date, 0, 0);
       date = date.add(duration);
     }
   }
 
   static List<Widget> buildGeneralListWidget(
       List<Widget> listWidget, List<HabitModel> habitModelList) {
-    print('build general ${habitModelList.length}');
     List<Widget> _list = listWidget;
     habitModelList.forEach((habit) {
       _list.add(HabitSlidable(
@@ -76,7 +79,6 @@ class HabitFunctions {
     habitModelList.forEach((habitModel) {
       //tìm thói quen trong ngày
       habitModel.habitRecords.forEach((habitRecord) {
-        print(habitRecord.date);
         //nếu thói quen có ngày trùng ngày yêu cầu
         if (habitRecord.date.isAtSameMomentAs(_date)) {
           int completed = habitRecord.completed;

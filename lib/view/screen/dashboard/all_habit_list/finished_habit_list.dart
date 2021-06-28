@@ -5,14 +5,14 @@ import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/view/screen/dashboard/habit_list.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
-class CanceledHabit extends StatefulWidget {
-  const CanceledHabit({Key key}) : super(key: key);
+class FinishedHabit extends StatefulWidget {
+  const FinishedHabit({Key key}) : super(key: key);
 
   @override
-  _CanceledHabitState createState() => _CanceledHabitState();
+  _FinishedHabitState createState() => _FinishedHabitState();
 }
 
-class _CanceledHabitState extends State<CanceledHabit> {
+class _FinishedHabitState extends State<FinishedHabit> {
   // List<Widget> _canceledHabitList = [
   //   Center(
   //     child: Text(
@@ -51,7 +51,7 @@ class _CanceledHabitState extends State<CanceledHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return HabitList(HabitTileType.dailyProgress, HabitStatus.canceled);
+    return HabitList(HabitTileType.general, HabitStatus.done);
   }
   //   return SliverList(
   //     delegate: SliverChildBuilderDelegate(

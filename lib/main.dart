@@ -64,6 +64,7 @@ import 'Widget_tree.dart';
 import 'Widget_tree.dart';
 
 Future<void> main() async {
+  Provider.debugCheckInvalidValueType = null;
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(MyApp());
@@ -78,7 +79,8 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: UserProvider()),
         Provider(
           create: (_) => HabitServices(),
-        )
+        ),
+        ChangeNotifierProvider(create: (_) => HabitServices()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,

@@ -12,6 +12,4 @@ class DashboardFuncTion {
       default:
     }
   }
-
-  static Future<void> loadDashboard() {}
 }

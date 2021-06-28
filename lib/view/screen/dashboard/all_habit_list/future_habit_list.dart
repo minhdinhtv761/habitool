@@ -2,21 +2,22 @@ import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/custom_values/enums.dart';
-import 'package:habitool/view/screen/dashboard/habit_list.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
-class CanceledHabit extends StatefulWidget {
-  const CanceledHabit({Key key}) : super(key: key);
+import '../habit_list.dart';
+
+class FutureHabit extends StatefulWidget {
+  const FutureHabit({Key key}) : super(key: key);
 
   @override
-  _CanceledHabitState createState() => _CanceledHabitState();
+  _FutureHabitState createState() => _FutureHabitState();
 }
 
-class _CanceledHabitState extends State<CanceledHabit> {
-  // List<Widget> _canceledHabitList = [
+class _FutureHabitState extends State<FutureHabit> {
+  // List<Widget> _doingHabitList = [
   //   Center(
   //     child: Text(
-  //       'Đã hủy',
+  //       'Chưa hoàn thành',
   //       style: TextStyle(
   //         color: CustomColors.darkgrey,
   //         fontSize: 13.0,
@@ -30,7 +31,7 @@ class _CanceledHabitState extends State<CanceledHabit> {
   //     goal: 5,
   //     goalCompleted: 3,
   //     unitGoal: 'ly',
-  //     habitStatus: HabitStatus.canceled,
+  //     habitStatus: HabitStatus.doing,
   //     isImportant: false,
   //     startDate: DateTime(2021, 6, 1),
   //     endDate: DateTime(2021, 7, 1),
@@ -42,7 +43,7 @@ class _CanceledHabitState extends State<CanceledHabit> {
   //     goal: 5,
   //     goalCompleted: 3,
   //     unitGoal: 'ly',
-  //     habitStatus: HabitStatus.canceled,
+  //     habitStatus: HabitStatus.doing,
   //     isImportant: false,
   //     startDate: DateTime(2021, 6, 1),
   //     endDate: DateTime(2021, 7, 1),
@@ -51,22 +52,22 @@ class _CanceledHabitState extends State<CanceledHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return HabitList(HabitTileType.dailyProgress, HabitStatus.canceled);
+    return HabitList(HabitTileType.general, HabitStatus.future);
   }
   //   return SliverList(
   //     delegate: SliverChildBuilderDelegate(
   //       (context, index) {
-  //         if (_canceledHabitList.length == 1) {
+  //         if (_doingHabitList.length == 1) {
   //           return null;
   //         } else {
   //           if (index.isOdd) {
-  //             return this._canceledHabitList[index ~/ 2];
+  //             return this._doingHabitList[index ~/ 2];
   //           } else {
   //             return SizedBox(height: 10.0);
   //           }
   //         }
   //       },
-  //       childCount: this._canceledHabitList.length * 2 + 1,
+  //       childCount: this._doingHabitList.length * 2 + 1,
   //     ),
   //   );
   // }

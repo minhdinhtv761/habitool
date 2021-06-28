@@ -107,7 +107,7 @@ class _HabitInfo extends State<HabitInfo> {
             _startDate,
             callback: (value) {
               setState(() {
-                _startDate = value;
+                _startDate = DateTime(value.year, value.month, value.day);
               });
               onChanged();
             },
@@ -171,7 +171,7 @@ class _HabitInfo extends State<HabitInfo> {
             _endDate,
             callback: (value) {
               setState(() {
-                _endDate = value;
+                _endDate = DateTime(value.year, value.month, value.day);
               });
               onChanged();
             },

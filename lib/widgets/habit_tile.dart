@@ -41,6 +41,8 @@ class _HabitTileState extends State<HabitTile> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    DateTime now = DateTime.now();
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
     //
     //progressColor
     //
@@ -49,9 +51,9 @@ class _HabitTileState extends State<HabitTile> {
         : (this.widget.habitStatus == HabitStatus.done
             ? CustomColors.blue
             : CustomColors.grey));
-    Color genderalColor = (DateTime.now().isBefore(this.widget.startDate)
+    Color genderalColor = (dateNow.isBefore(this.widget.startDate)
         ? CustomColors.blue
-        : (DateTime.now().isAfter(this.widget.endDate)
+        : (dateNow.isAfter(this.widget.endDate)
             ? CustomColors.grey
             : CustomColors.pink));
     //
@@ -62,9 +64,9 @@ class _HabitTileState extends State<HabitTile> {
         : (this.widget.habitStatus == HabitStatus.done
             ? CustomColors.blue
             : CustomColors.grey));
-    Color genderalColorText = (DateTime.now().isBefore(this.widget.startDate)
+    Color genderalColorText = (dateNow.isBefore(this.widget.startDate)
         ? CustomColors.blue
-        : (DateTime.now().isAfter(this.widget.endDate)
+        : (dateNow.isAfter(this.widget.endDate)
             ? CustomColors.grey
             : CustomColors.black));
     return GestureDetector(
@@ -118,9 +120,13 @@ class _HabitTileState extends State<HabitTile> {
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
                       color: this.widget.habitTileType == HabitTileType.general
-                          ? (DateTime.now().isAfter(this.widget.startDate) &&
-                                  (DateTime.now()
-                                          .isBefore(this.widget.endDate) ||
+                          ? (dateNow
+                                      .add(Duration(seconds: 5))
+                                      .isAfter(this.widget.startDate) &&
+                                  (dateNow.isBefore(this
+                                          .widget
+                                          .endDate
+                                          .add(Duration(seconds: 5))) ||
                                       this.widget.endDate == null)
                               ? Colors.transparent
                               : Colors.white)
@@ -131,9 +137,9 @@ class _HabitTileState extends State<HabitTile> {
                     child: Icon(
                       this.widget.habitTileType == HabitTileType.general
                           ? (this.widget.endDate != null &&
-                                  DateTime.now().isBefore(this.widget.startDate)
+                                  dateNow.isBefore(this.widget.startDate)
                               ? Icons.watch_later_outlined
-                              : (DateTime.now().isAfter(this.widget.endDate)
+                              : (dateNow.isAfter(this.widget.endDate)
                                   ? Icons.cancel_rounded
                                   : null))
                           : (this.widget.habitStatus == HabitStatus.done
@@ -142,7 +148,7 @@ class _HabitTileState extends State<HabitTile> {
                                   ? Icons.cancel_rounded
                                   : null)),
                       color: this.widget.habitTileType == HabitTileType.general
-                          ? (DateTime.now().isBefore(this.widget.startDate)
+                          ? (dateNow.isBefore(this.widget.startDate)
                               ? CustomColors.blue
                               : CustomColors.pink)
                           : (this.widget.habitStatus == HabitStatus.done
@@ -222,9 +228,13 @@ class _HabitTileState extends State<HabitTile> {
                     style: TextStyle(
                         color: this.widget.habitTileType ==
                                 HabitTileType.general
-                            ? (DateTime.now().isAfter(this.widget.startDate) &&
-                                    (DateTime.now()
-                                            .isBefore(this.widget.endDate) ||
+                            ? (dateNow
+                                        .add(Duration(seconds: 5))
+                                        .isAfter(this.widget.startDate) &&
+                                    (dateNow.isBefore(this
+                                            .widget
+                                            .endDate
+                                            .add(Duration(seconds: 5))) ||
                                         this.widget.endDate == null)
                                 ? CustomColors.pink
                                 : CustomColors.grey)
@@ -240,9 +250,13 @@ class _HabitTileState extends State<HabitTile> {
                     this.widget.goalUnit.toString(),
                     style: TextStyle(
                       color: this.widget.habitTileType == HabitTileType.general
-                          ? (DateTime.now().isAfter(this.widget.startDate) &&
-                                  (DateTime.now()
-                                          .isBefore(this.widget.endDate) ||
+                          ? (dateNow
+                                      .add(Duration(seconds: 5))
+                                      .isAfter(this.widget.startDate) &&
+                                  (dateNow.isBefore(this
+                                          .widget
+                                          .endDate
+                                          .add(Duration(seconds: 5))) ||
                                       this.widget.endDate == null)
                               ? CustomColors.pink
                               : CustomColors.grey)

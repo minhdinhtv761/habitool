@@ -2,7 +2,11 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/functions/habit_functions.dart';
+import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/services/habit_services.dart';
+import 'package:habitool/view/screen/dashboard/all_habit_list/finished_habit_list.dart';
+import 'package:habitool/view/screen/dashboard/all_habit_list/future_habit_list.dart';
+import 'package:habitool/view/screen/dashboard/all_habit_list/going_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/habit_list.dart';
 import 'package:habitool/view/screen/dashboard/today_habit_list/canceled_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/today_habit_list/doing_habit_list.dart';
@@ -39,23 +43,15 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
 
   String _typeDropdownValue = 'Tất cả';
   String _showDropdownValue = 'Hôm nay';
-
-  Widget onGoingHabits = HabitList(HabitTileType.general, HabitStatus.doing);
-  Widget inFutureHabits = HabitList(HabitTileType.general, HabitStatus.future);
-  Widget finishedHabits = HabitList(HabitTileType.general, HabitStatus.done);
-
-  Widget doingHabits =
-      HabitList(HabitTileType.dailyProgress, HabitStatus.doing);
-  Widget doneHabits = HabitList(HabitTileType.dailyProgress, HabitStatus.done);
-  Widget cancelHabits =
-      HabitList(HabitTileType.dailyProgress, HabitStatus.canceled);
+  @override
+  void initState() {
+    print('Load Widget');
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-    //general
-
-    //daily
 
     return Scaffold(
       backgroundColor: CustomColors.light,
@@ -92,35 +88,53 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
               ),
             ),
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: (this._typeDropdownValue == 'Tất cả' ||
-                    this._typeDropdownValue == 'Chưa hoàn thành' ||
-                    this._typeDropdownValue == 'Đang thực hiện'
-                ? (this._showDropdownValue == 'Hôm nay'
-                    ? doingHabits
-                    : onGoingHabits)
-                : null),
+          Consumer<HabitServices>(
+            builder: (context, habitServices, child) {
+              habitServices =
+                  Provider.of<HabitServices>(context, listen: false);
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+                sliver: this._typeDropdownValue == 'Tất cả' ||
+                        this._typeDropdownValue == 'Đang thực hiện' ||
+                        this._typeDropdownValue == 'Chưa hoàn thành'
+                    ? (this._showDropdownValue == 'Hôm nay'
+                        ? DoingHabit()
+                        : GoingHabit())
+                    : null,
+              );
+            },
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: this._typeDropdownValue == 'Tất cả' ||
-                    this._typeDropdownValue == 'Đã hoàn thành' ||
-                    this._typeDropdownValue == 'Sắp thực hiện'
-                ? (this._showDropdownValue == 'Hôm nay'
-                    ? doneHabits
-                    : inFutureHabits)
-                : null,
+          Consumer<HabitServices>(
+            builder: (context, habitServices, child) {
+              habitServices =
+                  Provider.of<HabitServices>(context, listen: false);
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+                sliver: this._typeDropdownValue == 'Tất cả' ||
+                        this._typeDropdownValue == 'Đã hoàn thành' ||
+                        this._typeDropdownValue == 'Sắp thực hiện'
+                    ? (this._showDropdownValue == 'Hôm nay'
+                        ? DoneHabit()
+                        : FutureHabit())
+                    : null,
+              );
+            },
           ),
-          SliverPadding(
-            padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
-            sliver: _typeDropdownValue == 'Tất cả' ||
-                    _typeDropdownValue == 'Đã hủy' ||
-                    _typeDropdownValue == 'Đã kết thúc'
-                ? (this._showDropdownValue == 'Hôm nay'
-                    ? cancelHabits
-                    : finishedHabits)
-                : null,
+          Consumer<HabitServices>(
+            builder: (context, habitServices, child) {
+              habitServices =
+                  Provider.of<HabitServices>(context, listen: false);
+              return SliverPadding(
+                padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
+                sliver: _typeDropdownValue == 'Tất cả' ||
+                        _typeDropdownValue == 'Đã hủy' ||
+                        _typeDropdownValue == 'Đã kết thúc'
+                    ? (this._showDropdownValue == 'Hôm nay'
+                        ? CanceledHabit()
+                        : FinishedHabit())
+                    : null,
+              );
+            },
           ),
           // SliverToBoxAdapter dùng để làm phần trống, tránh việc dữ liệu bị che dưới BottomAppBar
           SliverToBoxAdapter(

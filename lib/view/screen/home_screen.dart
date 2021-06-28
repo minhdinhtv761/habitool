@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/functions/habit_functions.dart';
+import 'package:habitool/services/habit_services.dart';
 
 import '../../custom_values/custom_colors.dart';
 import 'achivement/achievement_screen.dart';
@@ -6,7 +8,8 @@ import 'dashboard/dashboard_screen.dart';
 import 'new_habit/newhabit_screen.dart';
 import 'statistic/statistic_screen.dart';
 import 'user/user_screen.dart';
-import 'package:habitool/widgets/habit_info.dart';
+
+import 'package:provider/provider.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -16,7 +19,7 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   int currentTab = 0;
 
-  final Widget currentScreen = DashBoardScreen();
+  //final Widget currentScreen = DashBoardScreen();
 
   final List<Widget> tabs = [
     DashBoardScreen(),
@@ -31,6 +34,14 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
+
+    habitServices.getTodayHabitFromFirebase();
+    habitServices.getGoingHabitFromFirebase();
+    habitServices.getFutureHabitFromFirebase();
+    habitServices.getFinishedHabitFromFirebase();
 
     return Scaffold(
       backgroundColor: CustomColors.light,

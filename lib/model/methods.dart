@@ -1,4 +1,3 @@
-
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -28,7 +27,6 @@ Future<User> createAccount(
         "name": "Habiter",
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
-
       });
 
       await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({
@@ -36,7 +34,6 @@ Future<User> createAccount(
         "delete": 0,
         "cancel": 0,
         "uid": _auth.currentUser.uid,
-
       });
 
       return user;
@@ -61,12 +58,7 @@ Future<UserData> logIn(String email, String password) async {
     UserData userData;
     if (user != null) {
       print("Login Sucessfull");
-//<<<<<<< UpdateDatabase
-      print("UID: ${user.uid}");
-       _firestore
-// =======
-//       await _firestore
-// >>>>>>> HabitModel
+      await _firestore
           .collection('users')
           .doc(_auth.currentUser.uid)
           .get()
@@ -188,6 +180,7 @@ Future<void> updateGender(
     fail(e.toString());
   }
 }
+
 Future<void> updateName(
     {@required String name,
     @required uid,
@@ -208,6 +201,7 @@ Future<void> updateName(
     fail(e.toString());
   }
 }
+
 Future<void> updateEmail(
     {@required String email,
     @required uid,

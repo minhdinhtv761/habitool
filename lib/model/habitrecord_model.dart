@@ -4,16 +4,16 @@ import 'package:habitool/model/habit_model.dart';
 class HabitRecord {
   DateTime date;
   int completed = 0;
-
-  HabitRecord({this.date, this.completed});
+  int status = 0;
+  HabitRecord({this.date, this.completed, this.status});
 
   factory HabitRecord.fromJson(
     Map<String, dynamic> data,
   ) {
     return HabitRecord(
-      date: data['date'].toDate(),
-      completed: data['completed'],
-    );
+        date: data['date'].toDate(),
+        completed: data['completed'],
+        status: data['status']);
   }
 
   static List<HabitRecord> fromJsonArray(List<dynamic> jsonArray) {
