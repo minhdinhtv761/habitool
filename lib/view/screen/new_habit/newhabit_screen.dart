@@ -23,9 +23,11 @@ class NewHabitScreen extends StatefulWidget {
 class _NewHabitScreenState extends State<NewHabitScreen> {
   HabitModel _habitModel = HabitModel();
   HabitFunctions _habitFunctions = HabitFunctions();
-
+  bool onClickRecommend = false;
   @override
   Widget build(BuildContext context) {
+    print(onClickRecommend);
+    print(_habitModel.name);
     return Scaffold(
         backgroundColor: CustomColors.light,
         appBar: CustomAppBar(
@@ -38,15 +40,30 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
           padding: const EdgeInsets.only(left: 21, top: 10, right: 21),
           child: ListView(
             children: <Widget>[
-              RecommendNewHabit(),
+              RecommendNewHabit(getRecommendHabit: (habitModel) {
+                setState(() {
+                  this.onClickRecommend = true;
+                  _habitModel = habitModel;
+                });
+              }),
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: HabitInfo(
-                  HabitModelMode.NEW,
-                  habitCallback: (habitModel) {
-                    this._habitModel = habitModel;
-                  },
-                ),
+                child: this.onClickRecommend
+                    ? HabitInfo(
+                        HabitModelMode.EDIT,
+                        isRecommend: true,
+                        habitModel: _habitModel,
+                        habitCallback: (habitModel) {
+                          this._habitModel = habitModel;
+                        },
+                      )
+                    : HabitInfo(
+                        HabitModelMode.NEW,
+                        isRecommend: false,
+                        habitCallback: (habitModel) {
+                          this._habitModel = habitModel;
+                        },
+                      ),
               )
             ],
           ),

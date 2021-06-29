@@ -83,7 +83,7 @@ class HabitModel {
     Map<String, dynamic> data,
   ) {
     return HabitModel(
-      habitId: data['habitId'],
+      habitId: data['id'],
       name: data['name'],
       isImportant: data['isImportant'],
       icon: IconData(data['icon'], fontFamily: 'MaterialIcons'),
@@ -107,6 +107,15 @@ class HabitModel {
     };
   }
 
+  Map<String, dynamic> removeHabitRecord(
+      DateTime date, int completed, int status) {
+    return {
+      'habitRecords': FieldValue.arrayRemove([
+        {"date": date, "completed": completed, "status": status},
+      ])
+    };
+  }
+
   HabitModel.fromMyHabit(HabitModel myHabit) {
     this.habitId = myHabit.habitId;
     this.name = myHabit.name;
@@ -119,5 +128,21 @@ class HabitModel {
     this.repeat = myHabit.repeat;
     this.time = myHabit.time;
     this.note = myHabit.note;
+  }
+
+  HabitModel fromHabitRecords(DateTime date, int completed, int status) {
+    DateTime _date = DateTime(date.year, date.month, date.day);
+
+    HabitModel newHabitModel = this;
+
+    for (HabitRecord habitRecord in newHabitModel.habitRecords) {
+      if (habitRecord.date.isAtSameMomentAs(_date)) {
+        habitRecord.completed = completed;
+        habitRecord.status = status;
+        break;
+      }
+    }
+
+    return newHabitModel;
   }
 }

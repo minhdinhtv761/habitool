@@ -45,6 +45,7 @@ class _GoalDialogState extends State<GoalDialog> {
               },
             ),
           ),
+          SizedBox(width: 10),
           Expanded(
             child: CustomTextField(
               typeInput: TextInputType.number,

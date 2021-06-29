@@ -7,7 +7,8 @@ import 'package:habitool/widgets/habit_slidable.dart';
 import '../habit_list.dart';
 
 class DoingHabit extends StatefulWidget {
-  const DoingHabit({Key key}) : super(key: key);
+  final DateTime date;
+  DoingHabit(this.date);
 
   @override
   _DoingHabitState createState() => _DoingHabitState();
@@ -52,23 +53,7 @@ class _DoingHabitState extends State<DoingHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return HabitList(HabitTileType.dailyProgress, HabitStatus.doing);
+    return HabitList(HabitTileType.dailyProgress, HabitStatus.doing,
+        date: this.widget.date);
   }
-  //   return SliverList(
-  //     delegate: SliverChildBuilderDelegate(
-  //       (context, index) {
-  //         if (_doingHabitList.length == 1) {
-  //           return null;
-  //         } else {
-  //           if (index.isOdd) {
-  //             return this._doingHabitList[index ~/ 2];
-  //           } else {
-  //             return SizedBox(height: 10.0);
-  //           }
-  //         }
-  //       },
-  //       childCount: this._doingHabitList.length * 2 + 1,
-  //     ),
-  //   );
-  // }
 }

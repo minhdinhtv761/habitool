@@ -18,7 +18,6 @@ class HabitRecord {
 
   static List<HabitRecord> fromJsonArray(List<dynamic> jsonArray) {
     List<HabitRecord> habitRecordFromJson = [];
-
     jsonArray.forEach((jsonData) {
       habitRecordFromJson.add(HabitRecord.fromJson(jsonData));
     });

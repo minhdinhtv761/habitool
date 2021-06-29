@@ -7,7 +7,8 @@ import 'package:habitool/widgets/habit_slidable.dart';
 import '../habit_list.dart';
 
 class FutureHabit extends StatefulWidget {
-  const FutureHabit({Key key}) : super(key: key);
+  final DateTime date;
+  FutureHabit(this.date);
 
   @override
   _FutureHabitState createState() => _FutureHabitState();
@@ -52,7 +53,8 @@ class _FutureHabitState extends State<FutureHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return HabitList(HabitTileType.general, HabitStatus.future);
+    return HabitList(HabitTileType.general, HabitStatus.future,
+        date: this.widget.date);
   }
   //   return SliverList(
   //     delegate: SliverChildBuilderDelegate(

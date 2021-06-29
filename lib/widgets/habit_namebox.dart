@@ -31,7 +31,7 @@ class NameBox extends StatefulWidget {
 class _NameBoxState extends State<NameBox> {
   void _pickIcon() async {
     IconData icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackMode: IconPack.fontAwesomeIcons,
+        iconPackMode: IconPack.material,
         iconColor: CustomColors.black,
         iconSize: 30,
         iconPickerShape:
@@ -60,8 +60,6 @@ class _NameBoxState extends State<NameBox> {
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return CustomCard(
       child: TextFormField(
         enabled: this.widget.enabled,

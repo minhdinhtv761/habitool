@@ -4,42 +4,30 @@ import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/model/habitrecord_model.dart';
 import 'package:habitool/services/habit_services.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:habitool/view/screen/modify_habit/main_screen.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
 import 'package:provider/provider.dart';
 
 class HabitFunctions {
-  static Future<void> getAllHabit(HabitServices habitServices) {
-    habitServices.getFinishedHabitFromFirebase();
-    habitServices.getFutureHabitFromFirebase();
-    habitServices.getGoingHabitFromFirebase();
-    habitServices.getTodayHabitFromFirebase();
-  }
-
-  static void handelHabitSelectedOption(
-    HabitModel habitModel,
-    HabitSelectedOption opt,
-  ) {
-    switch (opt) {
-      case HabitSelectedOption.EDIT:
-        break;
-      default:
-    }
-  }
-
-  static editHabit(HabitModel _habitModel, BuildContext context) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => ModifyHabitScreen(_habitModel)),
-    );
-  }
-
   Future<void> addHabit(HabitModel habitModel, BuildContext context) {
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
-    return habitServices.addHabitData(habitModel);
+    return habitServices.addHabitData(habitModel, context);
+  }
+
+  Future<void> updateHabit(HabitModel habitModel, BuildContext context) {
+    HabitServices habitServices =
+        Provider.of<HabitServices>(context, listen: false);
+
+    print('vào update');
+    DateTime now = DateTime.now();
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
+
+    if (habitModel.startDate.isAfter(dateNow.subtract(Duration(seconds: 5)))) {
+      print('sửa ngày bắt đầu sau ngày hiện tại');
+
+      return habitServices.updateStartDateIsAfter(habitModel, context);
+    }
   }
 
   void createHabitRecords(HabitModel habitModel, BuildContext context) {
@@ -53,20 +41,16 @@ class HabitFunctions {
     }
   }
 
-  static List<Widget> buildGeneralListWidget(
-      List<Widget> listWidget, List<HabitModel> habitModelList) {
+  static List<Widget> buildGeneralListWidget(List<Widget> listWidget,
+      List<HabitModel> habitModelList, HabitStatus status, DateTime date) {
     List<Widget> _list = listWidget;
     habitModelList.forEach((habit) {
       _list.add(HabitSlidable(
-          habitTileType: HabitTileType.general,
-          name: habit.name,
-          icon: habit.icon,
-          time: habit.time,
-          unitGoal: habit.unitGoal,
-          goal: habit.goal,
-          isImportant: habit.isImportant,
-          startDate: habit.startDate,
-          endDate: habit.endDate));
+        habitTileType: HabitTileType.general,
+        habitModel: habit,
+        habitStatus: status,
+        date: date,
+      ));
     });
     return _list;
   }
@@ -84,29 +68,16 @@ class HabitFunctions {
           int completed = habitRecord.completed;
           _list.add(HabitSlidable(
             habitTileType: HabitTileType.dailyProgress,
-            name: habitModel.name,
-            icon: habitModel.icon,
-            time: habitModel.time,
-            unitGoal: habitModel.unitGoal,
-            goal: habitModel.goal,
-            isImportant: habitModel.isImportant,
-            startDate: habitModel.startDate,
-            endDate: habitModel.endDate,
+            habitModel: habitModel,
             habitStatus: status,
             goalCompleted: completed,
+            date: date,
           ));
         }
       });
     });
     return _list;
   }
-
-  // static HabitStatus getHabitStatus(int completed, int goal) {
-  //   if (completed == -1)
-  //     return HabitStatus.canceled;
-  //   else if (completed == goal) return HabitStatus.done;
-  //   return HabitStatus.doing;
-  // }
 
   static bool getOnGoingHabit(DateTime startDate, DateTime endDate) {
     DateTime now = DateTime.now();
@@ -115,4 +86,51 @@ class HabitFunctions {
     else if (endDate.isBefore(now)) return false;
     return true;
   }
+
+  static List<HabitModel> getRecommendHabits() => <HabitModel>[
+        HabitModel(
+            name: 'Tập thể dục',
+            isImportant: false,
+            icon: Icons.fitness_center,
+            goal: 30,
+            unitGoal: 'phút',
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(Duration(days: 30)),
+            repeat: [1, 2, 3, 4, 5, 6, 7],
+            time: DateTime(1, 1, 1, 8, 0),
+            note: 'Vì đẹp và khỏe'),
+        HabitModel(
+            name: 'Uống nước',
+            isImportant: true,
+            icon: Icons.local_drink,
+            goal: 5,
+            unitGoal: 'ly',
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(Duration(days: 30)),
+            repeat: [1, 2, 3, 4, 5, 6, 7],
+            time: DateTime(1, 1, 1, 8, 0),
+            note: 'Vì sức khỏe'),
+        HabitModel(
+            name: 'Đọc sách',
+            isImportant: false,
+            icon: Icons.book,
+            goal: 30,
+            unitGoal: 'phút',
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(Duration(days: 30)),
+            repeat: [1, 2, 3, 4, 5, 6, 7],
+            time: DateTime(1, 1, 1, 8, 0),
+            note: 'Bổ sung kiến thức'),
+        HabitModel(
+            name: 'Viết nhật ký',
+            isImportant: false,
+            icon: Icons.drive_file_rename_outline,
+            goal: 15,
+            unitGoal: 'phút',
+            startDate: DateTime.now(),
+            endDate: DateTime.now().add(Duration(days: 30)),
+            repeat: [1, 2, 3, 4, 5, 6, 7],
+            time: DateTime(1, 1, 1, 8, 0),
+            note: ''),
+      ];
 }

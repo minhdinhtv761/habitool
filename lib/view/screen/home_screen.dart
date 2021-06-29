@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/services/habit_services.dart';
 
@@ -18,30 +19,21 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   int currentTab = 0;
-
+  DateTime date = DateTime.now();
   //final Widget currentScreen = DashBoardScreen();
-
-  final List<Widget> tabs = [
-    DashBoardScreen(),
-    StatisticScreen(),
-    AchievementScreen(),
-    UserScreen(),
-    NewHabitScreen()
-  ];
 
   final PageStorageBucket _bucket = PageStorageBucket();
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
-    HabitServices habitServices =
-        Provider.of<HabitServices>(context, listen: false);
-
-    habitServices.getTodayHabitFromFirebase();
-    habitServices.getGoingHabitFromFirebase();
-    habitServices.getFutureHabitFromFirebase();
-    habitServices.getFinishedHabitFromFirebase();
+    final List<Widget> tabs = [
+      DashBoardScreen(),
+      StatisticScreen(),
+      AchievementScreen(),
+      UserScreen(),
+      NewHabitScreen()
+    ];
 
     return Scaffold(
       backgroundColor: CustomColors.light,

@@ -6,7 +6,8 @@ import 'package:habitool/view/screen/dashboard/habit_list.dart';
 import 'package:habitool/widgets/habit_slidable.dart';
 
 class CanceledHabit extends StatefulWidget {
-  const CanceledHabit({Key key}) : super(key: key);
+  final DateTime date;
+  CanceledHabit(this.date);
 
   @override
   _CanceledHabitState createState() => _CanceledHabitState();
@@ -51,7 +52,8 @@ class _CanceledHabitState extends State<CanceledHabit> {
 
   @override
   Widget build(BuildContext context) {
-    return HabitList(HabitTileType.dailyProgress, HabitStatus.canceled);
+    return HabitList(HabitTileType.dailyProgress, HabitStatus.canceled,
+        date: this.widget.date);
   }
   //   return SliverList(
   //     delegate: SliverChildBuilderDelegate(

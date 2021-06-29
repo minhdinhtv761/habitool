@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 
@@ -12,7 +13,7 @@ class HabitServices extends ChangeNotifier {
 
   var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
 
-  Future<void> addHabitData(HabitModel habitModel) {
+  Future<void> addHabitData(HabitModel habitModel, BuildContext context) {
     return collectionHabit.collection('habits').add({
       'id': '',
       'name': habitModel.name,
@@ -26,7 +27,6 @@ class HabitServices extends ChangeNotifier {
       'time': habitModel.time,
       'note': habitModel.note,
     }).then((value) {
-      print('Habit Added');
       habitModel.habitId = value.id;
       //Adding Habit
       collectionHabit
@@ -35,7 +35,13 @@ class HabitServices extends ChangeNotifier {
           .update({'id': value.id});
 
       this.createHabitRecords(habitModel);
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CustomColors.blue,
+          content: Text('Thêm mới thành công'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
       notifyListeners();
     }).catchError((error) => print("Failed to add habit: $error"));
   }
@@ -55,17 +61,14 @@ class HabitServices extends ChangeNotifier {
     return collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
-        .update(habitModel.createHabitRecord(date, completed, status))
-        .then((value) => notifyListeners());
+        .update(habitModel.createHabitRecord(date, completed, status));
   }
 
   //danh sách các thói quen đang thực hiện (ngày bắt đầu < now < ngày kt)
   List<HabitModel> generalHabitListGoing = [];
 
-  void getGoingHabitFromFirebase() {
+  void getGoingHabitFromFirebase(DateTime now) {
     if (generalHabitListGoing.isNotEmpty) generalHabitListGoing.clear();
-    print('going');
-    DateTime now = DateTime.now();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
     collectionHabit
         .collection('habits')
@@ -73,7 +76,6 @@ class HabitServices extends ChangeNotifier {
         .get()
         .then((result) {
       if (result.docs.isNotEmpty) {
-        print('vào going');
         result.docs.forEach((habitData) {
           Map<String, dynamic> data = habitData.data();
           DateTime endDate = data['endDate'].toDate();
@@ -90,17 +92,16 @@ class HabitServices extends ChangeNotifier {
   //danh sách các thói quen sắp thực hiện (ngày bắt đầu > now)
   List<HabitModel> generalHabitListFuture = [];
 
-  void getFutureHabitFromFirebase() {
+  void getFutureHabitFromFirebase(DateTime now) {
     if (generalHabitListFuture.isNotEmpty) generalHabitListFuture.clear();
-    print('future');
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
     collectionHabit
         .collection('habits')
-        .where('startDate', isGreaterThan: DateTime.now())
+        .where('startDate', isGreaterThan: dateNow)
         .get()
         .then((result) {
       if (result.docs.isNotEmpty) {
         result.docs.forEach((habitData) {
-          print('vào future');
           Map<String, dynamic> data = habitData.data();
           generalHabitListFuture.add(HabitModel.fromJson(data));
         });
@@ -112,10 +113,8 @@ class HabitServices extends ChangeNotifier {
 
   //Danh sách các thói quen đã thực hiện (ngày kết thúc <now)
   List<HabitModel> generalHabitListFinished = [];
-  Future<void> getFinishedHabitFromFirebase() {
-    print('finish');
+  Future<void> getFinishedHabitFromFirebase(DateTime now) {
     if (generalHabitListFinished.isNotEmpty) generalHabitListFinished.clear();
-    DateTime now = DateTime.now();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
     return collectionHabit
         .collection('habits')
@@ -123,7 +122,6 @@ class HabitServices extends ChangeNotifier {
         .get()
         .then((result) {
       if (result.docs.isNotEmpty) {
-        print('vào finish');
         result.docs.forEach((habitData) {
           Map<String, dynamic> data = habitData.data();
           generalHabitListFinished.add(HabitModel.fromJson(data));
@@ -139,24 +137,26 @@ class HabitServices extends ChangeNotifier {
   List<HabitModel> todayHabitListDone = [];
   List<HabitModel> todayHabitListCancel = [];
 
-  void getTodayHabitFromFirebase() {
+  void getTodayHabitFromFirebase(DateTime dateTime) {
     if (todayHabitListDoing.isNotEmpty) todayHabitListDoing.clear();
     if (todayHabitListDone.isNotEmpty) todayHabitListDone.clear();
     if (todayHabitListCancel.isNotEmpty) todayHabitListCancel.clear();
 
-    print('today');
     //lấy ds thói quen
-    collectionHabit.collection('habits').get().then((result) {
+    collectionHabit
+        .collection('habits')
+        .orderBy('isImportant', descending: true)
+        .get()
+        .then((result) {
 //Kiểm tra: thói quen nào có ngày thực hiện trùng now
       if (result.docs.isNotEmpty) {
-        DateTime now = DateTime.now();
-
         result.docs.forEach((habitData) {
           Map<String, dynamic> data = habitData.data();
           var habitRecords = data['habitRecords'] as List<dynamic>;
           habitRecords.forEach((habitRecordData) async {
-            DateTime date = habitRecordData['date'].toDate();
-            if (date.isAtSameMomentAs(DateTime(now.year, now.month, now.day))) {
+            DateTime dateRecord = habitRecordData['date'].toDate();
+            if (dateRecord.isAtSameMomentAs(
+                DateTime(dateTime.year, dateTime.month, dateTime.day))) {
               {
                 getTodayHabitListStatus(data, habitRecordData);
               }
@@ -176,7 +176,6 @@ class HabitServices extends ChangeNotifier {
         todayHabitListCancel.add(HabitModel.fromJson(data));
         break;
       case 0:
-        print('vào doing');
         todayHabitListDoing.add(HabitModel.fromJson(data));
         break;
       default:
@@ -188,7 +187,6 @@ class HabitServices extends ChangeNotifier {
   //Lấy danh sách thói quen theo thời gian
   List<HabitModel> getHabitList(HabitTileType type, HabitStatus status) {
     bool isGeneral = (type == HabitTileType.general);
-    print('getHabitList in HabitServices $type $status');
     switch (status) {
       case HabitStatus.future:
         return generalHabitListFuture;
@@ -203,5 +201,176 @@ class HabitServices extends ChangeNotifier {
         return todayHabitListCancel;
         break;
     }
+  }
+
+//Xóa thói quen
+
+  void removeHabit(HabitModel habitModel, HabitTileType type,
+      HabitStatus status, BuildContext context) {
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .delete()
+        .then((value) {
+      bool isGeneral = (type == HabitTileType.general);
+      switch (status) {
+        case HabitStatus.future:
+          generalHabitListFuture.remove(habitModel);
+          break;
+        case HabitStatus.done:
+          isGeneral
+              ? generalHabitListFinished.remove(habitModel)
+              : todayHabitListDone.remove(habitModel);
+          break;
+        case HabitStatus.doing:
+          isGeneral
+              ? generalHabitListGoing.remove(habitModel)
+              : todayHabitListDoing.remove(habitModel);
+          break;
+        default:
+          todayHabitListCancel.remove(habitModel);
+          break;
+      }
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CustomColors.blue,
+          content: Text('Xóa thành công'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+      notifyListeners();
+    });
+  }
+
+  Future<void> updateStartDateIsAfter(
+      HabitModel habitModel, BuildContext context) {
+    return collectionHabit.collection('habits').doc(habitModel.habitId).update({
+      'name': habitModel.name,
+      'isImportant': habitModel.isImportant,
+      'icon': habitModel.icon.codePoint,
+      'goal': habitModel.goal,
+      'unitGoal': habitModel.unitGoal,
+      'startDate': habitModel.startDate,
+      'endDate': habitModel.endDate,
+      'repeat': habitModel.repeat,
+      'time': habitModel.time,
+      'note': habitModel.note,
+    }).then((value) {
+      //Adding Habit
+      collectionHabit
+          .collection('habits')
+          .doc(habitModel.habitId)
+          .update({'habitRecords': FieldValue.delete()});
+
+      this.createHabitRecords(habitModel);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CustomColors.blue,
+          content: Text('Cập nhật thành công'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      notifyListeners();
+    });
+  }
+
+  void markAsCancelHabit(HabitModel habitModel, DateTime date, int completed) {
+    //xóa trạng thái đang làm trong ngày
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.removeHabitRecord(date, completed, 0))
+        .then((value) => collectionHabit
+                .collection('habits')
+                .doc(habitModel.habitId)
+                .update(habitModel.createHabitRecord(date, completed, -1))
+                .then((value) {
+//thêm vào trạng thái đã hủy
+              todayHabitListDoing.remove(habitModel);
+              todayHabitListCancel.add(habitModel);
+
+              notifyListeners();
+            }));
+  }
+
+  void markAsDone(HabitModel habitModel, DateTime date, int completed) {
+    //xóa trạng thái đang làm trong ngày
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.removeHabitRecord(date, completed, 0))
+        .then((value) => collectionHabit
+                .collection('habits')
+                .doc(habitModel.habitId)
+                .update(habitModel.createHabitRecord(date, habitModel.goal, 1))
+                .then((value) {
+//thêm vào trạng thái hoàn thành
+              todayHabitListDoing.remove(habitModel);
+              todayHabitListDone
+                  .add(habitModel.fromHabitRecords(date, habitModel.goal, 1));
+
+              notifyListeners();
+            }));
+  }
+
+  void markResetHabit(HabitModel habitModel, DateTime date) {
+    //xóa trạng thái hoàn thành trong ngày
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.removeHabitRecord(date, habitModel.goal, 1))
+        .then((value) => collectionHabit
+                .collection('habits')
+                .doc(habitModel.habitId)
+                .update(habitModel.createHabitRecord(date, 0, 0))
+                .then((value) {
+//thêm vào trạng thái đang làm
+              todayHabitListDone.remove(habitModel);
+              todayHabitListDoing.add(habitModel.fromHabitRecords(date, 0, 0));
+
+              notifyListeners();
+            }));
+  }
+
+  void markRefreshHabit(HabitModel habitModel, DateTime date, int completed) {
+    //xóa trạng hủy trong ngày
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.removeHabitRecord(date, completed, -1))
+        .then((value) => collectionHabit
+                .collection('habits')
+                .doc(habitModel.habitId)
+                .update(habitModel.createHabitRecord(date, completed, 0))
+                .then((value) {
+//thêm vào trạng thái đang làm
+              todayHabitListCancel.remove(habitModel);
+              todayHabitListDoing
+                  .add(habitModel.fromHabitRecords(date, completed, 0));
+
+              notifyListeners();
+            }));
+  }
+
+  void updateProgress(
+      HabitModel habitModel, DateTime date, int completed, int newCompleted) {
+    //xóa tiến trình đang làm trong ngày
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.removeHabitRecord(date, completed, 0))
+        .then((value) {
+      collectionHabit //cập nhật tiến trình
+          .collection('habits')
+          .doc(habitModel.habitId)
+          .update(habitModel.createHabitRecord(date, newCompleted, 0));
+
+      todayHabitListDoing.remove(habitModel);
+      todayHabitListDoing
+          .add(habitModel.fromHabitRecords(date, newCompleted, 0));
+      notifyListeners();
+    });
   }
 }

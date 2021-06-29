@@ -2,6 +2,6 @@ enum HabitStatus { doing, done, canceled, future }
 
 enum HabitTileType { dailyProgress, general }
 
-enum HabitModelMode { NEW, VIEW, EDIT, DUPLICATE }
+enum HabitModelMode { NEW, EDIT }
 
-enum HabitSelectedOption { CHECK, CLEAR, REFRESH, RESET, EDIT, DEL }
+enum HabitSelectedOption { CHECK, CANCEL, RESET, REFRESH, EDIT, DEL }

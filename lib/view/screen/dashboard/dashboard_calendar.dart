@@ -32,29 +32,29 @@ class _DashboardCalendarState extends State<DashboardCalendar> {
           titleTextStyle: TextStyle(
             fontFamily: 'Roboto',
             fontWeight: FontWeight.bold,
-            fontSize: 12.0,
+            fontSize: 16.0,
             color: CustomColors.black,
           ),
           leftChevronIcon: const Icon(
             Icons.chevron_left_rounded,
-            size: 25.0,
+            //  size: 25.0,
           ),
           rightChevronIcon: const Icon(
             Icons.chevron_right_rounded,
-            size: 25.0,
+            // size: 25.0,
           )),
       daysOfWeekHeight: 20.0,
       daysOfWeekStyle: DaysOfWeekStyle(
         weekdayStyle: TextStyle(
           fontFamily: 'Roboto',
           fontWeight: FontWeight.bold,
-          fontSize: 12.0,
+          fontSize: 14.0,
           color: CustomColors.black,
         ),
         weekendStyle: TextStyle(
           fontFamily: 'Roboto',
           fontWeight: FontWeight.bold,
-          fontSize: 12.0,
+          fontSize: 15.0,
           color: CustomColors.black,
         ),
       ),
@@ -63,19 +63,19 @@ class _DashboardCalendarState extends State<DashboardCalendar> {
         outsideTextStyle: TextStyle(
           color: CustomColors.grey,
           fontFamily: 'Roboto',
-          fontSize: 12.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
         defaultTextStyle: TextStyle(
           color: CustomColors.black,
           fontFamily: 'Roboto',
-          fontSize: 12.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
         selectedTextStyle: TextStyle(
           color: Colors.white,
           fontFamily: 'Roboto',
-          fontSize: 12.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
         selectedDecoration: BoxDecoration(
@@ -87,7 +87,7 @@ class _DashboardCalendarState extends State<DashboardCalendar> {
               ? Colors.white
               : CustomColors.black,
           fontFamily: 'Roboto',
-          fontSize: 12.0,
+          fontSize: 14.0,
           fontWeight: FontWeight.bold,
         ),
         todayDecoration: BoxDecoration(
