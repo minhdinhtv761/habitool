@@ -30,13 +30,17 @@ class HabitInfo extends StatefulWidget {
   final HabitModel habitModel;
   final bool isRecommend;
   @override
-  _HabitInfo createState() => _HabitInfo();
+  _HabitInfo createState() => _HabitInfo(this.isRecommend);
 }
 
 DateTime dateTime = DateTime.now();
 DateTime dateNow = DateTime(dateTime.year, dateTime.month, dateTime.day);
 
 class _HabitInfo extends State<HabitInfo> {
+  //khởi tạo
+  bool isRecommend;
+  _HabitInfo(this.isRecommend);
+  //
   HabitModel _habitModel = HabitModel(notif: false, isImportant: false);
   bool edittingEnabled;
   bool edittingStartDate;
@@ -61,6 +65,9 @@ class _HabitInfo extends State<HabitInfo> {
   void initState() {
     //
     if (this.widget.mode == HabitModelMode.NEW) {
+      if (this.isRecommend) {
+        onCreate();
+      }
       edittingEnabled = true;
       edittingStartDate = true;
     } else {
@@ -117,12 +124,6 @@ class _HabitInfo extends State<HabitInfo> {
     _repeatString = HabitFunctions.convertToStringList(_repeat);
     //
     //Nếu đang chọn gợi ý
-    if (this.widget.isRecommend)
-      setState(() {
-        edittingEnabled = true;
-        onCreate();
-        edittingStartDate = true;
-      });
 
     Widget nameBox = NameBox(
       enabled: edittingEnabled,

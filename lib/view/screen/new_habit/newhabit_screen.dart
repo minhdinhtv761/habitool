@@ -8,6 +8,7 @@ import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/view/screen/new_habit/recommend_newhabit.dart';
+import 'package:habitool/view/screen/new_habit/recommend_screen.dart';
 import 'package:habitool/widgets/custom_appbar.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -23,11 +24,10 @@ class NewHabitScreen extends StatefulWidget {
 class _NewHabitScreenState extends State<NewHabitScreen> {
   HabitModel _habitModel = HabitModel(notif: false, isImportant: false);
   HabitFunctions _habitFunctions = HabitFunctions();
-  bool onClickRecommend = false;
+  bool isRecommend = false;
   @override
   Widget build(BuildContext context) {
-    print(onClickRecommend);
-    print(_habitModel.name);
+    //
     return Scaffold(
         backgroundColor: CustomColors.light,
         appBar: CustomAppBar(
@@ -42,20 +42,17 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
             children: <Widget>[
               RecommendNewHabit(getRecommendHabit: (habitModel) {
                 setState(() {
-                  this.onClickRecommend = true;
                   _habitModel = habitModel;
+                  this.isRecommend = true;
                 });
               }),
               Padding(
                 padding: const EdgeInsets.only(top: 13),
-                child: this.onClickRecommend
-                    ? HabitInfo(
-                        HabitModelMode.EDIT,
-                        isRecommend: true,
+                child: this.isRecommend
+                    ? RecommendScreen(
                         habitModel: _habitModel,
-                        habitCallback: (habitModel) {
-                          this._habitModel = habitModel;
-                        },
+                        habitCallback: (habitModel) =>
+                            this._habitModel = habitModel,
                       )
                     : HabitInfo(
                         HabitModelMode.NEW,
@@ -64,7 +61,7 @@ class _NewHabitScreenState extends State<NewHabitScreen> {
                           this._habitModel = habitModel;
                         },
                       ),
-              )
+              ),
             ],
           ),
         ));
