@@ -21,7 +21,7 @@ class NewHabitScreen extends StatefulWidget {
 }
 
 class _NewHabitScreenState extends State<NewHabitScreen> {
-  HabitModel _habitModel = HabitModel();
+  HabitModel _habitModel = HabitModel(notif: false, isImportant: false);
   HabitFunctions _habitFunctions = HabitFunctions();
   bool onClickRecommend = false;
   @override

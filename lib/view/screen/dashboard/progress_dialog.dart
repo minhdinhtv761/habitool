@@ -8,6 +8,7 @@ import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/view/screen/new_habit/widgets/dialog_menu.dart';
 import 'package:habitool/widgets/custom_dialog.dart';
 import 'package:habitool/widgets/custom_textfield.dart';
+import 'package:habitool/widgets/message_box.dart';
 
 import 'package:provider/provider.dart';
 import '../../../custom_values/custom_colors.dart';
@@ -24,6 +25,7 @@ class ProgressDialog extends StatefulWidget {
 
 class _ProgressDialogState extends State<ProgressDialog> {
   int newCompleted;
+
   @override
   Widget build(BuildContext context) {
     HabitServices habitService =
@@ -69,8 +71,11 @@ class _ProgressDialogState extends State<ProgressDialog> {
               this.widget.habitModel, HabitSelectedOption.CHECK, context,
               date: this.widget.date, completed: this.widget.completed);
         else {
-          habitService.updateProgress(this.widget.habitModel, this.widget.date,
-              this.widget.completed, this.newCompleted);
+          DashboardFunction.handelHabitSelectedOption(
+              this.widget.habitModel, HabitSelectedOption.PROGRESS, context,
+              date: this.widget.date,
+              completed: this.widget.completed,
+              newCompleted: this.newCompleted);
         }
       },
     );

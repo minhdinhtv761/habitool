@@ -21,7 +21,8 @@ import 'body_menu.dart';
 import 'date_picker.dart';
 
 class HabitInfo extends StatefulWidget {
-  HabitInfo(this.mode, {this.habitModel, this.habitCallback, this.isRecommend});
+  HabitInfo(this.mode,
+      {this.habitModel, this.habitCallback, @required this.isRecommend});
 
   final HabitModelMode mode;
   final HabitCallback habitCallback;
@@ -35,7 +36,7 @@ DateTime dateTime = DateTime.now();
 DateTime dateNow = DateTime(dateTime.year, dateTime.month, dateTime.day);
 
 class _HabitInfo extends State<HabitInfo> {
-  HabitModel _habitModel = HabitModel();
+  HabitModel _habitModel = HabitModel(notif: false, isImportant: false);
   bool edittingEnabled;
   bool edittingStartDate;
 
@@ -156,7 +157,7 @@ class _HabitInfo extends State<HabitInfo> {
               if (this.edittingStartDate) {
                 return DatePicker(
                   _startDate,
-                  minDate: dateNow,
+                  minDate: DateTime(2021, 1, 1),
                   callback: (value) {
                     setState(() {
                       _startDate = value;
@@ -227,7 +228,7 @@ class _HabitInfo extends State<HabitInfo> {
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
             _endDate,
-            minDate: this.edittingEnabled ? _startDate : dateNow,
+            minDate: dateNow,
             callback: (value) {
               setState(() {
                 _endDate = value;

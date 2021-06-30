@@ -40,7 +40,8 @@ class DashboardFunction {
       {HabitTileType habitTileType,
       HabitStatus habitStatus,
       DateTime date,
-      int completed}) {
+      int completed,
+      int newCompleted}) {
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
 
@@ -117,8 +118,25 @@ class DashboardFunction {
           );
         }
         break;
+      case HabitSelectedOption.PROGRESS:
+        if (date.isAtSameMomentAs(dateNow)) {
+          habitServices.updateProgress(
+              _habitModel, date, completed, newCompleted);
+        } else {
+          //cảnh báo thói quen không phải trong ngày
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => MessageBox.warningSelection(
+              onSubmit: () {
+                habitServices.updateProgress(
+                    _habitModel, date, completed, newCompleted);
+              },
+            ),
+          );
+        }
 
-      default:
+        break;
+      default: //REFRESH
         if (date.isAtSameMomentAs(dateNow)) {
           habitServices.markRefreshHabit(_habitModel, date, completed);
         } else {

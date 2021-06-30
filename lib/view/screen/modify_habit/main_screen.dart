@@ -54,7 +54,10 @@ class _ModifyHabitScreenState extends State<ModifyHabitScreen> {
             PopupMenuButton<MenuItems>(
               onSelected: (value) => {
                 if (value == MenuItems.save)
-                  {habitFunctions.updateHabit(this.newHabitModel, context)}
+                  {
+                    habitFunctions.updateHabit(
+                        this.newHabitModel, this.widget.habitModel, context)
+                  }
                 else
                   {
                     DashboardFunction.handelHabitSelectedOption(

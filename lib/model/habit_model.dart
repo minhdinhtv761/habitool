@@ -73,7 +73,7 @@ class HabitModel {
   HabitModel(
       {this.habitId,
       this.name,
-      this.isImportant,
+      @required this.isImportant,
       this.icon,
       this.goal,
       this.unitGoal,
@@ -81,7 +81,7 @@ class HabitModel {
       this.endDate,
       this.repeat,
       this.time,
-      this.notif,
+      @required this.notif,
       this.note,
       this.habitRecords});
 

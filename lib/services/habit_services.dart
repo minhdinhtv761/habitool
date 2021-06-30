@@ -5,6 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
+import 'package:habitool/model/habitrecord_model.dart';
 
 class HabitServices extends ChangeNotifier {
   HabitServices();
@@ -35,7 +36,9 @@ class HabitServices extends ChangeNotifier {
           .doc(value.id)
           .update({'id': value.id});
 
-      this.createHabitRecords(habitModel);
+      this.createHabitRecordsFrom(
+          habitModel, habitModel.startDate, habitModel.repeat);
+
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           backgroundColor: CustomColors.blue,
@@ -43,15 +46,23 @@ class HabitServices extends ChangeNotifier {
           behavior: SnackBarBehavior.floating,
         ),
       );
+
       notifyListeners();
     }).catchError((error) => print("Failed to add habit: $error"));
   }
 
-  void createHabitRecords(HabitModel habitModel) {
-    DateTime date = habitModel.startDate;
+  void createHabitRecordsFrom(
+      HabitModel habitModel, DateTime startDate, List<int> repeat) {
+    DateTime date = startDate;
     Duration duration = Duration(days: 1);
-    while (date.isBefore(habitModel.endDate.add(Duration(days: 1)))) {
-      this.addHabitRecordData(habitModel, date, 0, 0);
+
+    while (date.isBefore(habitModel.endDate.add(duration))) {
+      for (int weekday in repeat) {
+        if (date.weekday == weekday) {
+          this.addHabitRecordData(habitModel, date, 0, 0);
+          break;
+        }
+      }
       date = date.add(duration);
     }
   }
@@ -243,6 +254,7 @@ class HabitServices extends ChangeNotifier {
     });
   }
 
+//chỉnh sửa thói quen khi ngày bắt đầu ở sau ngày hiện tại
   Future<void> updateStartDateIsAfter(
       HabitModel habitModel, BuildContext context) {
     return collectionHabit.collection('habits').doc(habitModel.habitId).update({
@@ -264,7 +276,8 @@ class HabitServices extends ChangeNotifier {
           .doc(habitModel.habitId)
           .update({'habitRecords': FieldValue.delete()});
 
-      this.createHabitRecords(habitModel);
+      this.createHabitRecordsFrom(
+          habitModel, habitModel.startDate, habitModel.repeat);
 
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
@@ -275,6 +288,60 @@ class HabitServices extends ChangeNotifier {
       );
 
       notifyListeners();
+    });
+  }
+
+//chỉnh sửa thói quen khi ngày bắt đầu ở trước ngày hiện tại
+  Future<void> updateStartDateIsBefore(
+      HabitModel newHabit, HabitModel oldHabit, BuildContext context) {
+    return collectionHabit.collection('habits').doc(newHabit.habitId).update({
+      'name': newHabit.name,
+      'isImportant': newHabit.isImportant,
+      'icon': newHabit.icon.codePoint,
+      'goal': newHabit.goal,
+      'unitGoal': newHabit.unitGoal,
+      'startDate': newHabit.startDate,
+      'endDate': newHabit.endDate,
+      'repeat': newHabit.repeat,
+      'time': newHabit.time,
+      'notif': newHabit.notif,
+      'note': newHabit.note,
+    }).then((value) {
+      this.updateHabitRecordWhenEdit(oldHabit, newHabit);
+
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          backgroundColor: CustomColors.blue,
+          content: Text('Cập nhật thành công'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+
+      notifyListeners();
+    });
+  }
+
+  void updateHabitRecordWhenEdit(HabitModel oldHabit, HabitModel newHabit) {
+    DateTime now = DateTime.now();
+    //Xóa danh sách lưu trữ thói quen cũ kể từ ngày hn
+    List<HabitRecord> oldHabitRecords = oldHabit.habitRecords.toList();
+    oldHabitRecords.forEach((habitRecord) {
+      if (habitRecord.date.isAfter(now)) {
+        collectionHabit
+            .collection('habits')
+            .doc(newHabit.habitId)
+            .update(newHabit.removeHabitRecord(habitRecord.date, 0, 0));
+      }
+    });
+    //thêm mới lưu trữ thói quen mới theo lặp mới
+    List<HabitRecord> newHabitRecords = newHabit.habitRecords.toList();
+    newHabitRecords.forEach((habitRecord) {
+      if (habitRecord.date.isAfter(now)) {
+        this.createHabitRecordsFrom(
+            newHabit,
+            DateTime(now.year, now.month, now.day).add(Duration(days: 1)),
+            newHabit.repeat);
+      }
     });
   }
 

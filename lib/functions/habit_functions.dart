@@ -15,27 +15,18 @@ class HabitFunctions {
     return habitServices.addHabitData(habitModel, context);
   }
 
-  Future<void> updateHabit(HabitModel habitModel, BuildContext context) {
+  Future<void> updateHabit(
+      HabitModel newHabit, HabitModel oldHabit, BuildContext context) {
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
 
     DateTime now = DateTime.now();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
 
-    if (habitModel.startDate.isAfter(dateNow.subtract(Duration(seconds: 5)))) {
-      return habitServices.updateStartDateIsAfter(habitModel, context);
+    if (newHabit.startDate.isAfter(dateNow)) {
+      return habitServices.updateStartDateIsAfter(newHabit, context);
     }
-  }
-
-  void createHabitRecords(HabitModel habitModel, BuildContext context) {
-    HabitServices habitServices =
-        Provider.of<HabitServices>(context, listen: false);
-    DateTime date = habitModel.startDate;
-    Duration duration = Duration(days: 1);
-    while (date.isBefore(habitModel.endDate.add(Duration(days: 1)))) {
-      habitServices.addHabitRecordData(habitModel, date, 0, 0);
-      date = date.add(duration);
-    }
+    return habitServices.updateStartDateIsBefore(newHabit, oldHabit, context);
   }
 
   static List<Widget> buildGeneralListWidget(List<Widget> listWidget,
