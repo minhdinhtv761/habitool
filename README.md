@@ -24,7 +24,7 @@ Recognizing this problem, we offer a habit tracking software product. With outst
 
 ## Technology
 - Main programming language: Dart
-- Android
+- Operating system: Android
 - Development Platform: Flutter
 - Database: Firebase
 - Source code management: Github
