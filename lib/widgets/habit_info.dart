@@ -4,6 +4,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/custom_values/enums.dart';
+import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/model/habitrecord_model.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
@@ -55,16 +56,17 @@ class _HabitInfo extends State<HabitInfo> {
   String _note = '';
   List<HabitRecord> _habitRecords = <HabitRecord>[];
 
-  List<String> _repeatString = [];
+  List<String> _repeatString;
 
   void initState() {
+    //
     if (this.widget.mode == HabitModelMode.NEW) {
       edittingEnabled = true;
       edittingStartDate = true;
     } else {
       edittingEnabled = true;
       onCreate();
-      edittingStartDate = isEditStartDate();
+      edittingStartDate = canEditStartDate();
     }
     super.initState();
   }
@@ -104,22 +106,17 @@ class _HabitInfo extends State<HabitInfo> {
     this.widget.habitCallback(_habitModel);
   }
 
-  bool isEditStartDate() {
+  bool canEditStartDate() {
     if (_startDate.isAfter(dateNow)) return true;
     return false;
   }
 
-  List<String> getDate = ['T2', 'T3', 'T4', 'T5', 'T5', 'T7', 'CN'];
-  void changeRepeatToString() {
-    _repeatString.clear();
-    _repeat.forEach((element) {
-      int index = _repeat.indexOf(element);
-      _repeatString.add(getDate[index]);
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
+    //chuyển repeat sang chuỗi hiển thị
+    _repeatString = HabitFunctions.convertToStringList(_repeat);
+    //
+    //Nếu đang chọn gợi ý
     if (this.widget.isRecommend)
       setState(() {
         edittingEnabled = true;
@@ -203,19 +200,19 @@ class _HabitInfo extends State<HabitInfo> {
     BodyMenu repetition = BodyMenu(
       icon: Icons.cached_rounded,
       title: 'Lặp lại',
-      content: (_repeat.length == 7 ? 'Hàng ngày' : _repeatString.join(', ')),
+      content:
+          (_repeatString.length == 7 ? 'Hàng ngày' : _repeatString.join(', ')),
       press: () {
         showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => RepetitionDialog(
-              // getRepeat: (repeat)
-              // {
-              //   setState(() {
-              //     _habitModel.repeat = int.parse(repeat);
-              //   });
-              //   onChanged();
-              // },
-              ),
+              repeat: _repeat,
+              getRepeat: (listSelected) {
+                setState(() {
+                  _repeat = HabitFunctions.convertToIntList(listSelected);
+                });
+                onChanged();
+              }),
         );
       },
     );
