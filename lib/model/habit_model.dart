@@ -14,8 +14,13 @@ class HabitModel {
   DateTime endDate;
   List<int> repeat;
   DateTime time;
+  bool notif;
   String note;
   List<HabitRecord> habitRecords;
+
+  get getNotif => this.notif;
+
+  set setNotif(notif) => this.notif = notif;
 
   List get getHabitRecords => this.habitRecords;
 
@@ -76,6 +81,7 @@ class HabitModel {
       this.endDate,
       this.repeat,
       this.time,
+      this.notif,
       this.note,
       this.habitRecords});
 
@@ -92,6 +98,7 @@ class HabitModel {
       startDate: data['startDate'].toDate(),
       endDate: data['endDate'].toDate(),
       time: data['time'].toDate(),
+      notif: data['notif'],
       repeat: List.from(data['repeat']),
       note: data['note'],
       habitRecords: HabitRecord.fromJsonArray(data['habitRecords']),
@@ -127,6 +134,7 @@ class HabitModel {
     this.endDate = myHabit.endDate;
     this.repeat = myHabit.repeat;
     this.time = myHabit.time;
+    this.notif = myHabit.notif;
     this.note = myHabit.note;
   }
 

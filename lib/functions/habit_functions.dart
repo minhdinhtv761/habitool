@@ -19,13 +19,10 @@ class HabitFunctions {
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
 
-    print('vào update');
     DateTime now = DateTime.now();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
 
     if (habitModel.startDate.isAfter(dateNow.subtract(Duration(seconds: 5)))) {
-      print('sửa ngày bắt đầu sau ngày hiện tại');
-
       return habitServices.updateStartDateIsAfter(habitModel, context);
     }
   }
@@ -98,6 +95,7 @@ class HabitFunctions {
             endDate: DateTime.now().add(Duration(days: 30)),
             repeat: [1, 2, 3, 4, 5, 6, 7],
             time: DateTime(1, 1, 1, 8, 0),
+            notif: true,
             note: 'Vì đẹp và khỏe'),
         HabitModel(
             name: 'Uống nước',
@@ -109,6 +107,7 @@ class HabitFunctions {
             endDate: DateTime.now().add(Duration(days: 30)),
             repeat: [1, 2, 3, 4, 5, 6, 7],
             time: DateTime(1, 1, 1, 8, 0),
+            notif: false,
             note: 'Vì sức khỏe'),
         HabitModel(
             name: 'Đọc sách',
@@ -120,6 +119,7 @@ class HabitFunctions {
             endDate: DateTime.now().add(Duration(days: 30)),
             repeat: [1, 2, 3, 4, 5, 6, 7],
             time: DateTime(1, 1, 1, 8, 0),
+            notif: false,
             note: 'Bổ sung kiến thức'),
         HabitModel(
             name: 'Viết nhật ký',
@@ -131,6 +131,7 @@ class HabitFunctions {
             endDate: DateTime.now().add(Duration(days: 30)),
             repeat: [1, 2, 3, 4, 5, 6, 7],
             time: DateTime(1, 1, 1, 8, 0),
+            notif: false,
             note: ''),
       ];
 }

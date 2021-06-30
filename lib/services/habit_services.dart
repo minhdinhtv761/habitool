@@ -25,6 +25,7 @@ class HabitServices extends ChangeNotifier {
       'endDate': habitModel.endDate,
       'repeat': habitModel.repeat,
       'time': habitModel.time,
+      'notif': habitModel.notif,
       'note': habitModel.note,
     }).then((value) {
       habitModel.habitId = value.id;
@@ -254,6 +255,7 @@ class HabitServices extends ChangeNotifier {
       'endDate': habitModel.endDate,
       'repeat': habitModel.repeat,
       'time': habitModel.time,
+      'notif': habitModel.notif,
       'note': habitModel.note,
     }).then((value) {
       //Adding Habit

@@ -7,6 +7,7 @@ import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/model/habitrecord_model.dart';
 import 'package:habitool/view/screen/new_habit/goal_dialog.dart';
+import 'package:habitool/view/screen/new_habit/notification_dialog.dart';
 
 import 'package:habitool/view/screen/new_habit/repetition_dialog.dart';
 import 'package:habitool/widgets/custom_dialog.dart';
@@ -49,6 +50,7 @@ class _HabitInfo extends State<HabitInfo> {
   DateTime _endDate = dateNow;
   List<int> _repeat = [1, 2, 3, 4, 5, 6, 7];
   DateTime _time = dateTime;
+  bool _notif = false;
   String _note = '';
   List<HabitRecord> _habitRecords = <HabitRecord>[];
 
@@ -77,6 +79,7 @@ class _HabitInfo extends State<HabitInfo> {
     _endDate = this.widget.habitModel.endDate;
     _repeat = this.widget.habitModel.repeat;
     _time = this.widget.habitModel.time;
+    _notif = this.widget.habitModel.notif;
     _note = this.widget.habitModel.note;
     _habitRecords = this.widget.habitModel.habitRecords;
   }
@@ -93,6 +96,7 @@ class _HabitInfo extends State<HabitInfo> {
     _habitModel.endDate = DateTime(_endDate.year, _endDate.month, _endDate.day);
     _habitModel.repeat = _repeat;
     _habitModel.time = DateTime(1, 1, 1, _time.hour, _time.minute);
+    _habitModel.notif = _notif;
     _habitModel.note = _note;
     _habitModel.habitRecords = _habitRecords;
 
@@ -256,18 +260,36 @@ class _HabitInfo extends State<HabitInfo> {
       },
     );
 
-    List<Widget> getMenuBasicInfo() {
-      List<Widget> list = List();
-      for (var basicInfo in listBasicInfo) {
-        list.add(basicInfo);
-        if (listBasicInfo.indexOf(basicInfo) != listBasicInfo.length - 1)
-          list.add(Divider(height: 1));
+    BodyMenu notification = BodyMenu(
+      icon: FontAwesomeIcons.bell,
+      title: 'Nhắc nhở',
+      content: _notif ? 'Bật' : 'Tắt',
+      press: () {
+        showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => NotificationDialog(
+            _notif ? 'Bật' : 'Tắt',
+            getNotif: (value) {
+              setState(() {
+                _notif = value == 'Bật';
+              });
+            },
+          ),
+        );
+      },
+    );
+
+//Thời gian/Nhắc nhở
+    List<BodyMenu> listTime = [time, notification];
+
+    List<Widget> getMenuList(List<BodyMenu> list) {
+      List<Widget> _list = List();
+      for (var item in list) {
+        _list.add(item);
+        if (list.indexOf(item) != list.length - 1)
+          _list.add(Divider(height: 1));
       }
-      // if (showEndDate) {
-      //   list.add(Divider(height: 1));
-      //   list.add(endDate);
-      // }
-      return list;
+      return _list;
     }
 
     Widget noteBox = NoteBox(
@@ -278,6 +300,7 @@ class _HabitInfo extends State<HabitInfo> {
       },
       note: _note,
     );
+
     //List <Widget> basicInfo =
     return Material(
       color: Colors.transparent,
@@ -286,11 +309,13 @@ class _HabitInfo extends State<HabitInfo> {
           nameBox,
           CustomCard(
             child: Column(
-              children: getMenuBasicInfo(),
+              children: getMenuList(listBasicInfo.toList()),
             ),
           ),
           CustomCard(
-            child: time,
+            child: Column(
+              children: getMenuList(listTime.toList()),
+            ),
           ),
           noteBox,
         ],
