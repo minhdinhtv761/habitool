@@ -336,12 +336,10 @@ class HabitServices extends ChangeNotifier {
     //thêm mới lưu trữ thói quen mới theo lặp mới
     List<HabitRecord> newHabitRecords = newHabit.habitRecords.toList();
     newHabitRecords.forEach((habitRecord) {
-      if (habitRecord.date.isAfter(now)) {
-        this.createHabitRecordsFrom(
-            newHabit,
-            DateTime(now.year, now.month, now.day).add(Duration(days: 1)),
-            newHabit.repeat);
-      }
+      this.createHabitRecordsFrom(
+          newHabit,
+          DateTime(now.year, now.month, now.day).add(Duration(days: 1)),
+          newHabit.repeat);
     });
   }
 

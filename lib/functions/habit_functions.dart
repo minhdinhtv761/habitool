@@ -125,4 +125,69 @@ class HabitFunctions {
             notif: false,
             note: ''),
       ];
+
+  ///Convert List<bool> to List<int>
+  static List<int> convertToIntList(List<bool> listSelected) {
+    List<int> _list = [];
+    int index = 0;
+    for (bool data in listSelected) {
+      if (data) {
+        _list.add(index + 1);
+      } else {
+        _list.add(0);
+      }
+      index++;
+    }
+
+    return _list;
+  }
+
+//Convert List<int> to bool
+  static List<bool> convertToBoolList(List<int> repeat) {
+    List<bool> _list = [];
+    repeat.forEach((data) {
+      if (data != 0) {
+        _list.add(true);
+      } else {
+        _list.add(false);
+      }
+    });
+
+    return _list;
+  }
+
+  //Convert List<int> to list<string>
+  static List<String> convertToStringList(List<int> repeat) {
+    List<String> _list = [];
+    repeat.forEach((data) {
+      if (data != 0) _list.add(getWeekday(data));
+    });
+    return _list;
+  }
+
+  static String getWeekday(int data) {
+    switch (data) {
+      case 1:
+        return ('T2');
+        break;
+      case 2:
+        return ('T3');
+        break;
+      case 3:
+        return ('T4');
+        break;
+      case 4:
+        return ('T5');
+        break;
+      case 5:
+        return ('T6');
+        break;
+      case 6:
+        return ('T7');
+        break;
+      default:
+        return ('CN');
+        break;
+    }
+  }
 }
