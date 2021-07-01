@@ -162,7 +162,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
 
           SliverPadding(
-            padding: EdgeInsets.only(top: 80.0, left: 60.0, right: 60.0),
+            padding: EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
             sliver: SliverToBoxAdapter(
               child: Column(
                 children: <Widget>[
@@ -173,12 +173,15 @@ class _UserScreenState extends State<UserScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        minimumSize: Size(400, 70),
+                        minimumSize: Size(
+                          size.width / 1.2,
+                          size.height / 14,
+                        ),
                       ),
                       child: Text('Đăng xuất',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )),
                       onPressed: () {

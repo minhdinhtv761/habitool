@@ -50,7 +50,7 @@ class _HabitInfo extends State<HabitInfo> {
   String _name = '';
   bool _isImportant = false;
   IconData _icon = Icons.ac_unit;
-  int _goal = 0;
+  int _goal = 1;
   String _unitGoal = 'lần';
   DateTime _startDate = dateNow;
   DateTime _endDate = dateNow;
@@ -70,6 +70,7 @@ class _HabitInfo extends State<HabitInfo> {
       }
       edittingEnabled = true;
       edittingStartDate = true;
+      onChanged();
     } else {
       edittingEnabled = true;
       onCreate();

@@ -46,12 +46,6 @@ class _ProgressDialogState extends State<ProgressDialog> {
               getText: (text) {
                 this.newCompleted = int.parse(text);
               },
-              errorText: (text) {
-                if (int.parse(text) > this.widget.habitModel.goal)
-                  return 'Tiến độ phải nhỏ hơn mục tiêu';
-                else
-                  return null;
-              },
             ),
           ),
           Expanded(
@@ -66,7 +60,12 @@ class _ProgressDialogState extends State<ProgressDialog> {
         ],
       ),
       edited: () {
-        if (this.newCompleted == this.widget.habitModel.goal)
+        if (newCompleted > this.widget.habitModel.goal) {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => MessageBox.erroInputProgress(),
+          );
+        } else if (this.newCompleted == this.widget.habitModel.goal)
           DashboardFunction.handelHabitSelectedOption(
               this.widget.habitModel, HabitSelectedOption.CHECK, context,
               date: this.widget.date, completed: this.widget.completed);

@@ -100,4 +100,48 @@ class MessageBox {
       edited: onSubmit,
     );
   }
+
+  static Widget erroInput() {
+    return CustomDialog(
+      title: 'Lỗi!',
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            'Sai thông tin',
+            style: TextStyle(
+              color: CustomColors.black,
+              fontSize: 16,
+              fontWeight: FontWeight.bold,
+            ),
+          ),
+          SizedBox(height: 5),
+          Text(
+            'Thông tin không được bỏ trống hoặc mục tiêu cần lớn hơn 1',
+            style: TextStyle(
+              color: CustomColors.darkgrey,
+              fontSize: 13,
+              fontWeight: FontWeight.normal,
+            ),
+          ),
+        ],
+      ),
+      edited: () {},
+    );
+  }
+
+  static Widget erroInputProgress() {
+    return CustomDialog(
+      title: 'Lỗi!',
+      content: Text(
+        'Tiến độ đang nhỏ hơn mục tiêu',
+        style: TextStyle(
+          color: CustomColors.black,
+          fontSize: 16,
+          fontWeight: FontWeight.normal,
+        ),
+      ),
+    );
+  }
 }

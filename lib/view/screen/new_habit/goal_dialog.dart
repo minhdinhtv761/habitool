@@ -4,6 +4,7 @@ import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/view/screen/new_habit/widgets/dialog_menu.dart';
 import 'package:habitool/widgets/custom_dialog.dart';
 import 'package:habitool/widgets/custom_textfield.dart';
+import 'package:habitool/widgets/message_box.dart';
 
 import '../../../custom_values/custom_colors.dart';
 
@@ -39,7 +40,7 @@ class _GoalDialogState extends State<GoalDialog> {
             child: CustomTextField(
               typeInput: TextInputType.number,
               textAlign: TextAlign.center,
-              hintText: '0',
+              hintText: '1',
               getText: (text) {
                 this._goal = text;
               },
@@ -70,8 +71,15 @@ class _GoalDialogState extends State<GoalDialog> {
       //   },
       // ),
       edited: () {
-        this.widget.getGoal(_goal);
-        this.widget.getUnitGoal(_unitGoal);
+        if (_goal == '' || _unitGoal == '' || int.parse(_goal) < 1) {
+          showGeneralDialog(
+            context: context,
+            pageBuilder: (_, __, ___) => MessageBox.erroInput(),
+          );
+        } else {
+          this.widget.getGoal(_goal);
+          this.widget.getUnitGoal(_unitGoal);
+        }
       },
     );
   }
