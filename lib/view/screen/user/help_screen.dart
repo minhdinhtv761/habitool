@@ -7,7 +7,6 @@ import 'package:mailer/smtp_server.dart';
 import 'package:provider/provider.dart';
 import 'package:mailer/mailer.dart';
 import 'package:mailer/smtp_server.dart';
-import 'package:toast/toast.dart';
 
 class HelpScreen extends StatefulWidget {
   final UserData currentUser;

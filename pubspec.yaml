@@ -44,8 +44,6 @@ dependencies:
   image_picker: ^0.8.0+3
   lite_rolling_switch: ^0.1.1
   mailer: ^5.0.0
-  http:
-  toast:
 
 dev_dependencies:
   flutter_test:
