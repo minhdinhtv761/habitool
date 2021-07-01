@@ -50,12 +50,7 @@ Future<UserData> logIn(String email, String password) async {
     UserData userData;
     if (user != null) {
       print("Login Sucessfull");
-//<<<<<<< UpdateDatabase
-      print("UID: ${user.uid}");
-       _firestore
-// =======
-//       await _firestore
-// >>>>>>> HabitModel
+      await _firestore
           .collection('users')
           .doc(_auth.currentUser.uid)
           .get()
