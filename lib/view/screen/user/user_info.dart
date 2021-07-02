@@ -58,7 +58,7 @@ class _UserInfoState extends State<UserInfo> {
     final _user = Provider.of<UserProvider>(context);
     BodyMenu username = BodyMenu(
       icon: Icons.person,
-      title: 'Tên người dùng',
+      title: 'Tài khoản',
     );
 
     BodyMenu birth = BodyMenu(
@@ -269,7 +269,9 @@ class _UserInfoState extends State<UserInfo> {
       padding: const EdgeInsets.only(left: 21, top: 10, right: 21),
       child: Column(
         children: [
-          UserNameBox(),
+          UserNameBox(
+            displayName: name,
+          ),
           CustomCard(child: username),
           CustomCard(
             child: Column(
