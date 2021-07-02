@@ -3,11 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
+import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
+import 'package:habitool/view/screen/user/help_screen.dart';
 import 'package:habitool/view/screen/user/infomation_screen.dart';
+import 'package:habitool/view/screen/user/report_screen.dart';
+import 'package:habitool/view/screen/user/rule_screen.dart';
 import 'package:habitool/view/screen/user/setting_screen.dart';
 import 'package:habitool/widgets/body_menu.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:provider/provider.dart';
+import 'package:habitool/provider/user_provider.dart';
 //import 'package:habitool/view/screen/user';
 
 class UserScreen extends StatefulWidget {
@@ -16,6 +22,18 @@ class UserScreen extends StatefulWidget {
 }
 
 class _UserScreenState extends State<UserScreen> {
+  UserData user;
+  String email;
+  String image;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    user = Provider.of<UserProvider>(context, listen: false).user;
+    email = user.email;
+    //avatar = user.urlAvt;
+  }
+
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
@@ -68,18 +86,13 @@ class _UserScreenState extends State<UserScreen> {
                             child: BodyMenu(
                               icon: Icons.person,
                               title: 'Thông tin cá nhân',
-                              content: 'Nguyễn Văn B',
+                              content: email,
                             ),
                           ),
                         ),
                         Divider(
                           height: 1,
                         ),
-                        // BodyMenu(
-                        //   icon: Icons.settings,
-                        //   title: 'Cài đặt ứng dụng',
-                        //   content: '',
-                        // ),
                         GestureDetector(
                           onTap: () {
                             Navigator.push(
@@ -132,27 +145,60 @@ class _UserScreenState extends State<UserScreen> {
                     ),
                     child: Column(
                       children: <Widget>[
-                        BodyMenu(
-                          icon: Icons.help,
-                          title: 'Trợ giúp',
-                          content: '',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => HelpScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.help,
+                              title: 'Trợ giúp',
+                              content: '',
+                            ),
+                          ),
                         ),
                         Divider(
                           height: 1,
                         ),
-                        BodyMenu(
-                          icon: Icons.warning,
-                          title: 'Báo cáo sự cố',
-                          content: '',
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => ReportScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.warning,
+                              title: 'Báo cáo sự cố',
+                              content: '',
+                            ),
+                          ),
                         ),
                         Divider(
                           height: 1,
                         ),
-                        BodyMenu(
-                          icon: Icons.book,
-                          title: 'Điều khoản sử dụng',
-                          content: '',
-                        )
+                        GestureDetector(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => RuleScreen()),
+                            );
+                          },
+                          child: Container(
+                            child: BodyMenu(
+                              icon: Icons.book,
+                              title: 'Điều khoản sử dụng',
+                              content: '',
+                            ),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -162,7 +208,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
 
           SliverPadding(
-            padding: EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
+            padding: EdgeInsets.only(top: 60.0, left: 60.0, right: 60.0),
             sliver: SliverToBoxAdapter(
               child: Column(
                 children: <Widget>[
@@ -305,6 +351,12 @@ class _UserScreenState extends State<UserScreen> {
                 color: CustomColors.grey,
                 shape: BoxShape.circle,
               ),
+              child: ClipOval(child: image != null && image != ""
+                    ? Image.network(
+                        image,
+                        fit: BoxFit.fill,
+                      )
+                    : Container(),),
             ),
             SizedBox(
               width: 10.0,
@@ -313,7 +365,7 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  'Nguyễn Văn B',
+                  email,
                   style: TextStyle(
                     color: CustomColors.black,
                     fontSize: 18,

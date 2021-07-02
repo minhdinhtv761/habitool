@@ -3,6 +3,7 @@ import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:habitool/provider/user_provider.dart';
+import 'package:habitool/view/screen/user/forget_password.dart';
 import 'package:provider/provider.dart';
 
 import '../../../locator.dart';
@@ -54,13 +55,13 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
               Navigator.pop(context);
             }),
         title: Text(
-          'Đổi mật khẩu',         
+          'Đổi mật khẩu',
           style: TextStyle(
             color: CustomColors.black,
             fontSize: 18,
             fontWeight: FontWeight.bold,
           ),
-        ),       
+        ),
       ),
       body: SingleChildScrollView(
         child: Form(
@@ -200,7 +201,13 @@ class _ChangePasswordScreen extends State<ChangePasswordScreen> {
                             fontSize: 15,
                           ),
                         ),
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => ForgetPasswordScreen()),
+                          );
+                        },
                         onLongPress: () {},
                       ),
                     ],

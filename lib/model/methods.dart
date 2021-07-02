@@ -28,14 +28,14 @@ Future<User> createAccount(
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
       });
-
+      
       await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({
         "finish": 0,
         "delete": 0,
         "cancel": 0,
         "uid": _auth.currentUser.uid,
       });
-
+      
       return user;
     } else {
       print("Account creation failed");
@@ -64,7 +64,6 @@ Future<UserData> logIn(String email, String password) async {
           .get()
           .then((value) {
         userData = UserData.fromJson(value.data());
-        //user.updateProfile(displayName: value['name']);
       });
     }
 
@@ -244,7 +243,7 @@ Future<void> updateAvatar(
   }
 }
 
-Future<void> updateDateOfBirth(
+Future<String> updateDateOfBirth(
     {@required String date,
     @required uid,
     Function success,
