@@ -15,6 +15,7 @@ import 'package:habitool/widgets/custom_card.dart';
 import 'package:habitool/widgets/date_picker.dart';
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:habitool/widgets/habit_info.dart';
 import 'package:provider/provider.dart';
 
 class UserInfo extends StatefulWidget {
@@ -31,25 +32,24 @@ class _UserInfoState extends State<UserInfo> {
   bool _displayNameValid = true;
   bool isLoading = false;
 
-//Default
   DateTime _birthDay = DateTime.now();
-  String _phoneNumber = '';
-  String _address = '';
-  String _gender = 'Nam';
-  String _name = '';
-  String _email = '';
+  String phoneNumber;
+  String address;
+  String _gender;
+  String name;
+  String email;
   //String avatar;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    // user = Provider.of<UserProvider>(context, listen: false).user;
-    // _phoneNumber = user.phoneNumber;
-    // _address = user.address;
-    // _gender = user.gender;
-    // _name = user.displayName;
-    // _email = user.email;
+    user = Provider.of<UserProvider>(context, listen: false).user;
+    phoneNumber = user.phoneNumber;
+    address = user.address;
+    _gender = user.gender;
+    name = user.displayName;
+    email = user.email;
     //avatar = user.urlAvt;
   }
 
@@ -59,15 +59,15 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu username = BodyMenu(
       icon: Icons.person,
       title: 'Tên người dùng',
-      content: _name,
     );
 
     BodyMenu birth = BodyMenu(
         icon: Icons.calendar_today,
         title: 'Ngày sinh',
         content: '${_birthDay.day}/${_birthDay.month}/${_birthDay.year}',
-        press: () {
-          showGeneralDialog(
+        press: () async {
+          //String dateEdited;
+          String result = await showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => DatePicker(
               _birthDay,
@@ -75,79 +75,141 @@ class _UserInfoState extends State<UserInfo> {
                 setState(() {
                   _birthDay = value;
                 });
+                //dateEdited = value as String;
               },
             ),
           );
+          // if (result != null) {
+          //   updateDateOfBirth(
+          //       date: dateEdited,
+          //       uid: _user.user.uid,
+          //       success: () {
+          //         setState(() {
+          //           _birthDay = dateEdited;
+          //         });
+          //       },
+          //       fail: (e) {
+          //         print(e);
+          //       });
+          // }
         });
-    BodyMenu gender = BodyMenu(
+    BodyMenu Gender = BodyMenu(
       icon: FontAwesomeIcons.transgender,
       title: 'Giới tính',
       content: _gender,
-      press: () {
-        showGeneralDialog(
+      press: () async {
+        String genderEdited;
+        bool result = await showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => GenderDialog(
             _gender,
             getGender: (value) {
-              setState(() {
-                _gender = value;
-              });
+              genderEdited = value;
             },
           ),
         );
+        if (result != null && result) {
+          updateGender(
+              gender: genderEdited,
+              uid: _user.user.uid,
+              success: () {
+                setState(() {
+                  _gender = genderEdited;
+                });
+              },
+              fail: (e) {
+                print(e);
+              });
+        }
       },
     );
-    BodyMenu address = BodyMenu(
+    BodyMenu Address = BodyMenu(
       icon: FontAwesomeIcons.mapMarkedAlt,
       title: 'Địa chỉ',
-      content: _address,
-      press: () {
-        showGeneralDialog(
+      content: address,
+      press: () async {
+        String addressEdited;
+        bool result = await showGeneralDialog(
           context: context,
           pageBuilder: (_, __, ___) => AdressDialog(
-            address: _address,
+            address: address,
             edited: (value) {
-              setState(() {
-                _address = value;
-              });
+              addressEdited = value;
             },
           ),
         );
+        if (result != null && result) {
+          updateAddress(
+              address: addressEdited,
+              uid: _user.user.uid,
+              success: () {
+                setState(() {
+                  address = addressEdited;
+                });
+              },
+              fail: (e) {
+                print(e);
+              });
+        }
       },
     );
 
     BodyMenu phone = BodyMenu(
-        icon: Icons.phone,
-        title: 'Số điện thoại',
-        content: _phoneNumber,
-        press: () {
-          showGeneralDialog(
-            context: context,
-            pageBuilder: (_, __, ___) => PhoneDialog(
-              phone: _phoneNumber,
+      icon: Icons.phone,
+      title: 'Số điện thoại',
+      content: phoneNumber,
+      press: () async {
+        String phoneEdited;
+        bool result = await showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => PhoneDialog(
+              phone: phoneNumber,
               edited: (value) {
+                phoneEdited = value;
+              }),
+        );
+        if (result != null && result) {
+          updatePhonenumber(
+              phone: phoneEdited,
+              uid: _user.user.uid,
+              success: () {
                 setState(() {
-                  _phoneNumber = value;
+                  phoneNumber = phoneEdited;
                 });
               },
-            ),
-          );
-        });
-    BodyMenu email = BodyMenu(
+              fail: (e) {
+                print(e);
+              });
+        }
+      },
+    );
+    BodyMenu Email = BodyMenu(
       icon: FontAwesomeIcons.envelope,
       title: 'Email',
-      content: _email,
-      press: () {
-        showGeneralDialog(
-            context: context,
-            pageBuilder: (_, __, ___) => EmailDialog(
-                  email: _email,
-                  edited: (value) {
-                    setState(() {
-                      _email = value;
-                    });
-                  },
-                ));
+      content: email,
+      press: () async {
+        String emailEdited;
+        bool result = await showGeneralDialog(
+          context: context,
+          pageBuilder: (_, __, ___) => EmailDialog(
+              email: email,
+              edited: (value) {
+                emailEdited = value;
+              }),
+        );
+        if (result != null && result) {
+          updateEmail(
+              email: emailEdited,
+              uid: _user.user.uid,
+              success: () {
+                setState(() {
+                  email = emailEdited;
+                });
+              },
+              fail: (e) {
+                print(e);
+              });
+        }
       },
     );
 
@@ -167,7 +229,6 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu password = BodyMenu(
       icon: Icons.vpn_key_outlined,
       title: 'Đổi mật khẩu',
-      content: '',
       press: () {
         Navigator.push(
           context,
@@ -176,8 +237,8 @@ class _UserInfoState extends State<UserInfo> {
       },
     );
 
-    List<BodyMenu> listPersonal = [birth, gender, address];
-    List<BodyMenu> listContact = [phone, email];
+    List<BodyMenu> listPersonal = [birth, Gender, Address];
+    List<BodyMenu> listContact = [phone, Email];
     List<BodyMenu> listSocial = [google, facebook];
 
     //Create list

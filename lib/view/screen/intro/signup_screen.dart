@@ -11,6 +11,8 @@ import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 import 'package:habitool/view/screen/intro/signup_screen.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
+import 'package:email_validator/email_validator.dart';
+
 class SignUpScreen extends StatefulWidget {
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
@@ -111,7 +113,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         ),
                                         obscureText: _isObscure,
                                         validator: (val) {
-                                          if (val.isEmpty) return 'Empty';
+                                          if (val.isEmpty)
+                                            return 'Yêu cầu nhập mật khẩu';
                                           return null;
                                         }),
                                   ),
@@ -136,9 +139,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                         obscureText: _isObscure,
                                         controller: _RePasswordController,
                                         validator: (val) {
-                                          if (val.isEmpty) return 'Empty';
+                                          if (val.isEmpty)
+                                            return 'Yêu cầu nhập lại mật khẩu';
                                           if (val != _passwordController.text)
-                                            return 'Not Match';
+                                            return 'sai mật khẩu';
                                           return null;
                                         }),
                                   ),

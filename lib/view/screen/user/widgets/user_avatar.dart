@@ -36,7 +36,7 @@ class _UserAvatarState extends State<UserAvatar> {
     // TODO: implement initState
     super.initState();
     user = Provider.of<UserProvider>(context, listen: false).user;
-    image = user.urlAvt;
+    //image = user.urlAvt;
   }
 
   FirebaseAuth _auth = FirebaseAuth.instance;

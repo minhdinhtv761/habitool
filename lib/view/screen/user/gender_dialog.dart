@@ -10,18 +10,22 @@ class GenderDialog extends StatefulWidget {
   final StringCallback getGender;
 
   GenderDialog(this.gender, {this.getGender});
+
   @override
   _GenderDialogState createState() => _GenderDialogState();
 }
 
 class _GenderDialogState extends State<GenderDialog> {
   String _gender;
-  List<String> buttonList = ['Nam', 'Nữ', 'Khác'];
+  TextEditingController _genderController = TextEditingController();
   @override
   void initState() {
+    // TODO: implement initState
     print(buttonList.indexOf(this.widget.gender));
     super.initState();
   }
+
+  List<String> buttonList = ['Nam', 'Nữ', 'Khác'];
 
   @override
   Widget build(BuildContext context) {

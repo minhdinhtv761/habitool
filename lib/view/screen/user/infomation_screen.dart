@@ -23,7 +23,7 @@ class _InfomationUserScreenState extends State<InfomationUserScreen> {
       ),
       body: ListView(
         children: [
-          //  UserAvatar(),
+          UserAvatar(),
           UserInfo(),
         ],
       ),
