@@ -49,7 +49,7 @@ class _GoalDialogState extends State<GoalDialog> {
           SizedBox(width: 10),
           Expanded(
             child: CustomTextField(
-              typeInput: TextInputType.number,
+              typeInput: TextInputType.text,
               textAlign: TextAlign.center,
               hintText: 'lần',
               getText: (text) {
