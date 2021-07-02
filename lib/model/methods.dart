@@ -27,6 +27,11 @@ Future<User> createAccount(
         "name": "Habiter",
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
+        "address": '',
+        "gender": 'Nam',
+        "phone": '',
+        "avatar": '',
+        //"date":'',
       });
       return user;
     } else {
