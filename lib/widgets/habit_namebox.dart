@@ -3,6 +3,7 @@ import 'package:flutter_iconpicker/flutter_iconpicker.dart';
 
 import '../custom_values/custom_colors.dart';
 import 'custom_card.dart';
+
 //version: "4.2.0"
 class NameBox extends StatefulWidget {
   final bool enabled;
@@ -10,6 +11,8 @@ class NameBox extends StatefulWidget {
   bool isImportant;
   IconData icon;
   Function onValueChange;
+  Function(bool) getImportantValue;
+  Function(IconData) getIconData;
 
   NameBox({
     this.enabled,
@@ -17,6 +20,8 @@ class NameBox extends StatefulWidget {
     this.isImportant,
     this.icon,
     this.onValueChange,
+    this.getIconData,
+    this.getImportantValue,
   });
 
   @override
@@ -26,7 +31,7 @@ class NameBox extends StatefulWidget {
 class _NameBoxState extends State<NameBox> {
   void _pickIcon() async {
     IconData icon = await FlutterIconPicker.showIconPicker(context,
-        iconPackMode: IconPack.fontAwesomeIcons,
+        iconPackMode: IconPack.material,
         iconColor: CustomColors.black,
         iconSize: 30,
         iconPickerShape:
@@ -49,13 +54,12 @@ class _NameBoxState extends State<NameBox> {
         ));
 
     this.widget.icon = icon;
+    this.widget.getIconData(this.widget.icon);
     setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-
     return CustomCard(
       child: TextFormField(
         enabled: this.widget.enabled,
@@ -81,6 +85,7 @@ class _NameBoxState extends State<NameBox> {
             onPressed: () {
               setState(() {
                 this.widget.isImportant = !this.widget.isImportant;
+                this.widget.getImportantValue(this.widget.isImportant);
               });
             },
           ),

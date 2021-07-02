@@ -52,7 +52,7 @@ class _UserScreenState extends State<UserScreen> {
                 'Cài đặt',
                 style: TextStyle(
                   color: CustomColors.pink,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -123,7 +123,7 @@ class _UserScreenState extends State<UserScreen> {
                 'Trợ giúp & hỗ trợ',
                 style: TextStyle(
                   color: CustomColors.pink,
-                  fontSize: 24,
+                  fontSize: 18,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -219,12 +219,15 @@ class _UserScreenState extends State<UserScreen> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(30),
                         ),
-                        minimumSize: Size(400, 70),
+                        minimumSize: Size(
+                          size.width / 1.2,
+                          size.height / 14,
+                        ),
                       ),
                       child: Text('Đăng xuất',
                           style: TextStyle(
                             color: Colors.white,
-                            fontSize: 24,
+                            fontSize: 18,
                             fontWeight: FontWeight.bold,
                           )),
                       onPressed: () {
@@ -257,7 +260,7 @@ class _UserScreenState extends State<UserScreen> {
         'Đăng xuất',
         style: TextStyle(
           color: CustomColors.light,
-          fontSize: 24,
+          fontSize: 18,
           fontWeight: FontWeight.bold,
         ),
       ),
@@ -281,7 +284,7 @@ class _UserScreenState extends State<UserScreen> {
               'Cá Nhân Hóa',
               style: TextStyle(
                 color: CustomColors.light,
-                fontSize: 24,
+                fontSize: 18,
                 fontWeight: FontWeight.bold,
               ),
             ),
@@ -365,7 +368,7 @@ class _UserScreenState extends State<UserScreen> {
                   email,
                   style: TextStyle(
                     color: CustomColors.black,
-                    fontSize: 24,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
@@ -373,7 +376,7 @@ class _UserScreenState extends State<UserScreen> {
                   height: 3.0,
                 ),
                 Text(
-                  'logged in with facebook',
+                  'Logged in with facebook',
                   style: TextStyle(
                     color: CustomColors.darkgrey,
                     fontSize: 14,

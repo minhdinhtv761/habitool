@@ -9,7 +9,7 @@ import 'package:habitool/provider/user_provider.dart';
 class DashboardAppBar extends StatefulWidget {
   DashboardAppBar({Key key, this.callback}) : super(key: key);
 
-  DateTimeCallback callback;
+  final DateTimeCallback callback;
 
   @override
   _DashboardAppBarState createState() => _DashboardAppBarState();
@@ -103,6 +103,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
             ),
             Container(
               margin: EdgeInsets.only(top: 20.0, bottom: 10),
+              padding: EdgeInsets.only(right: 12, left: 12),
               width: size.width * 0.85,
               decoration: BoxDecoration(
                 color: Colors.white,

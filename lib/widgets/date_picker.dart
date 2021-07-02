@@ -8,8 +8,10 @@ import '../custom_values/custom_colors.dart';
 
 class DatePicker extends StatefulWidget {
   DateTime selectedDate;
+  DateTime minDate;
   DatePicker(
     this.selectedDate, {
+    this.minDate,
     this.callback,
   });
 
@@ -52,6 +54,7 @@ class _DatePickerState extends State<DatePicker> {
         child: Padding(
           padding: const EdgeInsets.all(8.0),
           child: SfDateRangePicker(
+            minDate: this.widget.minDate,
             initialSelectedDate: this.widget.selectedDate,
             view: DateRangePickerView.month,
             showActionButtons: true,
