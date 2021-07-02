@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 
-
-Widget field(
-    Size size, String hintText, TextEditingController cont) {
+Widget field(Size size, String hintText, TextEditingController cont) {
   return Container(
     height: size.height / 14,
     width: size.width / 1.1,
@@ -17,17 +15,14 @@ Widget field(
         ),
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey),
-        suffixIcon: cont
-            .text.isEmpty
+        suffixIcon: cont.text.isEmpty
             ? Container(
-          width: 0.0,
-        )
+                width: 0.0,
+              )
             : IconButton(
-          icon: Icon(Icons.close),
-          onPressed: () =>
-              cont.clear(),
-        ),
-
+                icon: Icon(Icons.close),
+                onPressed: () => cont.clear(),
+              ),
       ),
     ),
   );

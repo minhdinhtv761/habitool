@@ -69,9 +69,13 @@ class _SettingScreen extends State<SettingScreen> {
                                   SizedBox(
                                     width: 10,
                                   ),
+                                  Icon(
+                                    Icons.dark_mode,
+                                    color: CustomColors.darkgrey,
+                                  ),
                                   Expanded(
                                     child: Text(
-                                      'Chế độ ban đêm',
+                                      ' Chế độ ban đêm',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.black,
@@ -113,9 +117,13 @@ class _SettingScreen extends State<SettingScreen> {
                                   SizedBox(
                                     width: 10,
                                   ),
+                                  Icon(
+                                    Icons.notifications,
+                                    color: CustomColors.darkgrey,
+                                  ),
                                   Expanded(
                                     child: Text(
-                                      'Thông báo',
+                                      ' Thông báo',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.black,
@@ -157,9 +165,13 @@ class _SettingScreen extends State<SettingScreen> {
                                   SizedBox(
                                     width: 10,
                                   ),
+                                  Icon(
+                                    Icons.mic_rounded,
+                                    color: CustomColors.darkgrey,
+                                  ),
                                   Expanded(
                                     child: Text(
-                                      'Âm thanh',
+                                      ' Âm thanh',
                                       style: TextStyle(
                                         fontSize: 16,
                                         color: CustomColors.black,
