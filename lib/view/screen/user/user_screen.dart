@@ -103,7 +103,7 @@ class _UserScreenState extends State<UserScreen> {
                           },
                           child: Container(
                             child: BodyMenu(
-                              icon: Icons.person,
+                              icon: Icons.settings,
                               title: 'Cài đặt ứng dụng',
                               content: '',
                             ),
@@ -208,7 +208,7 @@ class _UserScreenState extends State<UserScreen> {
           ),
 
           SliverPadding(
-            padding: EdgeInsets.only(top: 60.0, left: 60.0, right: 60.0),
+            padding: EdgeInsets.only(top: 10.0, left: 15.0, right: 15.0),
             sliver: SliverToBoxAdapter(
               child: Column(
                 children: <Widget>[
@@ -351,12 +351,14 @@ class _UserScreenState extends State<UserScreen> {
                 color: CustomColors.grey,
                 shape: BoxShape.circle,
               ),
-              child: ClipOval(child: image != null && image != ""
+              child: ClipOval(
+                child: image != null && image != ""
                     ? Image.network(
                         image,
                         fit: BoxFit.fill,
                       )
-                    : Container(),),
+                    : Container(),
+              ),
             ),
             SizedBox(
               width: 10.0,
