@@ -70,37 +70,6 @@ class _HabitListState extends State<HabitList> {
         : HabitFunctions.buildGeneralListWidget(
             title, listHabitModel, this.widget.status, this.widget.date));
 
-    // return Consumer<HabitServices>(builder: (context, habitService, child) {
-    //   List<HabitModel> listHabitModel = [];
-    //   bool isGeneral = (this.type == HabitTileType.general);
-    //   switch (this.status) {
-    //     case HabitStatus.future:
-    //       listHabitModel = habitService.generalHabitListFuture.toList();
-    //       break;
-    //     case HabitStatus.done:
-    //       listHabitModel = isGeneral
-    //           ? habitService.generalHabitListFinished.toList()
-    //           : habitService.todayHabitListDone.toList();
-    //       break;
-    //     case HabitStatus.doing:
-    //       listHabitModel = isGeneral
-    //           ? habitService.generalHabitListGoing
-    //           : habitService.todayHabitListDoing.toList();
-    //       break;
-    //     default:
-    //       listHabitModel = habitService.todayHabitListCancel.toList();
-    //       break;
-    //   }
-    //   print('$type $status ${listHabitModel.length}');
-    //   List<Widget> listWidget = [];
-
-    //   if (this.type == HabitTileType.dailyProgress)
-    //     listWidget = HabitFunctions.buildDailyListWidget(
-    //         title, listHabitModel, this.widget.date, this.status);
-    //   else
-    //     listWidget = HabitFunctions.buildGeneralListWidget(
-    //         title, listHabitModel, this.status, this.widget.date);
-
     return SliverList(
       delegate: SliverChildBuilderDelegate(
         (context, index) {

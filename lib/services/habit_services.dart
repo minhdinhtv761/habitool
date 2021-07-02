@@ -424,6 +424,7 @@ class HabitServices extends ChangeNotifier {
   void updateProgress(
       HabitModel habitModel, DateTime date, int completed, int newCompleted) {
     //xóa tiến trình đang làm trong ngày
+
     collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
