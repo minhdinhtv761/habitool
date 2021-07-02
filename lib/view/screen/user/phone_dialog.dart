@@ -7,7 +7,7 @@ import 'package:habitool/widgets/custom_textfield.dart';
 class PhoneDialog extends StatefulWidget {
   String phone;
   StringCallback edited;
-
+  //PhoneDialog({Key key, this.phone, this.edited});
   PhoneDialog({this.phone, this.edited});
 
   @override

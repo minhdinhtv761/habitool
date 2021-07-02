@@ -7,6 +7,7 @@ import 'package:habitool/widgets/custom_textfield.dart';
 class EmailDialog extends StatefulWidget {
   String email;
   StringCallback edited;
+  //EmailDialog({Key key, this.email, this.edited}) : super(key: key);
   EmailDialog({this.email, this.edited});
 
   @override
