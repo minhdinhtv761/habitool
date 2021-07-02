@@ -269,7 +269,8 @@ class _HabitTileState extends State<HabitTile> {
       ),
       onTap: () {
         if (this.widget.habitTileType == HabitTileType.dailyProgress &&
-            this.widget.habitStatus == HabitStatus.doing) {
+            this.widget.habitStatus == HabitStatus.doing &&
+            dateNow.isBefore(DateTime.now())) {
           showGeneralDialog(
               context: context,
               pageBuilder: (_, __, ___) => ProgressDialog(
