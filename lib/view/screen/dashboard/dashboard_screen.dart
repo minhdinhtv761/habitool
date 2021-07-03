@@ -4,7 +4,9 @@ import 'package:habitool/custom_values/custom_type.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/functions/habit_functions.dart';
 import 'package:habitool/model/habit_model.dart';
+import 'package:habitool/model/statistic_model.dart';
 import 'package:habitool/services/habit_services.dart';
+import 'package:habitool/services/statistic_services.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/finished_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/future_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/going_habit_list.dart';
@@ -50,15 +52,21 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+//
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
     habitServices.getTodayHabitFromFirebase(this._selectedDay);
     habitServices.getGoingHabitFromFirebase(this._selectedDay);
     habitServices.getFutureHabitFromFirebase(this._selectedDay);
     habitServices.getFinishedHabitFromFirebase(this._selectedDay);
-
+    //
+    StatisticServices statisticService =
+        Provider.of<StatisticServices>(context, listen: false);
+    statisticService.getData();
+    statisticService.getDataToday();
+    //
     return Consumer<HabitServices>(builder: (context, habitServices, child) {
+      //
       return Scaffold(
         backgroundColor: CustomColors.light,
         body: CustomScrollView(

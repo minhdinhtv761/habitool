@@ -72,14 +72,16 @@ class DashboardFunction {
 
       case HabitSelectedOption.CANCEL:
         if (date.isAtSameMomentAs(dateNow)) {
-          habitServices.markAsCancelHabit(_habitModel, date, completed);
+          habitServices.markAsCancelHabit(
+              _habitModel, date, completed, context);
         } else {
           //cảnh báo thói quen không phải trong ngày
           showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => MessageBox.warningSelection(
               onSubmit: () {
-                habitServices.markAsCancelHabit(_habitModel, date, completed);
+                habitServices.markAsCancelHabit(
+                    _habitModel, date, completed, context);
               },
             ),
           );
@@ -89,14 +91,14 @@ class DashboardFunction {
 
       case HabitSelectedOption.CHECK:
         if (date.isAtSameMomentAs(dateNow)) {
-          habitServices.markAsDone(_habitModel, date, completed);
+          habitServices.markAsDone(_habitModel, date, completed, context);
         } else {
           //cảnh báo thói quen không phải trong ngày
           showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => MessageBox.warningSelection(
               onSubmit: () {
-                habitServices.markAsDone(_habitModel, date, completed);
+                habitServices.markAsDone(_habitModel, date, completed, context);
               },
             ),
           );

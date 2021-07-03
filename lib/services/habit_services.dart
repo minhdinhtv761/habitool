@@ -6,6 +6,9 @@ import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/custom_values/enums.dart';
 import 'package:habitool/model/habit_model.dart';
 import 'package:habitool/model/habitrecord_model.dart';
+import 'package:habitool/services/statistic_services.dart';
+
+import 'package:provider/provider.dart';
 
 class HabitServices extends ChangeNotifier {
   HabitServices();
@@ -343,7 +346,10 @@ class HabitServices extends ChangeNotifier {
     });
   }
 
-  void markAsCancelHabit(HabitModel habitModel, DateTime date, int completed) {
+  void markAsCancelHabit(HabitModel habitModel, DateTime date, int completed,
+      BuildContext context) {
+    StatisticServices statisticService =
+        Provider.of<StatisticServices>(context, listen: false);
     //xóa trạng thái đang làm trong ngày
     collectionHabit
         .collection('habits')
@@ -357,12 +363,17 @@ class HabitServices extends ChangeNotifier {
 //thêm vào trạng thái đã hủy
               todayHabitListDoing.remove(habitModel);
               todayHabitListCancel.add(habitModel);
-
               notifyListeners();
+              if (statisticService.doingToday > 0)
+                statisticService.doingToday--;
+              statisticService.cancelHabits++;
             }));
   }
 
-  void markAsDone(HabitModel habitModel, DateTime date, int completed) {
+  void markAsDone(HabitModel habitModel, DateTime date, int completed,
+      BuildContext context) {
+    StatisticServices statisticService =
+        Provider.of<StatisticServices>(context, listen: false);
     //xóa trạng thái đang làm trong ngày
     collectionHabit
         .collection('habits')
@@ -379,6 +390,10 @@ class HabitServices extends ChangeNotifier {
                   .add(habitModel.fromHabitRecords(date, habitModel.goal, 1));
 
               notifyListeners();
+
+              if (statisticService.doingToday > 0)
+                statisticService.doingToday--;
+              statisticService.doneToday++;
             }));
   }
 

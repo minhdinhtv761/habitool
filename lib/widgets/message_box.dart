@@ -142,6 +142,7 @@ class MessageBox {
           fontWeight: FontWeight.normal,
         ),
       ),
+      edited: () {},
     );
   }
 }
