@@ -1,26 +1,32 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/custom_values/custom_type.dart';
 
 class CustomDatePickerButton extends StatefulWidget {
-  const CustomDatePickerButton({Key key, this.text}) : super(key: key);
-
+  CustomDatePickerButton({this.selected, this.text, this.onSelected});
+  bool selected;
   final String text;
+  BoolCallback onSelected;
   @override
-  _CustomDatePickerButtonState createState() => _CustomDatePickerButtonState();
+  _CustomDatePickerButtonState createState() =>
+      _CustomDatePickerButtonState(this.selected);
 }
 
 class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
-  bool _isPressed = false;
+  bool isPressed;
+  _CustomDatePickerButtonState(this.isPressed);
+
   @override
   Widget build(BuildContext context) {
     return RawMaterialButton(
       onPressed: () {
         setState(() {
-          _isPressed = !_isPressed;
+          isPressed = !isPressed;
+          this.widget.onSelected(isPressed);
         });
       },
-      fillColor: _isPressed ? CustomColors.pink : Colors.white,
+      fillColor: isPressed ? CustomColors.pink : Colors.white,
       elevation: 0,
       shape: CircleBorder(),
       materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
@@ -30,7 +36,7 @@ class _CustomDatePickerButtonState extends State<CustomDatePickerButton> {
         this.widget.text,
         style: TextStyle(
           fontSize: 16,
-          color: _isPressed ? Colors.white : CustomColors.black,
+          color: isPressed ? Colors.white : CustomColors.black,
           fontWeight: FontWeight.bold,
         ),
       ),

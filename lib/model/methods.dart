@@ -33,6 +33,14 @@ Future<User> createAccount(
         "avatar": '',
         "DOB":'',
       });
+      
+      await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({
+        "finish": 0,
+        "delete": 0,
+        "cancel": 0,
+        "uid": _auth.currentUser.uid,
+      });
+      
       return user;
     } else {
       print("Account creation failed");
