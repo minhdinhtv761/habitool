@@ -18,19 +18,21 @@ class DashboardAppBar extends StatefulWidget {
 class _DashboardAppBarState extends State<DashboardAppBar> {
   String email;
   UserData user;
-  @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    user = Provider.of<UserProvider>(context, listen: false).user;
-    email = user.email;
-    //avatar = user.urlAvt;
-  }
+  // @override
+  // void initState() {
+  //   // TODO: implement initState
+  //   super.initState();
+  //   user = Provider.of<UserProvider>(context, listen: false).user;
+  //   email = user.email;
+  //   //email = '';
+  //   //avatar = user.urlAvt;
+  // }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-
+    user = Provider.of<UserProvider>(context, listen: true).user;
+    email = '';
     return SliverAppBar(
       pinned: true,
       floating: true,

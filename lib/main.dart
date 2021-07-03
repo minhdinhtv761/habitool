@@ -5,6 +5,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/services/habit_services.dart';
+import 'package:habitool/services/statistic_services.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:habitool/view/screen/new_habit/newhabit_screen.dart';
 import 'package:provider/provider.dart';
@@ -80,6 +81,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider.value(value: UserProvider()),
         Provider(
           create: (_) => HabitServices(),
+        ),
+        Provider(
+          create: (_) => StatisticServices(),
         ),
         ChangeNotifierProvider(create: (_) => HabitServices()),
       ],
