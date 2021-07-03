@@ -286,6 +286,13 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         content: Text('Đăng ký thành công'),
                       ));
             } else {
+
+              showDialog(
+                  context: context,
+                  builder: (_) => AlertDialog(
+                    content: Text('Đăng ký không thành công'),
+                  ));
+              print("Please enter Fields");
               print("SignUp failed");
               setState(() {
                 isLoading = false;
