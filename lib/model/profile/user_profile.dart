@@ -13,12 +13,11 @@ class UserData {
   String _urlAvt;
 
   UserData.fromJson(Map<String, dynamic> data) {
-
     _uid = data["uid"];
     email = data["email"].toString();
     password = data["password"].toString();
     _displayName = data["name"].toString();
-    _dateOfBirth = data["date"].toString();
+    _dateOfBirth =data["DOB"]??"";
     _gender = data["gender"].toString();
     _address = data["address"].toString();
     _phoneNumber = data["phone"].toString();

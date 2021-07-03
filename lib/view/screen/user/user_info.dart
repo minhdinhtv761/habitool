@@ -17,6 +17,7 @@ import 'package:habitool/model/profile/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:habitool/widgets/habit_info.dart';
 import 'package:provider/provider.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class UserInfo extends StatefulWidget {
   const UserInfo({Key key}) : super(key: key);
@@ -33,24 +34,47 @@ class _UserInfoState extends State<UserInfo> {
   bool isLoading = false;
 
   DateTime _birthDay = DateTime.now();
-  String phoneNumber;
-  String address;
-  String _gender;
-  String name;
-  String email;
+  String phoneNumber = "";
+  String address = "";
+  String _gender = "";
+  String name = "";
+  String email = "";
   //String avatar;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    user = Provider.of<UserProvider>(context, listen: false).user;
-    phoneNumber = user.phoneNumber;
-    address = user.address;
-    _gender = user.gender;
-    name = user.displayName;
-    email = user.email;
+
+    // user = Provider.of<UserProvider>(context, listen: false).user;
+    loadData();
+
     //avatar = user.urlAvt;
+  }
+
+  loadData() async {
+    setState(() {
+      isLoading = true;
+    });
+    final FirebaseAuth _auth = FirebaseAuth.instance;
+    await FirebaseFirestore.instance
+        .collection('users')
+        .doc(_auth.currentUser.uid)
+        .get()
+        .then((value) {
+      user = UserData.fromJson(value.data());
+      phoneNumber = user.phoneNumber;
+      address = user.address;
+      _gender = user.gender;
+      name = user.displayName;
+      email = user.email;
+      if (user.dateOfBirth != "") {
+        _birthDay = DateTime.parse(user.dateOfBirth);
+      }
+      setState(() {
+        isLoading = false;
+      });
+    });
   }
 
   @override
@@ -66,33 +90,34 @@ class _UserInfoState extends State<UserInfo> {
         title: 'Ngày sinh',
         content: '${_birthDay.day}/${_birthDay.month}/${_birthDay.year}',
         press: () async {
-          //String dateEdited;
+          DateTime dateEdited;
           String result = await showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => DatePicker(
               _birthDay,
               callback: (value) {
                 setState(() {
-                  _birthDay = value;
+                  dateEdited = value;
                 });
-                //dateEdited = value as String;
               },
             ),
           );
-          // if (result != null) {
-          //   updateDateOfBirth(
-          //       date: dateEdited,
-          //       uid: _user.user.uid,
-          //       success: () {
-          //         setState(() {
-          //           _birthDay = dateEdited;
-          //         });
-          //       },
-          //       fail: (e) {
-          //         print(e);
-          //       });
-          // }
+          if (result != null) {
+            print(dateEdited.toString());
+            updateDateOfBirth(
+                date: dateEdited.toString(),
+                uid: _user.user.uid,
+                success: () {
+                  setState(() {
+                    _birthDay = dateEdited;
+                  });
+                },
+                fail: (e) {
+                  print(e);
+                });
+          }
         });
+
     BodyMenu Gender = BodyMenu(
       icon: FontAwesomeIcons.transgender,
       title: 'Giới tính',
@@ -229,6 +254,7 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu password = BodyMenu(
       icon: Icons.vpn_key_outlined,
       title: 'Đổi mật khẩu',
+      content: '',
       press: () {
         Navigator.push(
           context,
@@ -267,30 +293,32 @@ class _UserInfoState extends State<UserInfo> {
 
     return Container(
       padding: const EdgeInsets.only(left: 21, top: 10, right: 21),
-      child: Column(
-        children: [
-          UserNameBox(
-            displayName: name,
-          ),
-          CustomCard(child: username),
-          CustomCard(
-            child: Column(
-              children: getMenuList(listPersonal.toList()),
+      child: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : Column(
+              children: [
+                UserNameBox(),
+                CustomCard(child: username),
+                CustomCard(
+                  child: Column(
+                    children: getMenuList(listPersonal.toList()),
+                  ),
+                ),
+                CustomCard(
+                  child: Column(
+                    children: getMenuList(listContact.toList()),
+                  ),
+                ),
+                CustomCard(
+                  child: Column(
+                    children: getMenuList(listSocial.toList()),
+                  ),
+                ),
+                CustomCard(child: password),
+              ],
             ),
-          ),
-          CustomCard(
-            child: Column(
-              children: getMenuList(listContact.toList()),
-            ),
-          ),
-          CustomCard(
-            child: Column(
-              children: getMenuList(listSocial.toList()),
-            ),
-          ),
-          CustomCard(child: password),
-        ],
-      ),
     );
   }
 }

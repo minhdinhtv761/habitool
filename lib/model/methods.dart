@@ -27,6 +27,11 @@ Future<User> createAccount(
         "name": "Habiter",
         "status": "Unavalible",
         "uid": _auth.currentUser.uid,
+        "address": '',
+        "gender": 'Nam',
+        "phone": '',
+        "avatar": '',
+        "DOB":'',
       });
       
       await _firestore.collection('statistic').doc(_auth.currentUser.uid).set({

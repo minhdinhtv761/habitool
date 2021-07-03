@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_type.dart';
 import 'package:intl/intl.dart';
@@ -60,10 +59,11 @@ class _DatePickerState extends State<DatePicker> {
             showActionButtons: true,
             cancelText: 'CANCEl',
             confirmText: 'OK',
-            onSubmit: (Object value) {
+            onSubmit: (value) {
               this.widget.callback(value);
               Navigator.pop(context, 'OK');
             },
+          
             onCancel: () => Navigator.pop(context, 'Cancel'),
             navigationDirection: DateRangePickerNavigationDirection.horizontal,
             showNavigationArrow: true,
