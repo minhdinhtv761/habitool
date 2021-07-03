@@ -21,12 +21,8 @@ class LogInScreen extends StatefulWidget {
 class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
 
-// <<<<<<< UpdateDatabase
-//   final _email = TextEditingController(text: "minhdinh@gmail.com");
-//   final _password = TextEditingController(text: "99999999");
-//=======
-  final _email = TextEditingController();
-  final _password = TextEditingController();
+  final _email = TextEditingController(text: "dat123@gmail.com");
+  final _password = TextEditingController(text: "123123");
 
   UserProvider _user;
   void _toggleObscure() {

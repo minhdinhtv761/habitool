@@ -41,44 +41,24 @@ class _UserAvatarState extends State<UserAvatar> {
 
   FirebaseAuth _auth = FirebaseAuth.instance;
 
-  // getImageSuccess(File img) async {
-  //   if (img != null) {
-  //     setState(() {
-  //       image = img.path;
-  //     });
-  //     // firebase_storage.Reference firebaseStorageRef;
-  //     // firebaseStorageRef =
-  //     //     firebase_storage.FirebaseStorage.instance.ref().child(img.path);
-  //     // firebase_storage.UploadTask uploadTask;
-  //     // uploadTask = firebaseStorageRef.putFile(img);
-  //     // uploadTask.whenComplete(() async {
-  //     //   String url = await uploadTask.snapshot.ref.getDownloadURL();
-  //     FirebaseFirestore.instance
-  //         .collection("users")
-  //         .doc(_auth.currentUser.uid)
-  //         .update({"avatar": img.path});
-  //     Provider.of<UserProvider>(context, listen: false).user.urlAvt = img.path;
-  //     // });
-  //   }
-  // }
-  File _image;
-  getImageSuccess(File image) async {
-    if (image != null) {
-      firebase_storage.Reference firebaseStorageRef =
-          firebase_storage.FirebaseStorage.instance.ref().child(image.path);
-      firebase_storage.UploadTask uploadTask =
-          firebaseStorageRef.putFile(image);
-      uploadTask.whenComplete(() async {
-        String url = await uploadTask.snapshot.ref.getDownloadURL();
-        FirebaseFirestore.instance
-            .collection("Users")
-            .doc(_auth.currentUser.uid)
-            .update({"avatar": url});
-        Provider.of<UserProvider>(context, listen: false).user.urlAvt = url;
-      });
+  getImageSuccess(File img) async {
+    if (img != null) {
       setState(() {
-        _image = image;
+        image = img.path;
       });
+      // firebase_storage.Reference firebaseStorageRef;
+      // firebaseStorageRef =
+      //     firebase_storage.FirebaseStorage.instance.ref().child(img.path);
+      // firebase_storage.UploadTask uploadTask;
+      // uploadTask = firebaseStorageRef.putFile(img);
+      // uploadTask.whenComplete(() async {
+      //   String url = await uploadTask.snapshot.ref.getDownloadURL();
+      FirebaseFirestore.instance
+          .collection("users")
+          .doc(_auth.currentUser.uid)
+          .update({"avatar": img.path});
+      Provider.of<UserProvider>(context, listen: false).user.urlAvt = img.path;
+      // });
     }
   }
 

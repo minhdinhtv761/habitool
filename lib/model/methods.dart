@@ -31,7 +31,7 @@ Future<User> createAccount(
         "gender": 'Nam',
         "phone": '',
         "avatar": '',
-        //"date":'',
+        "DOB":'',
       });
       return user;
     } else {
