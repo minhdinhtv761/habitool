@@ -17,25 +17,18 @@ class SocialPage extends StatefulWidget {
 }
 
 class _SocialPageState extends State<SocialPage> {
-  CollectionReference ref = FirebaseFirestore.instance
-      .collection('social');
+  CollectionReference ref = FirebaseFirestore.instance.collection('social');
 
   List<Color> myColors = [
-    Colors.yellow[200],
-    Colors.red[200],
-    Colors.green[200],
-    Colors.deepPurple[200],
-    Colors.purple[200],
-    Colors.cyan[200],
-    Colors.teal[200],
-    Colors.tealAccent[200],
-    Colors.pink[200],
+    CustomColors.blue,
+    CustomColors.pink,
+    CustomColors.yellow,
+    CustomColors.black
   ];
   DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
       // floatingActionButton: FloatingActionButton(
       //   onPressed: () {
       //     Navigator.of(context)
@@ -62,18 +55,17 @@ class _SocialPageState extends State<SocialPage> {
       appBar: CustomAppBarSocial(
           title: 'Cộng đồng',
           actionText: 'Thêm trạng thái ',
-
           action: () {
             Navigator.of(context)
-              .push(
-            MaterialPageRoute(
-              builder: (context) => AddNote(),
-            ),
-          )
-              .then((value) {
-            print("Calling Set  State !");
-            setState(() {});
-          });
+                .push(
+              MaterialPageRoute(
+                builder: (context) => AddNote(),
+              ),
+            )
+                .then((value) {
+              print("Calling Set  State !");
+              setState(() {});
+            });
           }),
       //
       body: FutureBuilder<QuerySnapshot>(
@@ -99,7 +91,7 @@ class _SocialPageState extends State<SocialPage> {
                 Map data = snapshot.data.docs[index].data();
                 DateTime mydateTime = data['created'].toDate();
                 String formattedTime =
-                DateFormat.yMMMd().add_jm().format(mydateTime);
+                    DateFormat.yMMMd().add_jm().format(mydateTime);
 
                 return InkWell(
                   onTap: () {
@@ -119,6 +111,11 @@ class _SocialPageState extends State<SocialPage> {
                   },
                   child: Card(
                     color: bg,
+                    elevation: 0,
+                    margin: EdgeInsets.only(top: 14, left: 16, right: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
                     child: Padding(
                       padding: const EdgeInsets.all(15.0),
                       child: Column(
@@ -127,10 +124,10 @@ class _SocialPageState extends State<SocialPage> {
                           Text(
                             "${data['title']}",
                             style: TextStyle(
-                              fontSize: 24.0,
+                              fontSize: 20.0,
                               fontFamily: "Roboto",
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
+                              color: Colors.white,
                             ),
                           ),
                           //
@@ -139,9 +136,9 @@ class _SocialPageState extends State<SocialPage> {
                             child: Text(
                               formattedTime,
                               style: TextStyle(
-                                fontSize: 20.0,
+                                fontSize: 18.0,
                                 fontFamily: "Roboto",
-                                color: Colors.black87,
+                                color: Colors.white,
                               ),
                             ),
                           ),
@@ -154,7 +151,10 @@ class _SocialPageState extends State<SocialPage> {
             );
           } else {
             return Center(
-              child: Text("Loading..."),
+              child: Text(
+                "Loading...",
+                style: TextStyle(color: CustomColors.grey),
+              ),
             );
           }
         },
