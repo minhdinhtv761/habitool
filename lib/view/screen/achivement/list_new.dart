@@ -11,65 +11,73 @@ import 'package:habitool/view/screen/achivement/social_screen.dart';
 
 import '../home_screen.dart';
 
-
-
 class ListNew extends StatefulWidget {
   @override
   _ListNewState createState() => _ListNewState();
 }
 
 class _ListNewState extends State<ListNew> {
-
-
   @override
   Widget build(BuildContext context) {
-
     final size = MediaQuery.of(context).size;
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
 
     return SafeArea(
       child: Scaffold(
+          backgroundColor: CustomColors.light,
           body: Stack(
             children: [
               Container(
-                color: CustomColors.light,
+                height: 160,
+                decoration: BoxDecoration(
+                  color: CustomColors.blue,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(30),
+                    bottomRight: Radius.circular(30),
+                  ),
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(top: size.width * 0.075),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      height: height * 0.01,
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(left: width * 0.03),
+                  children: <Widget>[
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20),
                       child: Text(
                         "Khám phá",
-                        style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 18,
+                        ),
                       ),
                     ),
-                    SizedBox(
-                      height: height * 0.01,
+                    Padding(
+                      padding: EdgeInsets.only(
+                          right: 12, left: 12, top: size.height * 0.01),
+                      child: customButton(size, "Khám phá cộng đồng"),
                     ),
-                    Container(
-                      height: 1,
-                      color: Colors.grey.withOpacity(0.7),
-                      width: width,
-                      margin: EdgeInsets.symmetric(horizontal: width * 0.05),
-                    ),
-                    SizedBox(
-                      height: height * 0.02,
-                    ),
-                    customButton(size, "Cộng đồng"),
+                    //
                   ],
                 ),
               ),
-
-              SizedBox(
-                height: height * 0.1,
+              Container(
+                margin: EdgeInsets.only(top: height * 0.3),
+                padding: EdgeInsets.all(16),
+                child: Text(
+                  "Tin tức",
+                  style: TextStyle(
+                    color: CustomColors.pink,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 18,
+                  ),
+                ),
               ),
               Container(
-                color: CustomColors.light,
-                margin: EdgeInsets.only(top: height * 0.18),
+                margin: EdgeInsets.only(top: height * 0.35),
+                padding: EdgeInsets.all(16),
                 child: BlocBuilder<NewsBloc, NewsStates>(
                   builder: (BuildContext context, NewsStates state) {
                     if (state is NewsLoadingState) {
@@ -101,15 +109,16 @@ class _ListNewState extends State<ListNew> {
                                 } else if (Platform.isIOS) {
                                   FlutterWebBrowser.openWebPage(
                                     url: _articleList[index].url,
-                                    safariVCOptions: SafariViewControllerOptions(
+                                    safariVCOptions:
+                                        SafariViewControllerOptions(
                                       barCollapsingEnabled: true,
                                       preferredBarTintColor: Colors.green,
                                       preferredControlTintColor: Colors.amber,
                                       dismissButtonStyle:
-                                      SafariViewControllerDismissButtonStyle
-                                          .close,
+                                          SafariViewControllerDismissButtonStyle
+                                              .close,
                                       modalPresentationCapturesStatusBarAppearance:
-                                      true,
+                                          true,
                                     ),
                                   );
                                 } else {
@@ -119,15 +128,10 @@ class _ListNewState extends State<ListNew> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                    boxShadow: [
-                                      BoxShadow(
-                                          blurRadius: 1,
-                                          color: Colors.grey,
-                                          offset: Offset(0, 2),
-                                          spreadRadius: 1)
-                                    ]),
+                                  color: Colors.white,
+                                  borderRadius: BorderRadius.circular(20),
+                                  border: Border.all(color: CustomColors.pink),
+                                ),
                                 height: height * 0.15,
                                 margin: EdgeInsets.only(
                                     bottom: height * 0.01,
@@ -137,18 +141,21 @@ class _ListNewState extends State<ListNew> {
                                 child: Row(
                                   children: [
                                     Container(
+                                      margin: EdgeInsets.all(3),
                                       width: width * 0.3,
                                       height: height * 0.15,
                                       decoration: BoxDecoration(
                                           borderRadius: BorderRadius.only(
-                                            topLeft: Radius.circular(10),
-                                            bottomLeft: Radius.circular(10),
+                                            topLeft: Radius.circular(20),
+                                            bottomLeft: Radius.circular(20),
                                           ),
                                           image: DecorationImage(
                                               image: NetworkImage(
-                                                _articleList[index].urlToImage !=
-                                                    null
-                                                    ? _articleList[index].urlToImage
+                                                _articleList[index]
+                                                            .urlToImage !=
+                                                        null
+                                                    ? _articleList[index]
+                                                        .urlToImage
                                                     : "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSojwMMYZgtiupM4Vzdb5iBeE4b0Mamf3AgrxQJR19Xa4oIWV5xun9a02Ggyh4bZAurP_c&usqp=CAU",
                                               ),
                                               fit: BoxFit.cover)),
@@ -158,7 +165,7 @@ class _ListNewState extends State<ListNew> {
                                     ),
                                     Container(
                                       height: height * 0.15,
-                                      width: width * 0.55,
+                                      width: width * 0.5,
                                       padding: EdgeInsets.symmetric(
                                           vertical: height * 0.01),
                                       child: Text(
@@ -182,8 +189,8 @@ class _ListNewState extends State<ListNew> {
                     } else {
                       return Center(
                           child: CircularProgressIndicator(
-                            backgroundColor: Colors.green,
-                          ));
+                        backgroundColor: Colors.green,
+                      ));
                     }
                   },
                 ),
@@ -196,27 +203,44 @@ class _ListNewState extends State<ListNew> {
   Widget customButton(Size size, String text) {
     return GestureDetector(
       onTap: () {
-      Navigator.pushAndRemoveUntil(
-          context,
-          MaterialPageRoute(builder: (context) => SocialScreen()),
-              (route) => false);},
-      child: Container(
-          margin: EdgeInsets.only(left: size.width * 0.03),
-          height: size.height / 14,
-          width: size.width / 1.1,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(30),
-            color: CustomColors.yellow,
-          ),
-          alignment: Alignment.center,
-          child: Text(
-            text,
-            style: TextStyle(
-              color: Colors.blue,
-              fontSize: 18,
-              fontWeight: FontWeight.bold,
+        Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => SocialScreen()),
+            (route) => false);
+      },
+      child: Center(
+        child: Container(
+            width: size.width * 0.85,
+            margin: EdgeInsets.only(top: 60.0, bottom: 10),
+            height: size.height * 0.14,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(30),
+              // border: Border.all(color: CustomColors.pink),
+              color: Colors.white,
             ),
-          )),
+            alignment: Alignment.center,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  text,
+                  style: TextStyle(
+                    color: CustomColors.pink,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                Text(
+                  'Nhấn vào để tìm hiểu thêm',
+                  style: TextStyle(
+                      color: CustomColors.grey,
+                      fontSize: 13,
+                      fontWeight: FontWeight.normal,
+                      fontStyle: FontStyle.italic),
+                ),
+              ],
+            )),
+      ),
     );
   }
 }

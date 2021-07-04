@@ -32,7 +32,8 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     user = Provider.of<UserProvider>(context, listen: true).user;
-    email = '';
+    email = user.email;
+    print(user);
     return SliverAppBar(
       pinned: true,
       floating: true,

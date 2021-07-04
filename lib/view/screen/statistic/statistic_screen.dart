@@ -24,7 +24,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
       body: Stack(
         children: <Widget>[
           Container(
-            height: 190,
+            height: 160,
             decoration: BoxDecoration(
               color: CustomColors.blue,
               borderRadius: BorderRadius.only(
@@ -34,7 +34,7 @@ class _StatisticScreenState extends State<StatisticScreen> {
             ),
           ),
           Container(
-            padding: EdgeInsets.only(top: 60),
+            padding: EdgeInsets.only(top: size.width * 0.075),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[

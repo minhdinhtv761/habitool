@@ -106,7 +106,7 @@ class _HabitInfo extends State<HabitInfo> {
         DateTime(_startDate.year, _startDate.month, _startDate.day);
     _habitModel.endDate = DateTime(_endDate.year, _endDate.month, _endDate.day);
     _habitModel.repeat = _repeat;
-    _habitModel.time = DateTime(1, 1, 1, _time.hour, _time.minute);
+    _habitModel.time = DateTime(2021, 7, 4, _time.hour, _time.minute);
     _habitModel.notif = _notif;
     _habitModel.note = _note;
     _habitModel.habitRecords = _habitRecords;

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
+import 'package:habitool/view/screen/achivement/achievement_screen.dart';
 import 'package:habitool/view/screen/achivement/social_screen.dart';
 import 'package:habitool/view/screen/dashboard/dashboard_screen.dart';
 import 'package:habitool/view/screen/home_screen.dart';
@@ -30,8 +31,8 @@ class _CustomAppBarSocialState extends State<CustomAppBarSocial> {
             onPressed: () {
               Navigator.pushAndRemoveUntil(
                   context,
-                  MaterialPageRoute(builder: (context) => SocialScreen()),
-                      (route) => false);
+                  MaterialPageRoute(builder: (context) => AchievementScreen()),
+                  (route) => false);
             }),
         title: Text(
           this.widget.title,

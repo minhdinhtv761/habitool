@@ -12,12 +12,11 @@ import 'package:provider/provider.dart';
 
 class HabitServices extends ChangeNotifier {
   HabitServices();
-  static final firestoreInstance = FirebaseFirestore.instance;
-  static final User auth = FirebaseAuth.instance.currentUser;
-
-  var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
 
   Future<void> addHabitData(HabitModel habitModel, BuildContext context) {
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
     return collectionHabit.collection('habits').add({
       'id': '',
       'name': habitModel.name,
@@ -73,6 +72,11 @@ class HabitServices extends ChangeNotifier {
 //Lữu trữ các dữ liệu thực hiện thói quen theo ngày
   Future<void> addHabitRecordData(
       HabitModel habitModel, DateTime date, int completed, int status) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     return collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
@@ -83,6 +87,11 @@ class HabitServices extends ChangeNotifier {
   List<HabitModel> generalHabitListGoing = [];
 
   void getGoingHabitFromFirebase(DateTime now) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     if (generalHabitListGoing.isNotEmpty) generalHabitListGoing.clear();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
     collectionHabit
@@ -108,6 +117,11 @@ class HabitServices extends ChangeNotifier {
   List<HabitModel> generalHabitListFuture = [];
 
   void getFutureHabitFromFirebase(DateTime now) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     if (generalHabitListFuture.isNotEmpty) generalHabitListFuture.clear();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
     collectionHabit
@@ -129,8 +143,14 @@ class HabitServices extends ChangeNotifier {
   //Danh sách các thói quen đã thực hiện (ngày kết thúc <now)
   List<HabitModel> generalHabitListFinished = [];
   Future<void> getFinishedHabitFromFirebase(DateTime now) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     if (generalHabitListFinished.isNotEmpty) generalHabitListFinished.clear();
     DateTime dateNow = DateTime(now.year, now.month, now.day);
+    //
     return collectionHabit
         .collection('habits')
         .where('endDate', isLessThan: dateNow)
@@ -153,6 +173,11 @@ class HabitServices extends ChangeNotifier {
   List<HabitModel> todayHabitListCancel = [];
 
   void getTodayHabitFromFirebase(DateTime dateTime) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     if (todayHabitListDoing.isNotEmpty) todayHabitListDoing.clear();
     if (todayHabitListDone.isNotEmpty) todayHabitListDone.clear();
     if (todayHabitListCancel.isNotEmpty) todayHabitListCancel.clear();
@@ -222,6 +247,11 @@ class HabitServices extends ChangeNotifier {
 
   void removeHabit(HabitModel habitModel, HabitTileType type,
       HabitStatus status, BuildContext context) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
@@ -260,6 +290,11 @@ class HabitServices extends ChangeNotifier {
 //chỉnh sửa thói quen khi ngày bắt đầu ở sau ngày hiện tại
   Future<void> updateStartDateIsAfter(
       HabitModel habitModel, BuildContext context) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     return collectionHabit.collection('habits').doc(habitModel.habitId).update({
       'name': habitModel.name,
       'isImportant': habitModel.isImportant,
@@ -297,6 +332,11 @@ class HabitServices extends ChangeNotifier {
 //chỉnh sửa thói quen khi ngày bắt đầu ở trước ngày hiện tại
   Future<void> updateStartDateIsBefore(
       HabitModel newHabit, HabitModel oldHabit, BuildContext context) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     return collectionHabit.collection('habits').doc(newHabit.habitId).update({
       'name': newHabit.name,
       'isImportant': newHabit.isImportant,
@@ -325,6 +365,11 @@ class HabitServices extends ChangeNotifier {
   }
 
   void updateHabitRecordWhenEdit(HabitModel oldHabit, HabitModel newHabit) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     DateTime now = DateTime.now();
     //Xóa danh sách lưu trữ thói quen cũ kể từ ngày hn
     List<HabitRecord> oldHabitRecords = oldHabit.habitRecords.toList();
@@ -348,6 +393,11 @@ class HabitServices extends ChangeNotifier {
 
   void markAsCancelHabit(HabitModel habitModel, DateTime date, int completed,
       BuildContext context) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     StatisticServices statisticService =
         Provider.of<StatisticServices>(context, listen: false);
     //xóa trạng thái đang làm trong ngày
@@ -372,6 +422,11 @@ class HabitServices extends ChangeNotifier {
 
   void markAsDone(HabitModel habitModel, DateTime date, int completed,
       BuildContext context) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     StatisticServices statisticService =
         Provider.of<StatisticServices>(context, listen: false);
     //xóa trạng thái đang làm trong ngày
@@ -398,6 +453,11 @@ class HabitServices extends ChangeNotifier {
   }
 
   void markResetHabit(HabitModel habitModel, DateTime date) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     //xóa trạng thái hoàn thành trong ngày
     collectionHabit
         .collection('habits')
@@ -417,6 +477,11 @@ class HabitServices extends ChangeNotifier {
   }
 
   void markRefreshHabit(HabitModel habitModel, DateTime date, int completed) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     //xóa trạng hủy trong ngày
     collectionHabit
         .collection('habits')
@@ -438,6 +503,11 @@ class HabitServices extends ChangeNotifier {
 
   void updateProgress(
       HabitModel habitModel, DateTime date, int completed, int newCompleted) {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
+    //
     //xóa tiến trình đang làm trong ngày
 
     collectionHabit

@@ -40,11 +40,7 @@ class _ViewNoteState extends State<ViewNote> {
         // )
         //     : null,
         //
-        appBar: CustomAppBarPop(
-            title: '',
-            actionText: '',
-            action: () {
-            }),
+        appBar: CustomAppBarPop(title: '', actionText: '', action: () {}),
         resizeToAvoidBottomInset: false,
         //
         body: SingleChildScrollView(
@@ -168,7 +164,7 @@ class _ViewNoteState extends State<ViewNote> {
                         style: TextStyle(
                           fontSize: 20.0,
                           fontFamily: "Roboto",
-                          color: CustomColors.darkgrey,
+                          color: CustomColors.black,
                         ),
                         initialValue: widget.data['description'],
                         enabled: edit,

@@ -6,7 +6,7 @@ class UserData {
   String email;
   String password;
   String _displayName;
-  String _dateOfBirth;
+  DateTime _dateOfBirth;
   String _gender;
   String _address;
   String _phoneNumber;
@@ -17,7 +17,7 @@ class UserData {
     email = data["email"].toString();
     password = data["password"].toString();
     _displayName = data["name"].toString();
-    _dateOfBirth =data["DOB"]??"";
+    _dateOfBirth = data["DOB"].toDate();
     _gender = data["gender"].toString();
     _address = data["address"].toString();
     _phoneNumber = data["phone"].toString();
@@ -35,11 +35,9 @@ class UserData {
     _displayName = value;
   }
 
-  String get dateOfBirth => _dateOfBirth;
+  get dateOfBirth => this._dateOfBirth;
 
-  set dateOfBirth(String value) {
-    _dateOfBirth = value;
-  }
+  set dateOfBirth(value) => this._dateOfBirth = value;
 
   String get gender => _gender;
 

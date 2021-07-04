@@ -68,9 +68,7 @@ class _UserInfoState extends State<UserInfo> {
       _gender = user.gender;
       name = user.displayName;
       email = user.email;
-      if (user.dateOfBirth != "") {
-        _birthDay = DateTime.parse(user.dateOfBirth);
-      }
+
       setState(() {
         isLoading = false;
       });
@@ -103,9 +101,8 @@ class _UserInfoState extends State<UserInfo> {
             ),
           );
           if (result != null) {
-            print(dateEdited.toString());
             updateDateOfBirth(
-                date: dateEdited.toString(),
+                date: dateEdited,
                 uid: _user.user.uid,
                 success: () {
                   setState(() {
@@ -299,7 +296,9 @@ class _UserInfoState extends State<UserInfo> {
             )
           : Column(
               children: [
-                UserNameBox(),
+                UserNameBox(
+                  displayName: name,
+                ),
                 CustomCard(child: username),
                 CustomCard(
                   child: Column(

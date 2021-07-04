@@ -5,11 +5,6 @@ import 'package:flutter/cupertino.dart';
 class StatisticServices {
   StatisticServices();
 
-  static final firestoreInstance = FirebaseFirestore.instance;
-  static final User auth = FirebaseAuth.instance.currentUser;
-
-  var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
-
   int totalHabits = 0;
   int totalCreateHabits = 0;
   int doingHabits = 0;
@@ -17,6 +12,11 @@ class StatisticServices {
   int cancelHabits = 0;
 
   void getData() {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
     //xóa dữ liệu cũ (tránh vòng lặp)
     if (totalHabits > 0) totalHabits = 0;
     if (totalCreateHabits > 0) totalCreateHabits = 0;
@@ -69,6 +69,11 @@ class StatisticServices {
   int cancelToday = 0;
 
   void getDataToday() {
+    //
+    final firestoreInstance = FirebaseFirestore.instance;
+    final User auth = FirebaseAuth.instance.currentUser;
+
+    var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
     //lấy ds thói quen
     if (doingToday > 0) doingToday = 0;
     if (doneToday > 0) doneToday = 0;
