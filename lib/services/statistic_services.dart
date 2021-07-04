@@ -96,7 +96,6 @@ class StatisticServices {
             if (dateRecord.isAtSameMomentAs(
                 DateTime(dateTime.year, dateTime.month, dateTime.day))) {
               {
-                print(data['name']);
                 getTodayHabitListStatus(data, habitRecordData);
               }
             }

@@ -68,6 +68,7 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     return Consumer<HabitServices>(builder: (context, habitServices, child) {
       //
       return Scaffold(
+        resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.light,
         body: CustomScrollView(
           physics: BouncingScrollPhysics(),

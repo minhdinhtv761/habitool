@@ -216,6 +216,7 @@ class HabitServices extends ChangeNotifier {
         todayHabitListCancel.add(HabitModel.fromJson(data));
         break;
       case 0:
+        print('lấy danh sách trong ngày');
         todayHabitListDoing.add(HabitModel.fromJson(data));
         break;
       default:
@@ -509,21 +510,19 @@ class HabitServices extends ChangeNotifier {
     var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
     //
     //xóa tiến trình đang làm trong ngày
-
     collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
-        .update(habitModel.removeHabitRecord(date, completed, 0))
-        .then((value) {
-      collectionHabit //cập nhật tiến trình
-          .collection('habits')
-          .doc(habitModel.habitId)
-          .update(habitModel.createHabitRecord(date, newCompleted, 0));
+        .update(habitModel.removeHabitRecord(date, completed, 0));
 
-      todayHabitListDoing.remove(habitModel);
-      todayHabitListDoing
-          .add(habitModel.fromHabitRecords(date, newCompleted, 0));
-      notifyListeners();
-    });
+    collectionHabit //cập nhật tiến trình
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.createHabitRecord(date, newCompleted, 0));
+
+    todayHabitListDoing.remove(habitModel);
+    todayHabitListDoing.add(habitModel.fromHabitRecords(date, newCompleted, 0));
+
+    notifyListeners();
   }
 }

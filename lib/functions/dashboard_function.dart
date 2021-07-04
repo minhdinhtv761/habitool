@@ -24,7 +24,7 @@ class DashboardFunction {
         break;
       case HabitStatus.doing:
         listHabitModel = isGeneral
-            ? habitService.generalHabitListGoing
+            ? habitService.generalHabitListGoing.toList()
             : habitService.todayHabitListDoing.toList();
         break;
       default:

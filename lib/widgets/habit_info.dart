@@ -227,7 +227,7 @@ class _HabitInfo extends State<HabitInfo> {
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
             _endDate,
-            minDate: dateNow,
+            minDate: _startDate,
             callback: (value) {
               setState(() {
                 _endDate = value;

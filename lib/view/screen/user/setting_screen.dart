@@ -92,12 +92,8 @@ class _SettingScreen extends State<SettingScreen> {
                                     colorOff: Colors.grey,
                                     iconOn: Icons.done,
                                     iconOff: Icons.remove_circle_outline,
-                                    textSize: 16.0,
-                                    onChanged: (bool state) {
-                                      //Use it to manage the different states
-                                      print(
-                                          'Current State of SWITCH IS: $state');
-                                    },
+                                    textSize: 14.0,
+                                    onChanged: (bool state) {},
                                   ),
                                 ],
                               ),
@@ -140,12 +136,8 @@ class _SettingScreen extends State<SettingScreen> {
                                     colorOff: Colors.grey,
                                     iconOn: Icons.done,
                                     iconOff: Icons.remove_circle_outline,
-                                    textSize: 16.0,
-                                    onChanged: (bool state) {
-                                      //Use it to manage the different states
-                                      print(
-                                          'Current State of SWITCH IS: $state');
-                                    },
+                                    textSize: 14.0,
+                                    onChanged: (bool state) {},
                                   ),
                                 ],
                               ),
@@ -188,12 +180,8 @@ class _SettingScreen extends State<SettingScreen> {
                                     colorOff: Colors.grey,
                                     iconOn: Icons.done,
                                     iconOff: Icons.remove_circle_outline,
-                                    textSize: 16.0,
-                                    onChanged: (bool state) {
-                                      //Use it to manage the different states
-                                      print(
-                                          'Current State of SWITCH IS: $state');
-                                    },
+                                    textSize: 14.0,
+                                    onChanged: (bool state) {},
                                   ),
                                 ],
                               ),

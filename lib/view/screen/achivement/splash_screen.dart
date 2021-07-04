@@ -13,7 +13,7 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    Timer(Duration(seconds: 3), () {
+    Timer(Duration(seconds: 0), () {
 // navigate to listnew
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (BuildContext context) => ListNew()));
@@ -22,15 +22,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-
     var width = MediaQuery.of(context).size.width;
     var height = MediaQuery.of(context).size.height;
     return Scaffold(
         body: Center(
             child: Container(
-              width: width * 0.6,
-              height: width * 0.6,
-
-            )));
+      width: width * 0.6,
+      height: width * 0.6,
+    )));
   }
 }

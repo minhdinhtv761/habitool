@@ -95,7 +95,7 @@ class _UserInfoState extends State<UserInfo> {
               _birthDay,
               callback: (value) {
                 setState(() {
-                  dateEdited = value;
+                  dateEdited = value == null ? _birthDay : value;
                 });
               },
             ),
@@ -126,7 +126,7 @@ class _UserInfoState extends State<UserInfo> {
           pageBuilder: (_, __, ___) => GenderDialog(
             _gender,
             getGender: (value) {
-              genderEdited = value;
+              genderEdited = value == null ? _gender : value;
             },
           ),
         );

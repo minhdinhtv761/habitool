@@ -272,7 +272,7 @@ class _HabitTileState extends State<HabitTile> {
             this.widget.habitStatus == HabitStatus.doing &&
             dateNow.isBefore(DateTime.now())) {
           showGeneralDialog(
-              context: context,
+              context: Navigator.of(context).context,
               pageBuilder: (_, __, ___) => ProgressDialog(
                     habitModel: this.widget.habitModel,
                     completed: this.widget.goalCompleted,
@@ -280,7 +280,6 @@ class _HabitTileState extends State<HabitTile> {
                   ));
         }
       },
-      onLongPress: () {},
     );
   }
 }
