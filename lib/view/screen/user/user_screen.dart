@@ -264,7 +264,16 @@ class _UserScreenState extends State<UserScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onPressed: () {},
+        onPressed: () => logOut(context).then((user) {
+                    if (user != null) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LogInScreen()),
+                          (route) => false);
+                    }
+                  }),
     );
   }
 

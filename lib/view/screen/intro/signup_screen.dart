@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:habitool/Custom_Values/custom_colors.dart';
 import 'package:habitool/view/screen/home_screen.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
+import 'package:habitool/view/screen/intro/verify_screen.dart';
 import 'package:habitool/widgets/field.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:provider/provider.dart';
@@ -279,7 +280,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 isLoading = false;
               });
               Navigator.push(
-                  context, MaterialPageRoute(builder: (_) => LogInScreen()));
+                  context, MaterialPageRoute(builder: (_) => VerifyScreen()));
               showDialog(
                   context: context,
                   builder: (_) => AlertDialog(

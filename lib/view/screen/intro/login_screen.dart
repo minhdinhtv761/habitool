@@ -243,19 +243,20 @@ class _LogInScreenState extends State<LogInScreen> {
                   setState(() {
                     isLoading = false;
                   });
+
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (route) => false);
+                          (route) => false);
                 } else {
                   print("Login Failed");
                   showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
-                            title: Text('Cảnh báo'),
-                            content:
-                                Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-                          ));
+                        title: Text('Cảnh báo'),
+                        content:
+                        Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
+                      ));
                   setState(() {
                     isLoading = false;
                   });
@@ -266,7 +267,7 @@ class _LogInScreenState extends State<LogInScreen> {
                     context: context,
                     builder: (_) => AlertDialog(
                       title: Text('Cảnh báo'),
-                      content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                      content: Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
                     ));
                 setState(() {
                   isLoading = false;
@@ -274,36 +275,14 @@ class _LogInScreenState extends State<LogInScreen> {
                 print("Please fill form correctly");
                 print("Login Failed");
               });
-          // logIn(_email.text, _password.text).then((user) {
-          //   if (user != null) {
-          //     print("Login Sucessfull");
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //     Navigator.pushAndRemoveUntil(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => ChangePasswordScreen()),
-          //         (route) => false);
-          //   } else {
-          //     print("Login Failed");
-          //     showDialog(
-          //         context: context,
-          //         builder: (_) => AlertDialog(
-          //               title: Text('Cảnh páo'),
-          //               content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-          //             ));
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //   }
-          // });
+
+
         } else {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
                     title: Text('Cảnh báo'),
-                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                    content: Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
                   ));
           print("Please fill form correctly");
         }
