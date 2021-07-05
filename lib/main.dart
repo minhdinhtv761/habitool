@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
-
+import 'package:animated_splash_screen/animated_splash_screen.dart';
 // Import the firebase_core plugin
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/services/statistic_services.dart';
+import 'package:habitool/view/screen/home_screen.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:habitool/view/screen/new_habit/newhabit_screen.dart';
+import 'package:habitool/widget_tree.dart';
 import 'package:provider/provider.dart';
 import 'Widget_tree.dart';
 //
@@ -88,9 +91,29 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => HabitServices()),
       ],
       child: MaterialApp(
+
         debugShowCheckedModeBanner: false,
-        home: WidgetTree(),
+        home: AnimatedSplashScreen(
+          splash: Image.asset('assets/images/logo.png'),
+          nextScreen: WidgetTree(),
+
+          splashTransition: SplashTransition.fadeTransition,
+        )
+
+        //WidgetTree(),
       ),
     );
+  }
+}
+
+class WidgetTree extends StatelessWidget {
+
+  @override
+  Widget build(BuildContext context) {
+    User user = Provider.of<User>(context);
+    if (user == null) {
+      return LogInScreen();
+    }
+    return LogInScreen();
   }
 }
