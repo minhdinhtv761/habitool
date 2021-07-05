@@ -6,7 +6,6 @@ import 'package:habitool/model/methods.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/user/adress_dialog.dart';
 import 'package:habitool/view/screen/user/change_password.dart';
-import 'package:habitool/view/screen/user/email_dialog.dart';
 import 'package:habitool/view/screen/user/gender_dialog.dart';
 import 'package:habitool/view/screen/user/phone_dialog.dart';
 import 'package:habitool/view/screen/user/widgets/user_namebox.dart';
@@ -68,6 +67,7 @@ class _UserInfoState extends State<UserInfo> {
       _gender = user.gender;
       name = user.displayName;
       email = user.email;
+      _birthDay = user.dateOfBirth;
 
       setState(() {
         isLoading = false;
@@ -81,6 +81,7 @@ class _UserInfoState extends State<UserInfo> {
     BodyMenu username = BodyMenu(
       icon: Icons.person,
       title: 'Tài khoản',
+      content:  _user.user.email,
     );
 
     BodyMenu birth = BodyMenu(
@@ -92,27 +93,42 @@ class _UserInfoState extends State<UserInfo> {
           String result = await showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => DatePicker(
-              _birthDay,
+              dateEdited,
               callback: (value) {
                 setState(() {
-                  dateEdited = value == null ? _birthDay : value;
+                  if (value != null)
+                  {_birthDay=value;
+                      updateDateOfBirth(
+                          date: value,
+                          uid: _user.user.uid,
+                          success: () {
+                            setState(() {
+                              _birthDay = value;
+                            });
+                          },
+                          fail: (e) {
+                            print(e);
+                          });
+
+                  }
+                  //dateEdited = value != null ? dateEdited : value;
                 });
               },
             ),
           );
-          if (result != null) {
-            updateDateOfBirth(
-                date: dateEdited,
-                uid: _user.user.uid,
-                success: () {
-                  setState(() {
-                    _birthDay = dateEdited;
-                  });
-                },
-                fail: (e) {
-                  print(e);
-                });
-          }
+          // if (dateEdited != null) {
+          //   updateDateOfBirth(
+          //       date: dateEdited,
+          //       uid: _user.user.uid,
+          //       success: () {
+          //         setState(() {
+          //           _birthDay = dateEdited;
+          //         });
+          //       },
+          //       fail: (e) {
+          //         print(e);
+          //       });
+          // }
         });
 
     BodyMenu Gender = BodyMenu(
@@ -209,44 +225,40 @@ class _UserInfoState extends State<UserInfo> {
       icon: FontAwesomeIcons.envelope,
       title: 'Email',
       content: email,
-      press: () async {
-        String emailEdited;
-        bool result = await showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => EmailDialog(
-              email: email,
-              edited: (value) {
-                emailEdited = value;
-              }),
-        );
-        if (result != null && result) {
-          updateEmail(
-              email: emailEdited,
-              uid: _user.user.uid,
-              success: () {
-                setState(() {
-                  email = emailEdited;
-                });
-              },
-              fail: (e) {
-                print(e);
-              });
-        }
+      press: () {
+        showDialog(
+            context: context,
+            builder: (_) => AlertDialog(
+              content: Text('Không thể thay đổi Email!'),
+            ));
+        // if (result != null && result) {
+        //   updateEmail(
+        //       email: emailEdited,
+        //       uid: _user.user.uid,
+        //       success: () {
+        //         setState(() {
+        //           email = emailEdited;
+        //         });
+        //       },
+        //       fail: (e) {
+        //         print(e);
+        //       });
+        // }
       },
     );
 
-    BodyMenu google = BodyMenu(
-      icon: FontAwesomeIcons.google,
-      title: 'Google',
-      content: 'example@gmail.com',
-      press: () {},
-    );
-    BodyMenu facebook = BodyMenu(
-      icon: FontAwesomeIcons.facebook,
-      title: 'Facebook',
-      content: 'Không',
-      press: () {},
-    );
+    // BodyMenu google = BodyMenu(
+    //   icon: FontAwesomeIcons.google,
+    //   title: 'Google',
+    //   content: 'example@gmail.com',
+    //   press: () {},
+    // );
+    // BodyMenu facebook = BodyMenu(
+    //   icon: FontAwesomeIcons.facebook,
+    //   title: 'Facebook',
+    //   content: 'Không',
+    //   press: () {},
+    // );
 
     BodyMenu password = BodyMenu(
       icon: Icons.vpn_key_outlined,
@@ -262,7 +274,7 @@ class _UserInfoState extends State<UserInfo> {
 
     List<BodyMenu> listPersonal = [birth, Gender, Address];
     List<BodyMenu> listContact = [phone, Email];
-    List<BodyMenu> listSocial = [google, facebook];
+  //  List<BodyMenu> listSocial = [google, facebook];
 
     //Create list
     // List<Widget> getMenuList(List list) {
@@ -310,11 +322,11 @@ class _UserInfoState extends State<UserInfo> {
                     children: getMenuList(listContact.toList()),
                   ),
                 ),
-                CustomCard(
-                  child: Column(
-                    children: getMenuList(listSocial.toList()),
-                  ),
-                ),
+                // CustomCard(
+                //   child: Column(
+                //     children: getMenuList(listSocial.toList()),
+                //   ),
+                // ),
                 CustomCard(child: password),
               ],
             ),

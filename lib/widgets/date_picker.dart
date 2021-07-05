@@ -57,9 +57,10 @@ class _DatePickerState extends State<DatePicker> {
             initialSelectedDate: this.widget.selectedDate,
             view: DateRangePickerView.month,
             showActionButtons: true,
-            cancelText: 'CANCEl',
+            cancelText: 'CANCEL',
             confirmText: 'OK',
             onSubmit: (value) {
+
               this.widget.callback(value);
               Navigator.pop(context, 'OK');
             },
