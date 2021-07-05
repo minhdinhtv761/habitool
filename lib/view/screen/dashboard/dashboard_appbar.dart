@@ -6,6 +6,9 @@ import 'package:habitool/view/screen/dashboard/dashboard_calendar.dart';
 import 'package:provider/provider.dart';
 import 'package:habitool/provider/user_provider.dart';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 class DashboardAppBar extends StatefulWidget {
   DashboardAppBar({Key key, this.callback}) : super(key: key);
 
@@ -16,25 +19,17 @@ class DashboardAppBar extends StatefulWidget {
 }
 
 class _DashboardAppBarState extends State<DashboardAppBar> {
-  String email;
+  String name;
+  String avatar;
   UserData user;
-  // @override
-  // void initState() {
-  //   // TODO: implement initState
-  //   super.initState();
-  //   user = Provider.of<UserProvider>(context, listen: false).user;
-  //   email = user.email;
-  //   //email = '';
-  //   //avatar = user.urlAvt;
-  // }
 
   @override
   Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-    user = Provider.of<UserProvider>(context, listen: true).user;
-    //email = user.email;
-    email = 'Habitter';
-    print(user);
+    Size size = MediaQuery.of(context).size;
+    //
+    user = Provider.of<UserProvider>(context).user;
+    avatar = user.urlAvt;
+    name = user.displayName;
     return SliverAppBar(
       pinned: true,
       floating: true,
@@ -50,6 +45,24 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
             color: CustomColors.grey,
             shape: BoxShape.circle,
           ),
+          child: Consumer<UserProvider>(builder: (context, provider, child) {
+            return ClipOval(
+              child: provider.user.urlAvt != ""
+                  ? Image.network(
+                      provider.user.urlAvt,
+                      fit: BoxFit.fill,
+                    )
+                  : Container(),
+            );
+          }),
+          // child: ClipOval(
+          //   child: avatar != null && avatar != ""
+          //       ? Image.network(
+          //           avatar,
+          //           fit: BoxFit.fill,
+          //         )
+          //       : Container(),
+          // ),
         ),
         SizedBox(
           width: 20.0,
@@ -68,7 +81,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               height: 5.0,
             ),
             Text(
-              user.displayName.toString(),
+              name,
               style: TextStyle(
                 color: CustomColors.light,
                 fontSize: 18,

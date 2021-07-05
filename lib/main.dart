@@ -78,7 +78,11 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         StreamProvider.value(value: FirebaseAuth.instance.authStateChanges()),
-        ChangeNotifierProvider.value(value: UserProvider()),
+        // ChangeNotifierProvider.value(value: UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        Provider(
+          create: (_) => UserProvider(),
+        ),
         Provider(
           create: (_) => HabitServices(),
         ),

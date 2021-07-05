@@ -1,9 +1,11 @@
 import 'package:habitool/model/profile/user_profile.dart';
+import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/intro/login_screen.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:habitool/provider/user_provider.dart';
 
 Future<User> createAccount(
     String email, String password, String repassword) async {
@@ -30,7 +32,8 @@ Future<User> createAccount(
         "address": '',
         "gender": 'Nam',
         "phone": '',
-        "avatar": '',
+        "avatar":
+            'https://firebasestorage.googleapis.com/v0/b/habitool.appspot.com/o/folderName%2Fno-avatar.png?alt=media&token=79f7fbf6-0a45-4c3f-8bac-a0562d265a29',
         "DOB": DateTime.now(),
       });
 
@@ -56,10 +59,8 @@ Future<UserData> logIn(String email, String password) async {
     UserData userData;
     if (!user.emailVerified) {
       return null;
-
     }
     if (user != null) {
-
       print("Login Sucessfull method");
       await _firestore
           .collection('users')
@@ -75,7 +76,6 @@ Future<UserData> logIn(String email, String password) async {
     return null;
   }
 }
-
 
 Future logOut(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;
@@ -153,7 +153,6 @@ Future<void> updateAddress(
         .collection("users")
         .doc(uid)
         .update({"address": address}).then((value) {
-      print("Thay đổi dia chi thành công");
       success();
     });
   } catch (e) {
@@ -174,7 +173,6 @@ Future<void> updateGender(
         .collection("users")
         .doc(uid)
         .update({"gender": gender}).then((value) {
-      print("Thay đổi gioi tinh thành công");
       success();
     });
   } catch (e) {
@@ -195,7 +193,6 @@ Future<void> updateName(
         .collection("users")
         .doc(uid)
         .update({"name": name}).then((value) {
-      print("Thay đổi ten thành công");
       success();
     });
   } catch (e) {
@@ -216,7 +213,6 @@ Future<void> updateEmail(
         .collection("users")
         .doc(uid)
         .update({"email": email}).then((value) {
-      print("Thay đổi email thành công");
       success();
     });
   } catch (e) {
@@ -225,24 +221,14 @@ Future<void> updateEmail(
   }
 }
 
-Future<void> updateAvatar(
-    {@required String avatar,
-    @required uid,
-    Function success,
-    Function(String) fail}) async {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
-
+Future<void> updateAvatar({@required UserData user}) async {
   try {
     await FirebaseFirestore.instance
         .collection("users")
-        .doc(uid)
-        .update({"avatar": avatar}).then((value) {
-      print("Thay đổi avatar thành công");
-      success();
-    });
+        .doc(user.uid)
+        .update({"avatar": user.urlAvt}).then((value) {});
   } catch (e) {
     print(e);
-    fail(e.toString());
   }
 }
 
@@ -258,7 +244,6 @@ Future<String> updateDateOfBirth(
         .collection("users")
         .doc(uid)
         .update({"DOB": date}).then((value) {
-      print("Thay đổi ngày thành công");
       success();
     });
   } catch (e) {

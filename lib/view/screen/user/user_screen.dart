@@ -24,19 +24,28 @@ class UserScreen extends StatefulWidget {
 class _UserScreenState extends State<UserScreen> {
   UserData user;
   String email;
-  String image;
+  String avatar;
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
-    user = Provider.of<UserProvider>(context, listen: false).user;
-    email = user.email;
-    //avatar = user.urlAvt;
   }
 
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
+    user = Provider.of<UserProvider>(context, listen: true).user;
+    email = user.email;
+    //update data from secondPage
+    void onGoBack(dynamic value) {
+      setState(() {});
+    }
+
+    void navigateSecondPage() {
+      Route route =
+          MaterialPageRoute(builder: (context) => InfomationUserScreen());
+      Navigator.push(context, route).then(onGoBack);
+    }
 
     return Scaffold(
       backgroundColor: CustomColors.light,
@@ -75,13 +84,7 @@ class _UserScreenState extends State<UserScreen> {
                     child: Column(
                       children: <Widget>[
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => InfomationUserScreen()),
-                            );
-                          },
+                          onTap: navigateSecondPage,
                           child: Container(
                             child: BodyMenu(
                               icon: Icons.person,
@@ -264,16 +267,14 @@ class _UserScreenState extends State<UserScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-        onPressed: () => logOut(context).then((user) {
-                    if (user != null) {
-                      Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) =>
-                                  LogInScreen()),
-                          (route) => false);
-                    }
-                  }),
+      onPressed: () => logOut(context).then((user) {
+        if (user != null) {
+          Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(builder: (context) => LogInScreen()),
+              (route) => false);
+        }
+      }),
     );
   }
 
@@ -353,21 +354,24 @@ class _UserScreenState extends State<UserScreen> {
         Row(
           children: [
             Container(
-              margin: EdgeInsets.all(20.0),
-              width: 70.0,
-              height: 70.0,
+              margin: EdgeInsets.all(15.0),
+              width: 80.0,
+              height: 80.0,
               decoration: BoxDecoration(
                 color: CustomColors.grey,
                 shape: BoxShape.circle,
               ),
-              child: ClipOval(
-                child: image != null && image != ""
-                    ? Image.network(
-                        image,
-                        fit: BoxFit.fill,
-                      )
-                    : Container(),
-              ),
+              child:
+                  Consumer<UserProvider>(builder: (context, provider, child) {
+                return ClipOval(
+                  child: provider.user.urlAvt != ""
+                      ? Image.network(
+                          provider.user.urlAvt,
+                          fit: BoxFit.fill,
+                        )
+                      : Container(),
+                );
+              }),
             ),
             SizedBox(
               width: 10.0,
