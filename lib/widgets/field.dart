@@ -4,7 +4,7 @@ import 'package:habitool/custom_values/custom_colors.dart';
 Widget field(Size size, String hintText, TextEditingController cont) {
   return Container(
     height: size.height / 14,
-    width: size.width / 1.1,
+    width: size.width /1.0,
     child: TextField(
       controller: cont,
       decoration: InputDecoration(
@@ -15,14 +15,11 @@ Widget field(Size size, String hintText, TextEditingController cont) {
         ),
         hintText: hintText,
         hintStyle: TextStyle(color: Colors.grey),
-        suffixIcon: cont.text.isEmpty
-            ? Container(
-                width: 0.0,
-              )
-            : IconButton(
-                icon: Icon(Icons.close),
-                onPressed: () => cont.clear(),
-              ),
+        suffixIcon: IconButton(
+          onPressed: () => cont.clear(),
+          icon: Icon(Icons.clear),
+        ),
+
       ),
     ),
   );

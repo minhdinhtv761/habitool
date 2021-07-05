@@ -153,78 +153,78 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             ),
                           ),
                           SizedBox(height: 25.0),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    minimumSize: Size(100, 50),
-                                  ),
-                                  icon: Image.asset(
-                                    'assets/images/google-logo.png',
-                                    height: 35.0,
-                                  ),
-                                  label: Text('Google',
-                                      style: TextStyle(
-                                        color: CustomColors.darkgrey,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  onPressed: () => googleSignIn().then((user) {
-                                    if (user != null) {
-                                      Navigator.pushAndRemoveUntil(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  DashBoardScreen()),
-                                          (route) => false);
-                                    }
-                                  }),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 25.0,
-                              ),
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    minimumSize: Size(100, 50),
-                                  ),
-                                  icon: Image.asset(
-                                    'assets/images/facebook-logo.png',
-                                    height: 35.0,
-                                  ),
-                                  label: Text(
-                                    'Facebook',
-                                    style: TextStyle(
-                                      color: CustomColors.darkgrey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  onLongPress: () {},
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25.0,
-                          ),
+                          // Row(
+                          //   children: <Widget>[
+                          //     Expanded(
+                          //       child: ElevatedButton.icon(
+                          //         style: ElevatedButton.styleFrom(
+                          //           primary: Colors.white,
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           minimumSize: Size(100, 50),
+                          //         ),
+                          //         icon: Image.asset(
+                          //           'assets/images/google-logo.png',
+                          //           height: 35.0,
+                          //         ),
+                          //         label: Text('Google',
+                          //             style: TextStyle(
+                          //               color: CustomColors.darkgrey,
+                          //               fontSize: 14,
+                          //               fontWeight: FontWeight.bold,
+                          //             )),
+                          //         onPressed: () => googleSignIn().then((user) {
+                          //           if (user != null) {
+                          //             Navigator.pushAndRemoveUntil(
+                          //                 context,
+                          //                 MaterialPageRoute(
+                          //                     builder: (context) =>
+                          //                         DashBoardScreen()),
+                          //                 (route) => false);
+                          //           }
+                          //         }),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 25.0,
+                          //     ),
+                          //     Expanded(
+                          //       child: ElevatedButton.icon(
+                          //         style: ElevatedButton.styleFrom(
+                          //           primary: Colors.white,
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           minimumSize: Size(100, 50),
+                          //         ),
+                          //         icon: Image.asset(
+                          //           'assets/images/facebook-logo.png',
+                          //           height: 35.0,
+                          //         ),
+                          //         label: Text(
+                          //           'Facebook',
+                          //           style: TextStyle(
+                          //             color: CustomColors.darkgrey,
+                          //             fontSize: 14,
+                          //             fontWeight: FontWeight.bold,
+                          //           ),
+                          //         ),
+                          //         onPressed: () {},
+                          //         onLongPress: () {},
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // SizedBox(
+                          //   height: 25.0,
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: <Widget>[
                               Text(
-                                'Bạn đã có tài khoản?',
+                                'Bạn đã có tài khoản? ',
                                 style: TextStyle(
                                   color: CustomColors.darkgrey,
                                   fontSize: 13,
