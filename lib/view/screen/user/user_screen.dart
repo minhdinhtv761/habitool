@@ -376,7 +376,7 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  email,
+                  user.displayName.toString(),
                   style: TextStyle(
                     color: CustomColors.black,
                     fontSize: 18,
@@ -387,7 +387,7 @@ class _UserScreenState extends State<UserScreen> {
                   height: 3.0,
                 ),
                 Text(
-                  'Logged in with facebook',
+                  'Logged in with Email',
                   style: TextStyle(
                     color: CustomColors.darkgrey,
                     fontSize: 14,
