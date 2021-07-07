@@ -30,10 +30,7 @@ class _CustomAppBarUserState extends State<CustomAppBarUser> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => UserScreen()),
-                      (route) => false);
+              Navigator.of(context, rootNavigator: true).pop(context);
             }),
         title: Text(
           this.widget.title,

@@ -227,7 +227,7 @@ class _HabitInfo extends State<HabitInfo> {
           context: context,
           pageBuilder: (_, __, ___) => DatePicker(
             _endDate,
-            minDate: _startDate,
+            minDate: edittingStartDate ? _startDate : DateTime.now(),
             callback: (value) {
               setState(() {
                 _endDate = value;
@@ -260,27 +260,27 @@ class _HabitInfo extends State<HabitInfo> {
       },
     );
 
-    BodyMenu notification = BodyMenu(
-      icon: FontAwesomeIcons.bell,
-      title: 'Nhắc nhở',
-      content: _notif ? 'Bật' : 'Tắt',
-      press: () {
-        showGeneralDialog(
-          context: context,
-          pageBuilder: (_, __, ___) => NotificationDialog(
-            _notif ? 'Bật' : 'Tắt',
-            getNotif: (value) {
-              setState(() {
-                _notif = value == 'Bật';
-              });
-            },
-          ),
-        );
-      },
-    );
+    // BodyMenu notification = BodyMenu(
+    //   icon: FontAwesomeIcons.bell,
+    //   title: 'Nhắc nhở',
+    //   content: _notif ? 'Bật' : 'Tắt',
+    //   press: () {
+    //     showGeneralDialog(
+    //       context: context,
+    //       pageBuilder: (_, __, ___) => NotificationDialog(
+    //         _notif ? 'Bật' : 'Tắt',
+    //         getNotif: (value) {
+    //           setState(() {
+    //             _notif = value == 'Bật';
+    //           });
+    //         },
+    //       ),
+    //     );
+    //   },
+    // );
 
 //Thời gian/Nhắc nhở
-    List<BodyMenu> listTime = [time, notification];
+    List<BodyMenu> listTime = [time];
 
     List<Widget> getMenuList(List<BodyMenu> list) {
       List<Widget> _list = List();

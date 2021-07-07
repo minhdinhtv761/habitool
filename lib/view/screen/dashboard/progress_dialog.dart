@@ -62,7 +62,8 @@ class _ProgressDialogState extends State<ProgressDialog> {
         ),
         edited: () {
           if (newCompleted != null) {
-            if (int.parse(newCompleted) > this.widget.habitModel.goal) {
+            if (int.parse(newCompleted) > this.widget.habitModel.goal ||
+                int.parse(newCompleted) <= 0) {
               showGeneralDialog(
                 context: context,
                 pageBuilder: (_, __, ___) => MessageBox.erroInputProgress(),

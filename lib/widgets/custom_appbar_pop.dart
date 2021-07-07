@@ -27,7 +27,8 @@ class _CustomAppBarPopState extends State<CustomAppBarPop> {
         shadowColor: Colors.transparent,
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
-            onPressed: () {Navigator.of(context).pop();
+            onPressed: () {
+              Navigator.of(context).pop();
             }),
         title: Text(
           this.widget.title,

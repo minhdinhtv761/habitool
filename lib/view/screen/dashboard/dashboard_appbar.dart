@@ -26,7 +26,6 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
     Size size = MediaQuery.of(context).size;
     //
     user = Provider.of<UserProvider>(context).user;
-    avatar = user.urlAvt;
     name = user.displayName;
     return SliverAppBar(
       pinned: true,

@@ -26,7 +26,7 @@ class _ForgetPasswordScreen extends State<ForgetPasswordScreen> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
             onPressed: () {
-              Navigator.pop(context);
+              Navigator.of(context, rootNavigator: true).pop(context);
             }),
         title: Text(
           'Quên mật khẩu',

@@ -434,23 +434,20 @@ class HabitServices extends ChangeNotifier {
     collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
-        .update(habitModel.removeHabitRecord(date, completed, 0))
-        .then((value) => collectionHabit
-                .collection('habits')
-                .doc(habitModel.habitId)
-                .update(habitModel.createHabitRecord(date, habitModel.goal, 1))
-                .then((value) {
+        .update(habitModel.removeHabitRecord(date, completed, 0));
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.createHabitRecord(date, habitModel.goal, 1));
 //thêm vào trạng thái hoàn thành
-              todayHabitListDoing.remove(habitModel);
-              todayHabitListDone
-                  .add(habitModel.fromHabitRecords(date, habitModel.goal, 1));
+    todayHabitListDoing.remove(habitModel);
+    todayHabitListDone
+        .add(habitModel.fromHabitRecords(date, habitModel.goal, 1));
 
-              notifyListeners();
+    notifyListeners();
 
-              if (statisticService.doingToday > 0)
-                statisticService.doingToday--;
-              statisticService.doneToday++;
-            }));
+    if (statisticService.doingToday > 0) statisticService.doingToday--;
+    statisticService.doneToday++;
   }
 
   void markResetHabit(HabitModel habitModel, DateTime date) {

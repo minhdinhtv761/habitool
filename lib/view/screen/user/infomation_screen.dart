@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/view/screen/user/user_info.dart';
 import 'package:habitool/view/screen/user/widgets/user_avatar.dart';
-import 'package:habitool/widgets/custom_appbar.dart';
 import 'package:habitool/widgets/custom_appbar_setting.dart';
 
 class InfomationUserScreen extends StatefulWidget {

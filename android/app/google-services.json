@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "136374855501-svo3bm9lgnq0mpsbidsaf3v1o3lo5v2u.apps.googleusercontent.com",
+          "client_id": "136374855501-j7bjki443gq0gfc512mgctvb682bcc4k.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.habitool",
-            "certificate_hash": "015a94921b1c528fb6edc91e5a020800a790628c"
+            "certificate_hash": "1ce708cf0d1092e090e096f1bbd164ad085d2d0a"
           }
         },
         {

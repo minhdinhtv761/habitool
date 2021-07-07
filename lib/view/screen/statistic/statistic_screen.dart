@@ -6,8 +6,10 @@ import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/view/screen/statistic/chart.dart';
 import 'package:habitool/view/screen/statistic/statatic_grid.dart';
 
+import 'package:habitool/services/ad_helper.dart';
 import 'package:habitool/services/statistic_services.dart';
 
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 
 class StatisticScreen extends StatefulWidget {
@@ -16,6 +18,45 @@ class StatisticScreen extends StatefulWidget {
 }
 
 class _StatisticScreenState extends State<StatisticScreen> {
+  //
+  //Adding admob
+  //
+  BannerAd _bannerAd;
+  bool _isBannerAdReady = false;
+  //
+  @override
+  void initState() {
+    _bannerAd = BannerAd(
+      adUnitId: AdHelper.bannerAdUnitId,
+      request: AdRequest(),
+      size: AdSize.banner,
+      listener: BannerAdListener(
+        onAdLoaded: (_) {
+          setState(() {
+            _isBannerAdReady = true;
+          });
+        },
+        onAdFailedToLoad: (ad, err) {
+          print('Failed to load a banner ad: ${err.message}');
+          _isBannerAdReady = false;
+          ad.dispose();
+        },
+      ),
+    );
+    _bannerAd.load();
+  }
+
+//
+//
+  @override
+  void dispose() {
+    _bannerAd.dispose();
+    super.dispose();
+  }
+
+//
+// End AdMobs
+//
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -57,6 +98,15 @@ class _StatisticScreenState extends State<StatisticScreen> {
                   padding: EdgeInsets.all(16),
                   child: StatsGrid(),
                 ),
+                if (_isBannerAdReady)
+                  Align(
+                    alignment: Alignment.topCenter,
+                    child: Container(
+                      width: _bannerAd.size.width.toDouble(),
+                      height: _bannerAd.size.height.toDouble(),
+                      child: AdWidget(ad: _bannerAd),
+                    ),
+                  ),
               ],
             ),
           )

@@ -28,7 +28,6 @@ class _ViewQuestionState extends State<ViewQuestion> {
     des = widget.data['description'];
     return SafeArea(
       child: Scaffold(
-
         appBar: CustomAppBarPop(title: '', actionText: '', action: () {}),
         resizeToAvoidBottomInset: false,
         //
@@ -39,7 +38,6 @@ class _ViewQuestionState extends State<ViewQuestion> {
             ),
             child: Column(
               children: [
-
                 SizedBox(
                   height: 12.0,
                 ),

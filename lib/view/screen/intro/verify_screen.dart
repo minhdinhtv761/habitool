@@ -20,7 +20,7 @@ class _VerifyScreenState extends State<VerifyScreen> {
     user = auth.currentUser;
     user.sendEmailVerification();
 
-    timer = Timer.periodic(Duration(seconds: 5), (timer) {
+    timer = Timer(Duration(seconds: 5), () {
       checkEmailVerified();
     });
     super.initState();
@@ -39,85 +39,82 @@ class _VerifyScreenState extends State<VerifyScreen> {
       backgroundColor: CustomColors.light,
       body: isLoading
           ? Center(
-        child: Container(
-          height: size.height / 20,
-          width: size.height / 20,
-          child: CircularProgressIndicator(),
-        ),
-      )
-          : SingleChildScrollView(
-        child: Container(
-          child: Stack(
-            alignment: AlignmentDirectional.topCenter,
-            children: <Widget>[
-              Container(
-                height: 200,
-                decoration: BoxDecoration(
-                  color: CustomColors.blue,
-                  borderRadius:
-                  BorderRadius.vertical(bottom: Radius.circular(30)),
-                ),
+              child: Container(
+                height: size.height / 20,
+                width: size.height / 20,
+                child: CircularProgressIndicator(),
               ),
-              Padding(
-                padding:
-                EdgeInsets.only(top: 115.0, left: 20.0, right: 20.0),
-                child: Column(
+            )
+          : SingleChildScrollView(
+              child: Container(
+                child: Stack(
+                  alignment: AlignmentDirectional.topCenter,
                   children: <Widget>[
                     Container(
+                      height: 200,
                       decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(30.0),
-                      ),
-                      child: Padding(
-                        padding: EdgeInsets.only(
-                            top: 25.0,
-                            left: 20.0,
-                            right: 20.0,
-                            bottom: 25.0),
-                        child: Column(
-                          children: <Widget>[
-                            Container(
-                              child: Text(
-                                'Đăng Ký',
-                                style: TextStyle(
-                                  color: CustomColors.black,
-                                  fontSize: 36,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                            Text(
-                              'Vui lòng vào email ${user.email} để xác thực tài khoản',
-                              style: TextStyle(
-                                color: CustomColors.blue,
-                                fontSize: 15,
-                               // fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(
-                              height: 15.0,
-                            ),
-                          ],
-                        ),
+                        color: CustomColors.blue,
+                        borderRadius:
+                            BorderRadius.vertical(bottom: Radius.circular(30)),
                       ),
                     ),
-                    SizedBox(height: 25.0),
-
-
+                    Padding(
+                      padding:
+                          EdgeInsets.only(top: 115.0, left: 20.0, right: 20.0),
+                      child: Column(
+                        children: <Widget>[
+                          Container(
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(30.0),
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.only(
+                                  top: 25.0,
+                                  left: 20.0,
+                                  right: 20.0,
+                                  bottom: 25.0),
+                              child: Column(
+                                children: <Widget>[
+                                  Container(
+                                    child: Text(
+                                      'Đăng Ký',
+                                      style: TextStyle(
+                                        color: CustomColors.black,
+                                        fontSize: 36,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15.0,
+                                  ),
+                                  Text(
+                                    'Vui lòng vào email ${user.email} để xác thực tài khoản',
+                                    style: TextStyle(
+                                      color: CustomColors.blue,
+                                      fontSize: 15,
+                                      // fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    height: 15.0,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          SizedBox(height: 25.0),
+                        ],
+                      ),
+                    ),
                   ],
                 ),
               ),
-            ],
-          ),
-        ),
 
-
-      //   child: Text(
-      //       'Vui lòng vào email ${user.email} để xác thực tài khoản'),
-      // ),
+              //   child: Text(
+              //       'Vui lòng vào email ${user.email} để xác thực tài khoản'),
+              // ),
             ),
     );
   }
@@ -129,9 +126,8 @@ class _VerifyScreenState extends State<VerifyScreen> {
       //timer.cancel();
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LogInScreen()));
-    }
-    else {
-     // timer.cancel();
+    } else {
+      // timer.cancel();
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => LogInScreen()));
     }
