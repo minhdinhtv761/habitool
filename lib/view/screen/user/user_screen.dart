@@ -194,7 +194,7 @@ class _UserScreenState extends State<UserScreen> {
                           child: Container(
                             child: BodyMenu(
                               icon: Icons.book,
-                              title: 'Điều khoản sử dụng',
+                              title: 'Về chúng tôi',
                               content: '',
                             ),
                           ),
@@ -264,7 +264,16 @@ class _UserScreenState extends State<UserScreen> {
           fontWeight: FontWeight.bold,
         ),
       ),
-      onPressed: () {},
+        onPressed: () => logOut(context).then((user) {
+                    if (user != null) {
+                      Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  LogInScreen()),
+                          (route) => false);
+                    }
+                  }),
     );
   }
 
@@ -367,7 +376,7 @@ class _UserScreenState extends State<UserScreen> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Text(
-                  email,
+                  user.displayName.toString(),
                   style: TextStyle(
                     color: CustomColors.black,
                     fontSize: 18,
@@ -378,7 +387,7 @@ class _UserScreenState extends State<UserScreen> {
                   height: 3.0,
                 ),
                 Text(
-                  'Logged in with facebook',
+                  'Logged in with Email',
                   style: TextStyle(
                     color: CustomColors.darkgrey,
                     fontSize: 14,

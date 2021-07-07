@@ -1,105 +1,168 @@
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:habitool/custom_values/custom_colors.dart';
-import 'package:habitool/model/methods.dart';
-import 'package:habitool/model/profile/user_profile.dart';
-import 'package:habitool/provider/user_provider.dart';
-import 'package:mailer/smtp_server.dart';
-import 'package:provider/provider.dart';
-import 'package:mailer/mailer.dart';
-import 'package:mailer/smtp_server.dart';
+import 'package:habitool/view/screen/achivement/view_note.dart';
+import 'package:habitool/view/screen/user/add_help.dart';
+import 'package:habitool/view/screen/user/view_question.dart';
+import 'package:habitool/widgets/custom_appbar_setting.dart';
+import 'package:habitool/widgets/custom_appbar_social.dart';
+import 'package:intl/intl.dart';
+
 
 class HelpScreen extends StatefulWidget {
-  final UserData currentUser;
-
-  HelpScreen({this.currentUser});
-
   @override
-  _HelpScreen createState() => _HelpScreen();
+  _HelpScreenState createState() => _HelpScreenState();
 }
 
-class _HelpScreen extends State<HelpScreen> {
-  final TextEditingController _emailController = TextEditingController();
+class _HelpScreenState extends State<HelpScreen> {
+  CollectionReference ref = FirebaseFirestore.instance.collection('help');
 
+  List<Color> myColors = [
+    CustomColors.blue,
+  ];
+  DateTime _selectedDate = DateTime.now();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: CustomColors.light,
-      appBar: AppBar(
-        backgroundColor: CustomColors.light,
-        leading: IconButton(
-            icon: Icon(Icons.arrow_back, color: CustomColors.black),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        title: Text(
-          'Trợ giúp',
-          style: TextStyle(
-            color: CustomColors.black,
-            fontSize: 18,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
-      ),
-      body: SingleChildScrollView(
-        child: Form(
-          child: Container(
-            child: Stack(
-              alignment: AlignmentDirectional.topCenter,
-              children: <Widget>[
-                Padding(
-                  padding: EdgeInsets.only(top: 55.0, left: 20.0, right: 20.0),
-                  child: Column(
-                    children: <Widget>[
-                      Container(
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(30.0),
-                        ),
-                        child: Padding(
-                          padding: EdgeInsets.only(
-                              top: 25.0, left: 20.0, right: 20.0, bottom: 25.0),
-                          child: Column(
-                            children: <Widget>[
-                              Container(
-                                child: TextFormField(
-                                  decoration: InputDecoration(
-                                    hintText: 'Nhập email',
-                                    labelStyle: TextStyle(
-                                      color: CustomColors.grey,
-                                      fontSize: 20,
-                                    ),
-                                  ),
-                                  controller: _emailController,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 40.0),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          primary: CustomColors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
-                          ),
-                          minimumSize: Size(350, 60),
-                        ),
-                        child: Text('Xác nhận',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        onPressed: () {},
-                      ),
-                    ],
+      // floatingActionButton: FloatingActionButton(
+      //   onPressed: () {
+      //     Navigator.of(context)
+      //         .push(
+      //       MaterialPageRoute(
+      //         builder: (context) => AddNote(),
+      //       ),
+      //     )
+      //         .then((value) {
+      //       print("Calling Set  State !");
+      //       setState(() {});
+      //     });
+      //   },
+      //   child: Icon(
+      //     Icons.add,
+      //     color: CustomColors.light,
+      //   ),
+      //
+      //   backgroundColor: CustomColors.blue,
+      //
+      //
+      // ),
+      //
+      appBar: CustomAppBarUser(
+          title: 'Trợ giúp',
+          actionText: 'Thêm trợ giúp ',
+          action: () {
+            Navigator.of(context)
+                .push(
+              MaterialPageRoute(
+                builder: (context) => AddHelp(),
+              ),
+            )
+                .then((value) {
+              print("Calling Set  State !");
+              setState(() {});
+            });
+          }),
+      //
+      body: FutureBuilder<QuerySnapshot>(
+        future: ref.get(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            if (snapshot.data.docs.length == 0) {
+              return Center(
+                child: Text(
+                  "You have no saved Notes !",
+                  style: TextStyle(
+                    color: Colors.white70,
                   ),
-                )
-              ],
-            ),
-          ),
-        ),
+                ),
+              );
+            }
+
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (context, index) {
+                Random random = new Random();
+                Color bg = myColors[random.nextInt(1)];
+                Map data = snapshot.data.docs[index].data();
+                DateTime mydateTime = data['created'].toDate();
+                String formattedTime =
+                DateFormat.yMMMd().add_jm().format(mydateTime);
+
+                return InkWell(
+                  onTap: () {
+                    Navigator.pushAndRemoveUntil(
+                        context,
+                        MaterialPageRoute(builder: (context) => ViewQuestion(
+                          data,
+                          formattedTime,
+                          snapshot.data.docs[index].reference,
+                        ),),
+                            (route) => false);
+                    // Navigator.of(context)
+                    //     .push(
+                    //   MaterialPageRoute(
+                    //     builder: (context) => ViewQuestion(
+                    //       data,
+                    //       formattedTime,
+                    //       snapshot.data.docs[index].reference,
+                    //     ),
+                    //   ),
+                    // )
+                    //     .then((value) {
+                    //   setState(() {});
+                    // });
+                  },
+                  child: Card(
+                    color: bg,
+                    elevation: 0,
+                    margin: EdgeInsets.only(top: 14, left: 16, right: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "${data['title']}",
+                            style: TextStyle(
+                              fontSize: 20.0,
+                              fontFamily: "Roboto",
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white,
+                            ),
+                          ),
+                          //
+                          Container(
+                            alignment: Alignment.centerRight,
+                            child: Text(
+                              "",
+                              style: TextStyle(
+                                fontSize: 18.0,
+                                fontFamily: "Roboto",
+                                color: Colors.white,
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                );
+              },
+            );
+          } else {
+            return Center(
+              child: Text(
+                "Loading...",
+                style: TextStyle(color: CustomColors.grey),
+              ),
+            );
+          }
+        },
       ),
     );
   }

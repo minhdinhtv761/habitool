@@ -54,8 +54,13 @@ Future<UserData> logIn(String email, String password) async {
             email: email, password: password))
         .user;
     UserData userData;
+    if (!user.emailVerified) {
+      return null;
+
+    }
     if (user != null) {
-      print("Login Sucessfull");
+
+      print("Login Sucessfull method");
       await _firestore
           .collection('users')
           .doc(_auth.currentUser.uid)
@@ -64,13 +69,13 @@ Future<UserData> logIn(String email, String password) async {
         userData = UserData.fromJson(value.data());
       });
     }
-
     return userData;
   } catch (e) {
     print(e);
     return null;
   }
 }
+
 
 Future logOut(BuildContext context) async {
   FirebaseAuth _auth = FirebaseAuth.instance;

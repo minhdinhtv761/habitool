@@ -1,6 +1,7 @@
 
 
 import 'dart:io';
+import 'package:firebase_auth/firebase_auth.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:habitool/model/methods.dart';
@@ -15,6 +16,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class UserProvider with ChangeNotifier {
   UserData user;
+
   Future<void> login(
       {email, password, Function(UserData) success, Function fail}) async {
     var _user = await logIn(email, password);
@@ -27,6 +29,8 @@ class UserProvider with ChangeNotifier {
 
     notifyListeners();
   }
+
+
 
   File _image;
 

@@ -20,6 +20,7 @@ class LogInScreen extends StatefulWidget {
 
 class _LogInScreenState extends State<LogInScreen> {
   bool _isObscure = true;
+  DateTime _selectedDate;
 
   final _email = TextEditingController();
   final _password = TextEditingController();
@@ -123,71 +124,71 @@ class _LogInScreenState extends State<LogInScreen> {
                             ),
                           ),
                           SizedBox(height: 25.0),
-                          Row(
-                            children: <Widget>[
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    minimumSize: Size(100, 50),
-                                  ),
-                                  icon: Image.asset(
-                                    'assets/images/google-logo.png',
-                                    height: 35.0,
-                                  ),
-                                  label: Text('Google',
-                                      style: TextStyle(
-                                        color: CustomColors.darkgrey,
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                      )),
-                                  onPressed: () => googleSignIn().then((user) {
-                                    if (user != null) {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) => HomeScreen()),
-                                      );
-                                    }
-                                  }),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 25.0,
-                              ),
-                              Expanded(
-                                child: ElevatedButton.icon(
-                                  style: ElevatedButton.styleFrom(
-                                    primary: Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(30),
-                                    ),
-                                    minimumSize: Size(100, 50),
-                                  ),
-                                  icon: Image.asset(
-                                    'assets/images/facebook-logo.png',
-                                    height: 35.0,
-                                  ),
-                                  label: Text(
-                                    'Facebook',
-                                    style: TextStyle(
-                                      color: CustomColors.darkgrey,
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.bold,
-                                    ),
-                                  ),
-                                  onPressed: () {},
-                                  onLongPress: () {},
-                                ),
-                              ),
-                            ],
-                          ),
-                          SizedBox(
-                            height: 25.0,
-                          ),
+                          // Row(
+                          //   children: <Widget>[
+                          //     Expanded(
+                          //       child: ElevatedButton.icon(
+                          //         style: ElevatedButton.styleFrom(
+                          //           primary: Colors.white,
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           minimumSize: Size(100, 50),
+                          //         ),
+                          //         icon: Image.asset(
+                          //           'assets/images/google-logo.png',
+                          //           height: 35.0,
+                          //         ),
+                          //         label: Text('Google',
+                          //             style: TextStyle(
+                          //               color: CustomColors.darkgrey,
+                          //               fontSize: 14,
+                          //               fontWeight: FontWeight.bold,
+                          //             )),
+                          //         onPressed: () => googleSignIn().then((user) {
+                          //           if (user != null) {
+                          //             Navigator.push(
+                          //               context,
+                          //               MaterialPageRoute(
+                          //                   builder: (context) => HomeScreen()),
+                          //             );
+                          //           }
+                          //         }),
+                          //       ),
+                          //     ),
+                          //     SizedBox(
+                          //       width: 25.0,
+                          //     ),
+                          //     Expanded(
+                          //       child: ElevatedButton.icon(
+                          //         style: ElevatedButton.styleFrom(
+                          //           primary: Colors.white,
+                          //           shape: RoundedRectangleBorder(
+                          //             borderRadius: BorderRadius.circular(30),
+                          //           ),
+                          //           minimumSize: Size(100, 50),
+                          //         ),
+                          //         icon: Image.asset(
+                          //           'assets/images/facebook-logo.png',
+                          //           height: 35.0,
+                          //         ),
+                          //         label: Text(
+                          //           'Facebook',
+                          //           style: TextStyle(
+                          //             color: CustomColors.darkgrey,
+                          //             fontSize: 14,
+                          //             fontWeight: FontWeight.bold,
+                          //           ),
+                          //         ),
+                          //         onPressed: () {},
+                          //         onLongPress: () {},
+                          //       ),
+                          //     ),
+                          //   ],
+                          // ),
+                          // SizedBox(
+                          //   height: 25.0,
+                          // ),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
@@ -243,57 +244,46 @@ class _LogInScreenState extends State<LogInScreen> {
                   setState(() {
                     isLoading = false;
                   });
+
                   Navigator.pushAndRemoveUntil(
                       context,
                       MaterialPageRoute(builder: (context) => HomeScreen()),
-                      (route) => false);
+                          (route) => false);
                 } else {
                   print("Login Failed");
                   showDialog(
                       context: context,
                       builder: (_) => AlertDialog(
-                            title: Text('Cảnh báo'),
-                            content:
-                                Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-                          ));
+                        title: Text('Cảnh báo'),
+                        content:
+                        Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
+                      ));
                   setState(() {
                     isLoading = false;
                   });
                 }
               },
               fail: () {
+                showDialog(
+                    context: context,
+                    builder: (_) => AlertDialog(
+                      title: Text('Cảnh báo'),
+                      content: Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
+                    ));
+                setState(() {
+                  isLoading = false;
+                });
+                print("Please fill form correctly");
                 print("Login Failed");
               });
-          // logIn(_email.text, _password.text).then((user) {
-          //   if (user != null) {
-          //     print("Login Sucessfull");
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //     Navigator.pushAndRemoveUntil(
-          //         context,
-          //         MaterialPageRoute(
-          //             builder: (context) => ChangePasswordScreen()),
-          //         (route) => false);
-          //   } else {
-          //     print("Login Failed");
-          //     showDialog(
-          //         context: context,
-          //         builder: (_) => AlertDialog(
-          //               title: Text('Cảnh páo'),
-          //               content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
-          //             ));
-          //     setState(() {
-          //       isLoading = false;
-          //     });
-          //   }
-          // });
+
+
         } else {
           showDialog(
               context: context,
               builder: (_) => AlertDialog(
                     title: Text('Cảnh báo'),
-                    content: Text('Vui lòng nhập đúng Tài khoản/Mật khẩu!'),
+                    content: Text('Vui lòng nhập đúng Tài khoản xác thực/Mật khẩu!'),
                   ));
           print("Please fill form correctly");
         }

@@ -68,7 +68,7 @@ class _DashboardAppBarState extends State<DashboardAppBar> {
               height: 5.0,
             ),
             Text(
-              email,
+              user.displayName.toString(),
               style: TextStyle(
                 color: CustomColors.light,
                 fontSize: 18,
