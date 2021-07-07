@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:habitool/custom_values/custom_colors.dart';
 import 'package:habitool/model/methods.dart';
 import 'package:habitool/provider/user_provider.dart';
 import 'package:habitool/view/screen/user/adress_dialog.dart';
@@ -14,7 +13,6 @@ import 'package:habitool/widgets/custom_card.dart';
 import 'package:habitool/widgets/date_picker.dart';
 import 'package:habitool/model/profile/user_profile.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:habitool/widgets/habit_info.dart';
 import 'package:provider/provider.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 

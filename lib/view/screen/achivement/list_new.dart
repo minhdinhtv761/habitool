@@ -57,7 +57,7 @@ class _ListNewState extends State<ListNew> {
                     Padding(
                       padding: EdgeInsets.only(
                           right: 12, left: 12, top: size.height * 0.01),
-                      child: customButton(size, "Khám phá cộng đồng"),
+                      child: CustomButton(size, "Khám phá cộng đồng"),
                     ),
                     //
                   ],
@@ -199,14 +199,18 @@ class _ListNewState extends State<ListNew> {
           )),
     );
   }
+}
 
-  Widget customButton(Size size, String text) {
+class CustomButton extends StatelessWidget {
+  const CustomButton(this.size, this.text);
+  final Size size;
+  final String text;
+  @override
+  Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushAndRemoveUntil(
-            context,
-            MaterialPageRoute(builder: (context) => SocialScreen()),
-            (route) => false);
+        Navigator.push(
+            context, MaterialPageRoute(builder: (context) => SocialScreen()));
       },
       child: Center(
         child: Container(

@@ -13,6 +13,7 @@ import 'package:habitool/view/screen/new_habit/newhabit_screen.dart';
 import 'package:habitool/widget_tree.dart';
 import 'package:provider/provider.dart';
 import 'Widget_tree.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 //
 // void main() {
 //   WidgetsFlutterBinding.ensureInitialized();
@@ -76,12 +77,21 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
+  Future<InitializationStatus> _initGoogleMobileAds() {
+    // TODO: Initialize Google Mobile Ads SDK
+    return MobileAds.instance.initialize();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
         StreamProvider.value(value: FirebaseAuth.instance.authStateChanges()),
-        ChangeNotifierProvider.value(value: UserProvider()),
+        // ChangeNotifierProvider.value(value: UserProvider()),
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        Provider(
+          create: (_) => UserProvider(),
+        ),
         Provider(
           create: (_) => HabitServices(),
         ),

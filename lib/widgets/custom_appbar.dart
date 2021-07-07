@@ -27,10 +27,7 @@ class _CustomAppBarState extends State<CustomAppBar> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
             onPressed: () {
-              Navigator.pushAndRemoveUntil(
-                  context,
-                  MaterialPageRoute(builder: (context) => HomeScreen()),
-                  (route) => false);
+              Navigator.of(context, rootNavigator: true).pop(context);
             }),
         title: Text(
           this.widget.title,

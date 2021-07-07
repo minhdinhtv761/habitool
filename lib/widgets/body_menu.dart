@@ -44,10 +44,15 @@ class BodyMenu extends StatelessWidget {
                 ),
               ),
             ),
-            Text(
-              '$content',
-              style: TextStyle(
-                color: CustomColors.pink,
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.25,
+              child: Text(
+                '$content',
+                textAlign: TextAlign.right,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                  color: CustomColors.pink,
+                ),
               ),
             ),
             Icon(
