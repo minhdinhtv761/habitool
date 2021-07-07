@@ -1,16 +1,10 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:habitool/custom_values/custom_type.dart';
-import 'package:habitool/custom_values/enums.dart';
-import 'package:habitool/functions/habit_functions.dart';
-import 'package:habitool/model/habit_model.dart';
-import 'package:habitool/model/statistic_model.dart';
 import 'package:habitool/services/habit_services.dart';
 import 'package:habitool/services/statistic_services.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/finished_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/future_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/all_habit_list/going_habit_list.dart';
-import 'package:habitool/view/screen/dashboard/habit_list.dart';
 import 'package:habitool/view/screen/dashboard/today_habit_list/canceled_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/today_habit_list/doing_habit_list.dart';
 import 'package:habitool/view/screen/dashboard/today_habit_list/done_habit_list.dart';
@@ -52,7 +46,9 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
   @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
-//
+    //
+    //Get List for Dashboard
+    //
     HabitServices habitServices =
         Provider.of<HabitServices>(context, listen: false);
     habitServices.getTodayHabitFromFirebase(this._selectedDay);
@@ -60,13 +56,16 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
     habitServices.getFutureHabitFromFirebase(this._selectedDay);
     habitServices.getFinishedHabitFromFirebase(this._selectedDay);
     //
+    //Get List for Statistic
+    //
     StatisticServices statisticService =
         Provider.of<StatisticServices>(context, listen: false);
     statisticService.getData();
     statisticService.getDataToday();
     //
+    //
+    //
     return Consumer<HabitServices>(builder: (context, habitServices, child) {
-      //
       return Scaffold(
         resizeToAvoidBottomInset: false,
         backgroundColor: CustomColors.light,
@@ -78,6 +77,8 @@ class _DashBoardScreenState extends State<DashBoardScreen> {
                 this._selectedDay = value;
               }),
             ),
+
+            //Loading list
             SliverPadding(
               padding: EdgeInsets.symmetric(horizontal: size.width * 0.075),
               sliver: SliverToBoxAdapter(

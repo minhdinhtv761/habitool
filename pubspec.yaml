@@ -51,6 +51,7 @@ dependencies:
   equatable: ^2.0.3
   flutter_bloc: ^7.0.1
   permission_handler: ^8.1.2
+  google_mobile_ads: ^0.13.2
 flutter_icons:
   android: true
   ios: true
