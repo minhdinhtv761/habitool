@@ -197,7 +197,7 @@ class _UserScreenState extends State<UserScreen> {
                           child: Container(
                             child: BodyMenu(
                               icon: Icons.book,
-                              title: 'Điều khoản sử dụng',
+                              title: 'Về chúng tôi',
                               content: '',
                             ),
                           ),

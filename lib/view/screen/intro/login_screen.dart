@@ -58,6 +58,7 @@ class _LogInScreenState extends State<LogInScreen> {
 // End AdMobs
 //
   bool _isObscure = true;
+  DateTime _selectedDate;
 
   final _email = TextEditingController();
   final _password = TextEditingController();
