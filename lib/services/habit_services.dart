@@ -405,20 +405,21 @@ class HabitServices extends ChangeNotifier {
     collectionHabit
         .collection('habits')
         .doc(habitModel.habitId)
-        .update(habitModel.removeHabitRecord(date, completed, 0))
-        .then((value) => collectionHabit
-                .collection('habits')
-                .doc(habitModel.habitId)
-                .update(habitModel.createHabitRecord(date, completed, -1))
-                .then((value) {
+        .update(habitModel.removeHabitRecord(date, completed, 0));
+    collectionHabit
+        .collection('habits')
+        .doc(habitModel.habitId)
+        .update(habitModel.createHabitRecord(date, completed, -1));
 //thêm vào trạng thái đã hủy
-              todayHabitListDoing.remove(habitModel);
-              todayHabitListCancel.add(habitModel);
-              notifyListeners();
-              if (statisticService.doingToday > 0)
-                statisticService.doingToday--;
-              statisticService.cancelHabits++;
-            }));
+    todayHabitListDoing.remove(habitModel);
+    todayHabitListCancel.add(habitModel);
+    notifyListeners();
+    DateTime now = DateTime.now();
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
+    if (date.isAtSameMomentAs(dateNow)) {
+      if (statisticService.doingToday > 0) statisticService.doingToday--;
+      statisticService.cancelHabits++;
+    }
   }
 
   void markAsDone(HabitModel habitModel, DateTime date, int completed,
@@ -427,9 +428,7 @@ class HabitServices extends ChangeNotifier {
     final firestoreInstance = FirebaseFirestore.instance;
     final User auth = FirebaseAuth.instance.currentUser;
     var collectionHabit = firestoreInstance.collection('users').doc(auth.uid);
-    //
-    StatisticServices statisticService =
-        Provider.of<StatisticServices>(context, listen: false);
+
     //xóa trạng thái đang làm trong ngày
     collectionHabit
         .collection('habits')
@@ -445,12 +444,20 @@ class HabitServices extends ChangeNotifier {
         .add(habitModel.fromHabitRecords(date, habitModel.goal, 1));
 
     notifyListeners();
+    //  //
+    DateTime now = DateTime.now();
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
+    if (date.isAtSameMomentAs(dateNow)) {
+      StatisticServices statisticService =
+          Provider.of<StatisticServices>(context, listen: false);
 
-    if (statisticService.doingToday > 0) statisticService.doingToday--;
-    statisticService.doneToday++;
+      if (statisticService.doingToday > 0) statisticService.doingToday--;
+      statisticService.doneToday++;
+    }
   }
 
-  void markResetHabit(HabitModel habitModel, DateTime date) {
+  void markResetHabit(
+      HabitModel habitModel, DateTime date, BuildContext context) {
     //
     final firestoreInstance = FirebaseFirestore.instance;
     final User auth = FirebaseAuth.instance.currentUser;
@@ -472,6 +479,15 @@ class HabitServices extends ChangeNotifier {
 
               notifyListeners();
             }));
+    DateTime now = DateTime.now();
+    DateTime dateNow = DateTime(now.year, now.month, now.day);
+    if (date.isAtSameMomentAs(dateNow)) {
+      StatisticServices statisticService =
+          Provider.of<StatisticServices>(context, listen: false);
+
+      if (statisticService.doingToday > 0) statisticService.doneToday--;
+      statisticService.doingToday++;
+    }
   }
 
   void markRefreshHabit(HabitModel habitModel, DateTime date, int completed) {

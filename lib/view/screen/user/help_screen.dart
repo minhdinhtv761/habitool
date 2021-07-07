@@ -10,7 +10,6 @@ import 'package:habitool/widgets/custom_appbar_setting.dart';
 import 'package:habitool/widgets/custom_appbar_social.dart';
 import 'package:intl/intl.dart';
 
-
 class HelpScreen extends StatefulWidget {
   @override
   _HelpScreenState createState() => _HelpScreenState();
@@ -88,18 +87,20 @@ class _HelpScreenState extends State<HelpScreen> {
                 Map data = snapshot.data.docs[index].data();
                 DateTime mydateTime = data['created'].toDate();
                 String formattedTime =
-                DateFormat.yMMMd().add_jm().format(mydateTime);
+                    DateFormat.yMMMd().add_jm().format(mydateTime);
 
                 return InkWell(
                   onTap: () {
-                    Navigator.pushAndRemoveUntil(
-                        context,
-                        MaterialPageRoute(builder: (context) => ViewQuestion(
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ViewQuestion(
                           data,
                           formattedTime,
                           snapshot.data.docs[index].reference,
-                        ),),
-                            (route) => false);
+                        ),
+                      ),
+                    );
                     // Navigator.of(context)
                     //     .push(
                     //   MaterialPageRoute(

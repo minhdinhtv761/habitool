@@ -107,14 +107,14 @@ class DashboardFunction {
 
       case HabitSelectedOption.RESET:
         if (date.isAtSameMomentAs(dateNow)) {
-          habitServices.markResetHabit(_habitModel, date);
+          habitServices.markResetHabit(_habitModel, date, context);
         } else {
           //cảnh báo thói quen không phải trong ngày
           showGeneralDialog(
             context: context,
             pageBuilder: (_, __, ___) => MessageBox.warningSelection(
               onSubmit: () {
-                habitServices.markResetHabit(_habitModel, date);
+                habitServices.markResetHabit(_habitModel, date, context);
               },
             ),
           );

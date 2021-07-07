@@ -29,7 +29,10 @@ class _CustomAppBarSocialState extends State<CustomAppBarSocial> {
         leading: IconButton(
             icon: Icon(Icons.arrow_back, color: CustomColors.black),
             onPressed: () {
-              Navigator.of(context, rootNavigator: true).pop(context);
+              Navigator.pushAndRemoveUntil(
+                  context,
+                  MaterialPageRoute(builder: (context) => AchievementScreen()),
+                  (route) => false);
             }),
         title: Text(
           this.widget.title,

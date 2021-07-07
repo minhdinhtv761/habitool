@@ -43,7 +43,7 @@ class _AddHelpState extends State<AddHelp> {
                 ),
               ),
               style: TextStyle(
-                fontSize: 20.0,
+                fontSize: 16.0,
                 fontFamily: "Roboto",
                 fontWeight: FontWeight.bold,
                 color: CustomColors.pink,
@@ -69,7 +69,7 @@ class _AddHelpState extends State<AddHelp> {
                   ),
                 ),
                 style: TextStyle(
-                  fontSize: 15.0,
+                  fontSize: 13.0,
                   color: CustomColors.black,
                 ),
                 onChanged: (_val) {
